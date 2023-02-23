@@ -1,0 +1,41 @@
+
+algoritmo primos;
+
+ (* Este programa calcula los 'k' primeros numeros primos****)
+
+var k,nprimos,n,divisor:entero;
+    esprimo, seguirenbucle:entero;
+blq
+  k := 100;
+  nprimos := 0;
+  n := 1;
+
+  mientras nprimos < k hacer
+   blq
+     esprimo := 1;
+     seguirenbucle := 1;
+     divisor := n // 2;
+     mientras seguirenbucle = 1 hacer
+       si divisor <= 1 entonces
+         seguirenbucle := 0
+       sino
+         blq
+          si divisor * (n // divisor) <> n entonces  (* division no exacta *)
+            divisor := divisor - 1
+          sino
+            esprimo := 0
+          fsi;
+          si esprimo = 0 entonces
+            seguirenbucle := 0 (* si no es primo salimos del bucle *)
+          fsi
+         fblq
+       fsi;
+     si esprimo = 1 entonces
+       blq
+        escribir(n);
+        nprimos := nprimos + 1
+       fblq
+     fsi;
+     n := n+1        
+   fblq
+fblq

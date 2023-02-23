@@ -1,0 +1,4 @@
+algoritmo colores;
+  funcion rojo:entero;
+   var a,b,c:entero;
+  blq (* rojo

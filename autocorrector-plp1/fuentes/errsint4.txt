@@ -1,0 +1,11 @@
+algoritmo prueba;
+var a,b:entero;
+    c,d:real;
+blq
+  a := 7;
+  b := 8;
+  c := 1;
+  si a < b entonces
+    c := 0;
+  d := 2
+fblq

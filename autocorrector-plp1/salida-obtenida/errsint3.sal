@@ -1,0 +1,18 @@
+Token: 4,1 algoritmo  -> (4,1): algoritmo es de tipo 12
+
+Token: 4,11 prueba  -> (4,11): prueba es de tipo 23
+
+Token: 5,1 var  -> (5,1): var es de tipo 9
+
+Token: 5,5 a  -> (5,5): a es de tipo 23
+
+Token: 5,6 :  -> (5,6): : es de tipo 6
+
+Token: 5,7 integ  -> (5,7): integ es de tipo 23
+
+Token: 5,12 ;  -> (5,12): ; es de tipo 5
+
+Token: 6,1 beg  -> (6,1): beg es de tipo 23
+
+Token: 7,1 e  -> (7,1): e es de tipo 23
+
