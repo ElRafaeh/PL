@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a8b2389-6af1-498a-ae36-60b964f8bc02" name="Changes" comment="Practica 1">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hola" beforeDir="false" afterPath="$PROJECT_DIR$/hola" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AnalizadorLexico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AnalizadorLexico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/AnalizadorLexico.java" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/AnalizadorLexico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/LEEME" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/LEEME" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/autocorrector-plp1-solo-lexico.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/autocorrector-plp1-solo-lexico.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/autocorrector-plp1.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/autocorrector-plp1.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/testLexico.java" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/testLexico.java" afterDir="false" />
-    </list>
+    <list default="true" id="4a8b2389-6af1-498a-ae36-60b964f8bc02" name="Changes" comment="Avances practica 1" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -101,7 +90,7 @@
       <workItem from="1677319933245" duration="65000" />
       <workItem from="1677687373849" duration="76000" />
       <workItem from="1677687461479" duration="2006000" />
-      <workItem from="1677707184270" duration="18000" />
+      <workItem from="1677707184270" duration="175000" />
     </task>
     <task id="LOCAL-00001" summary="Practica 1">
       <created>1676712845901</created>
@@ -110,7 +99,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676712845901</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Avances practica 1">
+      <created>1677707289572</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1677707289572</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -121,7 +117,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -132,7 +140,8 @@
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
     <MESSAGE value="Practica 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Practica 1" />
+    <MESSAGE value="Avances practica 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Avances practica 1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

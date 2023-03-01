@@ -1,0 +1,178 @@
+---------------------------------------------------------------------
+                            PRIMEROS
+---------------------------------------------------------------------
+- Prim(Factor)  = {pari, nreal, nentero, id}
+- Prim(Termp)   = {€, opmd}
+- Prim(Term)    = Prim(Factor) ->
+                = {pari, nreal, nentero, id}
+- Prim(Exprp)   = {€, opas}
+- Prim(Expr)    = Primeros(Term) ->
+                = {pari, nreal, nentero, id}
+- Prim(Ep)      = {€, oprel}
+- Prim(E)       = Prim(Expr) ->
+                = {pari, nreal, nentero, id}
+- Prim(Instr)   = {mientras, escribir, id, si} U Prim(Bloque) ->
+                = {mientras, escribir, id, si, blq}
+- Prim(Instrp)  = {fsi, sino}
+- Prim(SInstrp) = {€, pyc}
+- Prim(SInstr)  = Prim(Instr) ->
+                = {mientras, escribir, id, si, blq}
+- Prim(Bloque)  = {blq}
+- Prim(Tipo)    = {real, entero}
+- Prim(Lid)     = {€, coma}
+- Prim(V)       = {id}
+- Prim(LVp)     = {€} U Prim(V) ->
+                = {€, id}
+- Prim(LV)      = Prim(V) ->
+                = {id}
+- Prim(Unsp)    = {var, funcion}
+- Prim(Vspp)    = {€} U Prim(Unsp) ->
+                = {€, var, funcion}
+- Prim(Vsp)     = Prim(Unsp) ->
+                = {var, funcion}
+- Prim(S)       = {algoritmo}
+
+---------------------------------------------------------------------
+                            SIGUIENTES
+---------------------------------------------------------------------
+- Sig(S)        = {$}
+- Sig(Vsp)      = Prim(Bloque) ->
+                = {blq}
+- Sig(Vspp)     = Sig(Vsp) ->
+                = {blq}
+- Sig(Unsp)     = Prim(Vspp) - {€} U Sig(Vsp) U Sig(Vspp) ->
+                = {€, var, funcion, blq}
+- Sig(LV)       = Prim(Unsp) ->
+                = {var funcion}
+- Sig(LVp)      = Sig(LV) ->
+                = {var, funcion}
+- Sig(V)        = Prim(LVp) - {€} U Sig(LV) U Sig(LVp) ->
+                = {id, var, funcion}
+- Sig(Lid)      = {dosp}
+- Sig(Tipo)     = {pyc}
+- Sig(Bloque)   = {pyc} U Sig(S) U Sig(Instr) ->
+                = {$, pyc, fblq}
+- Sig(SInstr)   = {fblq}
+- Sig(SInstrp)  = Sig(SInstr) ->
+                = {fblq}
+- Sig(Instr)    = {fsi} U Prim(Instrp)->
+                = {fsi, sino}
+- Sig(Instrp)   = Sig(Instr) ->
+                = {fsi, sino}
+- Sig(E)        = {entonces, hacer, pard} U Sig(Instr) ->
+                = {entonces, hacer, pard, fsi, sino}
+- Sig(Ep)       = Sig(E) ->
+                = {entonces, hacer, pard, fsi, sino}
+- Sig(Expr)     = {pard} U Prim(Ep) U Sig(Ep) ->
+                = {€, pard, oprel, entonces, hacer, fsi, sino} ->
+- Sig(Exprp)    = Sig(Expr) ->
+                = {€, pard, oprel, entonces, hacer, fsi, sino}
+- Sig(Term)     = Prim(Exprp) ->
+                = {€, opas}
+- Sig(Termp)    = Sig(Term) ->
+                = {€, opas}
+- Sig(Factor)   = Prim(Termp) ->
+                = {€, opmd}
+
+---------------------------------------------------------------------
+                            PREDICCION
+---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------
+                            SIGUIENTES
+---------------------------------------------------------------------
+- Sig(S)        = {$}
+- Sig(Vsp)      = Prim(Bloque) ->
+                = {blq}
+- Sig(Vspp)     = Sig(Vsp) U Sig(Vspp) ->
+                = {blq} U Sig(Vspp) ->
+- Sig(Unsp)     = HACER LUEGO
+- Sig(LV)       = Prim(Unsp) ->
+                = {var funcion}
+- Sig(LVp)      = Sig(LV) U Sig(LVp) ->
+                = {var, funcion} U Sig(LVp)
+- Sig(V)        = Prim(LVp) - {€} U Sig(LV) U Sig(LVp) ->
+                = {id, var, funcion} U Sig(LVp)
+- Sig(Lid)      = {dosp} U Sig(Lid)
+- Sig(Tipo)     = {pyc}
+- Sig(Bloque)   = {pyc} U Sig(S) U Sig(Instr) ->
+                = {$, pyc} U Sig(Instr)
+- Sig(SInstr)   = {fblq}
+- Sig(SInstrp)  = Sig(SInstr) U Sig(SInstrp) ->
+                = {fblq} U Sig(SInstrp)
+- Sig(Instr)    = {fsi} U Prim(Instrp) U Sig(Instr) ->
+                = {fsi, sino} U Sig(Instr)
+- Sig(Instrp)   = Sig(Instr)
+- Sig(E)        = {entonces, hacer, pard} U Sig(Instr) ->
+- Sig(Ep)       = Sig(E) ->
+- Sig(Expr)     = {pard} U Prim(Ep) U Sig(Ep) ->
+                = {€, pard, oprel} U Sig(Ep) ->
+- Sig(Exprp)    = Sig(Expr) U Sig(Exprp) ->
+- Sig(Term)     = Prim(Exprp) ->
+                = {€, opas}
+- Sig(Termp)    = Sig(Term) U Sig(Termp) ->
+                = {€, opas} U Sig(Termp)
+- Sig(Factor)   = Prim(Termp) ->
+                = {€, opmd}
