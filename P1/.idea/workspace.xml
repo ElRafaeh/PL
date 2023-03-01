@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a8b2389-6af1-498a-ae36-60b964f8bc02" name="Changes" comment="Avances practica 1" />
+    <list default="true" id="4a8b2389-6af1-498a-ae36-60b964f8bc02" name="Changes" comment="Analizador lexico en camino">
+      <change afterPath="$PROJECT_DIR$/ANALISIS_SINTACTICO.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plp1.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -90,7 +94,7 @@
       <workItem from="1677319933245" duration="65000" />
       <workItem from="1677687373849" duration="76000" />
       <workItem from="1677687461479" duration="2006000" />
-      <workItem from="1677707184270" duration="175000" />
+      <workItem from="1677707184270" duration="798000" />
     </task>
     <task id="LOCAL-00001" summary="Practica 1">
       <created>1676712845901</created>
@@ -106,7 +110,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677707289572</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Analizador lexico en camino">
+      <created>1677709591168</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1677709591168</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -141,7 +152,8 @@
     </ignored-roots>
     <MESSAGE value="Practica 1" />
     <MESSAGE value="Avances practica 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Avances practica 1" />
+    <MESSAGE value="Analizador lexico en camino" />
+    <option name="LAST_COMMIT_MESSAGE" value="Analizador lexico en camino" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
