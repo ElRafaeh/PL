@@ -308,7 +308,7 @@ public class AnalizadorLexico {
                 }
             case 31:
                 return -1;
-            default: //Error interno
+            default: //Error lexico
                 return -1;
         }
     }

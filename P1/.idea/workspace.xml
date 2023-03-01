@@ -5,12 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4a8b2389-6af1-498a-ae36-60b964f8bc02" name="Changes" comment="Practica 1">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hola" beforeDir="false" afterPath="$PROJECT_DIR$/hola" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/P1/AnalizadorLexico.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/P1/AnalizadorLexico.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/P1/plp1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/P1/plp1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AnalizadorLexico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AnalizadorLexico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plp1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/plp1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/AnalizadorLexico.java" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/AnalizadorLexico.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/LEEME" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/LEEME" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/autocorrector-plp1-solo-lexico.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/autocorrector-plp1-solo-lexico.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/autocorrector-plp1.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/autocorrector-plp1.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/testLexico.java" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/testLexico.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +29,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -36,23 +40,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/rafa_/Desktop/UNIVERSIDAD/PL/P1&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "create.test.in.the.same.root": "true",
+    "last_opened_file_path": "/home/rafa/Escritorio/PL/P1",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\rafa_\Desktop\UNIVERSIDAD\PL\P1" />
@@ -90,6 +98,10 @@
       <workItem from="1677004214313" duration="3882000" />
       <workItem from="1677082189107" duration="5684000" />
       <workItem from="1677166012659" duration="2093000" />
+      <workItem from="1677319933245" duration="65000" />
+      <workItem from="1677687373849" duration="76000" />
+      <workItem from="1677687461479" duration="2006000" />
+      <workItem from="1677707184270" duration="18000" />
     </task>
     <task id="LOCAL-00001" summary="Practica 1">
       <created>1676712845901</created>
@@ -116,6 +128,9 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
     <MESSAGE value="Practica 1" />
     <option name="LAST_COMMIT_MESSAGE" value="Practica 1" />
   </component>
@@ -129,5 +144,9 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
