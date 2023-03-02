@@ -77,7 +77,44 @@
 ---------------------------------------------------------------------
                             PREDICCION
 ---------------------------------------------------------------------
-
+S	    →   algoritmo id pyc Vsp Bloque                |    {algoritmo} 
+Vsp	    →   Unsp Vspp                                  |    {var, funcion}
+Vspp    →   Unsp Vspp                                  |    {var, funcion} 
+Vspp	→   ϵ                                          |    {blq}
+Unsp	→   funcion id dosp Tipo pyc Vsp Bloque pyc    |    {funcion}                        
+Unsp	→   var LV                                     |    {var}
+LV	    →   V LVp                                      |    {id, var, funcion}
+LVp	    →   V LVp                                      |    {id, var, funcion}
+LVp	    →   ϵ                                          |    {var, funcion}
+V	    →   id Lid dosp Tipo pyc                       |    {id}                 
+Lid	    →   coma id Lid                                |    {coma}
+Lid	    →   ϵ                                          |    {dosp}
+Tipo	→   entero                                     |    {entero}
+Tipo	→   real                                       |    {real}
+Bloque	→   blq SInstr fblq                            |    {blq}    
+SInstr	→   Instr SInstrp                              |    {mientras, escribir, id, si, blq}         
+SInstrp	→   pyc Instr SInstrp                          |    {pyc}             
+SInstrp	→   ϵ                                          |    {fblq}
+Instr	→   Bloque                                     |    {blq}
+Instr	→   id asig E                                  |    {id}
+Instr	→   si E entonces Instr Instrp                 |    {si}                     
+Instrp	→   fsi                                        |    {fsi} 
+Instrp	→   sino Instr fsi                             |    {sino}     
+Instr	→   mientras E hacer Instr                     |    {mientras}             
+Instr	→   escribir pari E pard                       |    {escribir}                 
+E	    →   Expr Ep                                    |    {pari, nreal, nentero, id} 
+Ep	    →   oprel Expr                                 |    {oprel} 
+Ep	    →   ϵ                                          |    {entonces, hacer, pard, fsi, sino} 
+Expr	→   Term Exprp                                 |    {pari, nreal, nentero, id}
+Exprp	→   opas Term Exprp                            |    {opas}     
+Exprp	→   ϵ                                          |    {€, pard, oprel, entonces, hacer, fsi, sino}
+Term	→   Factor Termp                               |    {pari, nreal, nentero, id}   
+Termp	→   opmd Factor Termp                          |    {opmd}            
+Termp	→   ϵ                                          |    {€, opas}
+Factor	→   id                                         |    {id}
+Factor	→   nentero                                    |    {nentero}
+Factor	→   nreal                                      |    {nreal}
+Factor	→   pari Expr pard                             |    {pari}     
 
 
 

@@ -1,33 +1,24 @@
-import java.io.*;
-
+import java.io.RandomAccessFile;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 class plp1 {
-
-    public static String toString(Token t){
-        return "("+t.fila+","+t.columna+"): "+t.lexema+" es de tipo "+t.tipo+'\n';
-    }
-
-
     public static void main(String[] args) {
 
-        AnalizadorLexico al;
-        Token t;
+        if (args.length == 1)
+        {
+            try {
+                RandomAccessFile entrada = new RandomAccessFile(args[0],"r");
+                AnalizadorLexico al = new AnalizadorLexico(entrada);
+                AnalizadorSintacticoDR asdr = new AnalizadorSintacticoDR(al);
 
-        RandomAccessFile entrada = null;
-
-        try {
-            entrada = new RandomAccessFile(args[0],"r");
-            al = new AnalizadorLexico(entrada);
-
-            while ((t=al.siguienteToken()).tipo != Token.EOF) {
-                System.out.println("Token: "+ t.fila + ","
-                        + t.columna+ " "
-                        + t.lexema+ "  -> "
-                        + toString(t));
+                asdr.S(); // simbolo inicial de la gramatica
+                //asdr.comprobarFinFichero();
+            }
+            catch (FileNotFoundException e) {
+                System.out.println("Error, fichero no encontrado: " + args[0]);
             }
         }
-        catch (FileNotFoundException e) {
-            System.out.println("Error, fichero no encontrado: " + args[0]);
-        }
+        else System.out.println("Error, uso: java plp1 <nomfichero>");
     }
 }
