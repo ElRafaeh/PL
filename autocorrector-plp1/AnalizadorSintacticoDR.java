@@ -25,7 +25,7 @@ public class AnalizadorSintacticoDR
         }
 
         /**
-         * Debajo de este comentario se van a poner las reglas de la gramatica
+         * Debajo de este comentario se van a poner los estados posibles de la gramatica
          */
         public void S()
         {
@@ -373,10 +373,6 @@ public class AnalizadorSintacticoDR
                 else errorSintaxis(Token.ID, Token.NENTERO, Token.NREAL, Token.PARI);
         }
 
-        /**
-         * Funcion que empareja los siguientes tokens en la regla
-         * @param tokEsperado token esperado para emparejar
-         */
         public void emparejar(int tokEsperado)
         {
                 if (token.tipo == tokEsperado)

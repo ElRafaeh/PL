@@ -11,11 +11,19 @@ public class AnalizadorLexico {
     private int posicionFichero = 0, filaFichero = 1, columnaFichero = 1, finalDeEstado = -1, errorEstado = -2;
     private static char EOF = (char)-1;
 
+    /**
+     * Constructor de la clase
+     * @param fichero fichero a leer para analizar
+     */
     public AnalizadorLexico(RandomAccessFile fichero)
     {
         this.fichero = fichero;
     }
 
+    /**
+     * Se vuelve una posición atrás en el fichero de donde ya se ha leido
+     * @param token token leido
+     */
     public void volverCaracterAtras(Token token)
     {
         try
@@ -31,6 +39,11 @@ public class AnalizadorLexico {
         }
     }
 
+    /**
+     * Funcion para verificar si un id es una palabra reservada en nuestro compilador
+     * @param token token a ver si es una palabra reservada
+     * @return devuelve el identificador de la palabra reservada
+     */
     public int esPalabraReservada(Token token)
     {
         switch (token.lexema)
@@ -68,6 +81,10 @@ public class AnalizadorLexico {
         }
     }
 
+    /**
+     * Funcion para leer el siguiente token del fichero y realizar su analisis lexico
+     * @return el token leido analizado lexicamente
+     */
     public Token siguienteToken()
     {
         Token token = new Token();
@@ -194,6 +211,11 @@ public class AnalizadorLexico {
         } while (true);
     }
 
+    /**
+     * Función para ver si un estado es estado final
+     * @param estado estado a analizar
+     * @return true si es estado final y false si no
+     */
     public boolean EsFinal(int estado)
     {
         if(estadosFinales.contains(estado))
@@ -203,6 +225,12 @@ public class AnalizadorLexico {
         return  false;
     }
 
+    /**
+     * Funcion delta que dado un estado y un caracter leido, devuelve a que estado saltamos
+     * @param estado estado en el que nos encontramos
+     * @param c caracter leido
+     * @return estado al que hemos saltado
+     */
     public int delta(int estado, int c)
     {
         int dev;
@@ -313,6 +341,10 @@ public class AnalizadorLexico {
         }
     }
 
+    /**
+     * Funcion para leer caracteres del fichero
+     * @return el caracter leido
+     */
     public char readChar()
     {
         char c;

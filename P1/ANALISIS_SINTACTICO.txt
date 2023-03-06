@@ -42,12 +42,12 @@
                 = {blq}
 - Sig(Unsp)     = Prim(Vspp) - {€} U Sig(Vsp) U Sig(Vspp) ->
                 = {€, var, funcion, blq}
-- Sig(LV)       = Prim(Unsp) ->
-                = {var funcion}
+- Sig(LV)       = Sig(Unsp) ->
+                = {€, var funcion, blq}
 - Sig(LVp)      = Sig(LV) ->
-                = {var, funcion}
+                = {var, funcion, blq}
 - Sig(V)        = Prim(LVp) - {€} U Sig(LV) U Sig(LVp) ->
-                = {id, var, funcion}
+                = {€, id, var, funcion, blq}
 - Sig(Lid)      = {dosp}
 - Sig(Tipo)     = {pyc}
 - Sig(Bloque)   = {pyc} U Sig(S) U Sig(Instr) ->
@@ -83,9 +83,9 @@ Vspp    →   Unsp Vspp                                  |    {var, funcion}
 Vspp	→   ϵ                                          |    {blq}
 Unsp	→   funcion id dosp Tipo pyc Vsp Bloque pyc    |    {funcion}                        
 Unsp	→   var LV                                     |    {var}
-LV	    →   V LVp                                      |    {id, var, funcion}
-LVp	    →   V LVp                                      |    {id, var, funcion}
-LVp	    →   ϵ                                          |    {var, funcion}
+LV	    →   V LVp                                      |    {id}
+LVp	    →   V LVp                                      |    {id}
+LVp	    →   ϵ                                          |    {var, funcion, blq}
 V	    →   id Lid dosp Tipo pyc                       |    {id}                 
 Lid	    →   coma id Lid                                |    {coma}
 Lid	    →   ϵ                                          |    {dosp}
