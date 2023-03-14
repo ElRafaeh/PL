@@ -1,0 +1,13 @@
+
+algoritmo pruErrRelop;
+var a,b,c:entero;
+blq
+  a := 1+2+3;
+  b := a+4;
+  c := b+5;
+  si a<b<c entonces (* error sintactico en el segundo '<' *)
+    escribir(a+b+c)
+  sino
+    escribir(a)
+  fsi
+fblq

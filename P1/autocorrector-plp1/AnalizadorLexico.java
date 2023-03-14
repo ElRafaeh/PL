@@ -121,7 +121,7 @@ public class AnalizadorLexico {
             }
             else if(estado == -2)
             {
-                System.err.println("Error lexico: " + Token.nombreToken.get(Token.EOF) +  " inesperado");
+                System.err.println("Error lexico: fin de fichero inesperado");
                 System.exit(-1);
             }
             else

@@ -4,24 +4,99 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a8b2389-6af1-498a-ae36-60b964f8bc02" name="Changes" comment="Analizador sintetico bastante avanzado">
+    <list default="true" id="4a8b2389-6af1-498a-ae36-60b964f8bc02" name="Changes" comment="Analizador sintactico hecho, para entregar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ANALISIS_SINTACTICO.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ANALISIS_SINTACTICO.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hola" beforeDir="false" afterPath="$PROJECT_DIR$/hola" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ANALISIS_SINTACTICO.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hola" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AnalizadorLexico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AnalizadorLexico.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AnalizadorSintacticoDR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AnalizadorSintacticoDR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plp1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/plp1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex1.sal" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex1.sal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex2.sal" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex2.sal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex3.sal" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex3.sal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex4.sal" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex4.sal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint1.sal" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint1.sal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint2.sal" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint2.sal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint3.sal" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint3.sal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint4.sal" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint4.sal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/primos.sal" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/primos.sal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/prog-correcto.sal" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/prog-correcto.sal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/prog-correcto2.sal" beforeDir="false" afterPath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/prog-correcto2.sal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/AnalizadorLexico.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/AnalizadorSintacticoDR.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/LEEME" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/Token.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/autocorrector-plp1-solo-lexico.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/autocorrector-plp1.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/fuentes/errlex1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/fuentes/errlex2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/fuentes/errlex3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/fuentes/errlex4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/fuentes/errsint1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/fuentes/errsint2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/fuentes/errsint3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/fuentes/errsint4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/fuentes/primos.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/fuentes/prog-correcto.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/fuentes/prog-correcto2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/plp1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errlex1.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errlex1.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errlex2.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errlex2.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errlex3.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errlex3.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errlex4.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errlex4.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errsint1.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errsint1.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errsint2.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errsint2.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errsint3.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errsint3.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errsint4.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/errsint4.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/primos.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/primos.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/prog-correcto.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/prog-correcto.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/prog-correcto2.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada-lexico/prog-correcto2.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errlex1.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errlex1.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errlex2.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errlex2.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errlex3.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errlex3.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errlex4.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errlex4.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errsint1.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errsint1.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errsint2.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errsint2.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errsint3.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errsint3.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errsint4.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/errsint4.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/primos.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/primos.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/prog-correcto.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/prog-correcto.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/prog-correcto2.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-esperada/prog-correcto2.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex1.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex1.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex2.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex2.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex3.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex3.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex4.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errlex4.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint1.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint1.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint2.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint2.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint3.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint3.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint4.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/errsint4.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/primos.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/primos.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/prog-correcto.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/prog-correcto.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/prog-correcto2.err" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/salida-obtenida/prog-correcto2.sal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autocorrector-plp1/testLexico.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,27 +123,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "create.test.in.the.same.root": "true",
-    "last_opened_file_path": "/home/rafa/Escritorio/PL/P1",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/rafa/Escritorio/PL/P1&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\rafa_\Desktop\UNIVERSIDAD\PL\P1" />
@@ -113,7 +188,16 @@
       <workItem from="1677749434047" duration="5157000" />
       <workItem from="1677756988709" duration="38000" />
       <workItem from="1677944568671" duration="4565000" />
-      <workItem from="1678115273154" duration="3943000" />
+      <workItem from="1678115273154" duration="3984000" />
+      <workItem from="1678126589711" duration="188000" />
+      <workItem from="1678127088315" duration="131000" />
+      <workItem from="1678185418387" duration="379000" />
+      <workItem from="1678185987561" duration="684000" />
+      <workItem from="1678263014208" duration="280000" />
+      <workItem from="1678294246767" duration="49000" />
+      <workItem from="1678351392395" duration="24000" />
+      <workItem from="1678794558698" duration="558000" />
+      <workItem from="1678795163966" duration="11000" />
     </task>
     <task id="LOCAL-00001" summary="Practica 1">
       <created>1676712845901</created>
@@ -150,7 +234,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677757020517</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Analizador sintactico hecho, para entregar">
+      <created>1678119249764</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1678119249764</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -187,7 +278,19 @@
     <MESSAGE value="Avances practica 1" />
     <MESSAGE value="Analizador lexico en camino" />
     <MESSAGE value="Analizador sintetico bastante avanzado" />
-    <option name="LAST_COMMIT_MESSAGE" value="Analizador sintetico bastante avanzado" />
+    <MESSAGE value="Analizador sintactico hecho, para entregar" />
+    <option name="LAST_COMMIT_MESSAGE" value="Analizador sintactico hecho, para entregar" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/plp1.java</url>
+          <line>10</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

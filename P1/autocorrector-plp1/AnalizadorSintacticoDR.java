@@ -403,7 +403,7 @@ public class AnalizadorSintacticoDR
                 if(token.tipo != Token.EOF)
                         System.err.print("Error sintactico ("+token.fila+","+token.columna+"): encontrado '"+token.lexema+"'");
                 else
-                        System.err.print("Error sintactico: encontrado " + Token.nombreToken.get(token.tipo));
+                        System.err.print("Error sintactico: encontrado fin de fichero");
 
                 System.err.print(", esperaba");
 

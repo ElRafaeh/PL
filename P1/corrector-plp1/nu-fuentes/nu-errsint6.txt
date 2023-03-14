@@ -1,0 +1,10 @@
+
+algoritmo paradislexicos;
+var a,b:entero;
+blq
+  a := 7 // 2;
+  b := a // 2;
+  si a =< b entonces  (* error sintactico en '<' , es '<=' no '=<'
+    escribir(a)
+  fsi
+fblq

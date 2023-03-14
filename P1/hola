@@ -1,8 +1,0 @@
-algoritmo colores;
-  funcion rojo:entero;
-   var a,b,c:entero;
-  blq (* rojo *)
-    a := 7;
-    b := a+3.
-  fblq;
-
