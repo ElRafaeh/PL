@@ -1,0 +1,9 @@
+algoritmo colores;
+  var a:real;
+      b:entero;
+      c:real;
+      funcion:real;   (* no debe dar error *)
+      sino:entero;    (* tampoco *)
+  blq 
+    si a >= b entonces   (* aqui si *)
+

@@ -1,0 +1,7 @@
+algoritmo colores;
+   var abc:entero;
+  blq (*) rojo *****)
+    a.bc := 7;
+    b := a+3
+  fblq
+

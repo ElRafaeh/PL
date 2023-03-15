@@ -1,0 +1,24 @@
+algoritmo colores;
+  var sino:real;
+  var funcion:entero;
+  blq
+    a := 7;
+    b := a+3;
+    k := 643;
+    j := k - 10;
+    j := k - 10;
+    blq
+      j := 34.5;
+      o := (27-20) + 3
+    fblq;
+    m := o;
+    mientras o+10 hacer
+    blq
+      si 2+o + 22 entonces
+        p := 1
+      fsi;
+      o := o - 1
+    fblq;
+    a := 77;
+    escribir(a+3)
+  fblq

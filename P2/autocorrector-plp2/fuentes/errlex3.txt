@@ -1,0 +1,3 @@
+algoritmo colores;
+   var a:entero;
+  blq (* rojo *
