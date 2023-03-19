@@ -7,7 +7,7 @@ import java.util.TooManyListenersException;
 
 public class AnalizadorLexico {
     private RandomAccessFile fichero;
-    private ArrayList<Integer> estadosFinales = new ArrayList<>(Arrays.asList(2,3,5,6,7,9,10,12,13,14,15,17,18,19,21,23,26,27,28,31));
+    private ArrayList<Integer> estadosFinales = new ArrayList<>(Arrays.asList(27,15,17,18,21,23,26,27,28,31));
     private int posicionFichero = 0, filaFichero = 1, columnaFichero = 1, finalDeEstado = -1, errorEstado = -2;
     private static char EOF = (char)-1;
 
@@ -60,14 +60,10 @@ public class AnalizadorLexico {
                 return Token.BLQ;
             case "fblq":
                 return Token.FBLQ;
-            case "funcion":
-                return Token.FUNCION;
             case "si":
                 return Token.SI;
             case "entonces":
                 return Token.ENTONCES;
-            case "sino":
-                return Token.SINO;
             case "fsi":
                 return Token.FSI;
             case "mientras":
@@ -136,26 +132,8 @@ public class AnalizadorLexico {
                         case 2:
                             token.tipo = Token.PARD;
                             break;
-                        case 3:
-                        case 5:
-                            token.tipo = Token.OPMD;
-                            break;
-                        case 6:
-                            token.tipo = Token.OPMD;
-                            volverCaracterAtras(token);
-                            break;
                         case 7:
                             token.tipo = Token.OPAS;
-                            break;
-                        case 9:
-                        case 12:
-                            token.tipo = Token.OPREL;
-                            volverCaracterAtras(token);
-                            break;
-                        case 10:
-                        case 13:
-                        case 14:
-                            token.tipo = Token.OPREL;
                             break;
                         case 15:
                             token.tipo = Token.PYC;
@@ -166,9 +144,6 @@ public class AnalizadorLexico {
                         case 18:
                             token.tipo = Token.DOSP;
                             volverCaracterAtras(token);
-                            break;
-                        case 19:
-                            token.tipo = Token.COMA;
                             break;
                         case 21:
                             volverCaracterAtras(token);
@@ -239,15 +214,10 @@ public class AnalizadorLexico {
             case 0:
                 if(c=='(')                      return 1;
                 else if(c == ')')               return 2;
-                else if(c == '*')               return 3;
-                else if(c == '/')               return 4;
                 else if(c == '+' || c == '-')   return 7;
-                else if(c == '<')               return 8;
-                else if(c == '>')               return 11;
                 else if(c == '=')               return 14;
                 else if(c == ';')               return 15;
                 else if(c == ':')               return 16;
-                else if(c == ',')               return 19;
                 else if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) return  20;
                 else if(c >= '0' && c <= '9')   return 22;
                 else                            return -1;
@@ -256,32 +226,7 @@ public class AnalizadorLexico {
                 else            return 28;
             case 2:
                 return -1;
-            case 3:
-                return -1;
-            case 4:
-                if (c == '/')    return 5;
-                else             return 6;
-            case 5:
-                return -1;
-            case 6:
-                return -1;
             case 7:
-                return -1;
-            case 8:
-                if (c == '>' || c == '=')   return 10;
-                else                        return 9;
-            case 9:
-                return -1;
-            case 10:
-                return -1;
-            case 11:
-                if (c == '<' || c == '=')   return 13;
-                else                        return 12;
-            case 12:
-                return -1;
-            case 13:
-                return -1;
-            case 14:
                 return -1;
             case 15:
                 return -1;
@@ -291,8 +236,6 @@ public class AnalizadorLexico {
             case 17:
                 return -1;
             case 18:
-                return -1;
-            case 19:
                 return -1;
             case 20:
                 if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))  return 20;

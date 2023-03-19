@@ -9,9 +9,9 @@ class plp2 {
           try {
             RandomAccessFile entrada = new RandomAccessFile(args[0],"r");
             AnalizadorLexico al = new AnalizadorLexico(entrada);
-            //AnalizadorSintacticoSLR aslr = new AnalizadorSintacticoSLR(al);
+            AnalizadorSintacticoSLR aslr = new AnalizadorSintacticoSLR(al);
 
-            //aslr.analizar();
+            aslr.analizar();
           }
           catch (FileNotFoundException e) {
             System.out.println("Error, fichero no encontrado: " + args[0]);
