@@ -7,7 +7,7 @@ import java.util.TooManyListenersException;
 
 public class AnalizadorLexico {
     private RandomAccessFile fichero;
-    private ArrayList<Integer> estadosFinales = new ArrayList<>(Arrays.asList(27,15,17,18,21,23,26,27,28,31));
+    private ArrayList<Integer> estadosFinales = new ArrayList<>(Arrays.asList(2,7,27,15,17,18,21,23,26,27,28,31));
     private int posicionFichero = 0, filaFichero = 1, columnaFichero = 1, finalDeEstado = -1, errorEstado = -2;
     private static char EOF = (char)-1;
 

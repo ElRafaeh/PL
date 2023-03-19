@@ -3,31 +3,8 @@ import java.util.Stack;
 public class AnalizadorSintacticoSLR {
     private AnalizadorLexico al;
     private Stack<Integer> estados;
+    private Stack<Integer> reglas;
     public Token token;
-
-
-    /*PARI 		= 0,
-    PARD		= 1,
-    OPAS		= 2,
-    PYC		= 3,
-    DOSP		= 4,
-    ASIG		= 5,
-    VAR		= 6,
-    REAL		= 7,
-    ENTERO		= 8,
-    ALGORITMO	= 9,
-    BLQ		= 10,
-    FBLQ		= 11,
-    SI		= 12,
-    ENTONCES	= 13,
-    FSI		= 14,
-    MIENTRAS	= 15,
-    HACER		= 16,
-    ESCRIBIR	= 17,
-    ID		= 18,
-    NENTERO		= 19,
-    NREAL		= 20,
-    EOF		= 21;*/
 
     private String[][] actionTable =
     {
@@ -83,7 +60,7 @@ public class AnalizadorSintacticoSLR {
     };
 
     private Integer[][] gotoTable =
-    {
+    {       // 0    1    2    3   4    5       6       7       8      9     10
             // S   VSP  UNSP  LV  V   TIPO   BLOQUE  SINSTR   INSTR   E   FACTOR      -ESTADOS-
             {  2 , 0 ,  0 ,   0 , 0 , 0 ,    0 ,     0 ,      0 ,     0 , 0            }, // 0
             {  0 , 0 ,  0 ,   0 , 0 , 0 ,    0 ,     0 ,      0 ,     0 , 0            }, // 1
@@ -135,32 +112,23 @@ public class AnalizadorSintacticoSLR {
             {  0 , 0 ,  0 ,   0 , 0 , 0 ,    0 ,     0 ,      0 ,     0 , 0            }  // 47
     };
 
+    private Integer[] parteIzquierda =
+    { // 0  1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22 : REGLAS
+         0, 0, 1, 1, 2, 3, 3, 4, 5, 5, 6,  7,  7,  8,  8,  8,  8,  8,  9,  9,  10, 10, 10
+    };
+
+    private Integer[] logitudParteDerecha =
+    { // 0  1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22 : REGLAS
+         1, 5, 1, 2, 2, 1, 2, 4, 1, 1, 3,  1,  3,  3,  1,  4,  4,  5,  3,  1,  1,  1,  1
+    };
+
     public AnalizadorSintacticoSLR(AnalizadorLexico al)
     {
         this.al = al;
         this.estados = new Stack<>();
+        this.reglas = new Stack<>();
     }
 
-     /*
-    push (0)
-     a := s iguiente Token()
-    REPETIR
-        sea s el estado en la cima de la pila
-        SI Accion[s, a] = dj ENTONCES
-            push(j)
-            a := siguienteToken()
-        SI NO SI Accion[s, a] = rk ENTONCES
-            PARA i := 1 HASTA Longitud_Parte_Derecha(k) HACER pop()
-            sea p el estado en la cima de la pila
-            sea A la parte izquierda de la regla k
-            push(Ir_A[p, A])
-        SI NO SI Accion[s, a] = aceptar ENTONCES
-            fin del analisis
-        SI NO
-            error()
-        FIN_SI
-    HASTA fin del analisis
-    */
     public void analizar()
     {
         estados.push(0);
@@ -169,16 +137,21 @@ public class AnalizadorSintacticoSLR {
 
         while(!finAnalisis)
         {
-            int s = estados.pop();
+            int s = estados.peek();
             if ((actionTable[s][token.tipo]).charAt(0) == 'd')
             {
-                Integer j = Integer.parseInt(actionTable[s][token.tipo].substring(1, actionTable[s][token.tipo].length()));
+                int j = Integer.parseInt(actionTable[s][token.tipo].substring(1, actionTable[s][token.tipo].length()));
                 estados.push(j);
                 token = al.siguienteToken();
             }
             else if ((actionTable[s][token.tipo]).charAt(0) == 'r')
             {
                 Integer k = Integer.parseInt(actionTable[s][token.tipo].substring(1, actionTable[s][token.tipo].length()));
+                reglas.push(k);
+                for (int i = 1; i <= logitudParteDerecha[k]; i++) estados.pop();
+                int p = estados.peek();
+                int A = parteIzquierda[k];
+                estados.push(gotoTable[p][A]);
             }
             else if (actionTable[s][token.tipo] == "acc")
             {
@@ -186,11 +159,13 @@ public class AnalizadorSintacticoSLR {
             }
             else
             {
-
+                return;
             }
         }
+
+        while (!reglas.isEmpty())
+        {
+            System.out.println(" " + reglas.pop().toString());
+        }
     }
-
-
-
 }
