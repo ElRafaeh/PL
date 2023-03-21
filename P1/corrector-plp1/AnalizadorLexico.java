@@ -28,7 +28,7 @@ public class AnalizadorLexico {
     {
         try
         {
-            posicionFichero--;
+            if (token.lexema.charAt(token.lexema.length()-1) != (char)-1) posicionFichero--;
             columnaFichero--;
             fichero.seek(posicionFichero);
             token.lexema = token.lexema.substring(0, token.lexema.length()-1);

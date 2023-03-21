@@ -1,1 +1,1 @@
-Error sintactico (13,5): encontrado 'blq', esperaba 'si' 'mientras' 'escribir' identificador
+Error sintactico (19,12): encontrado '(', esperaba identificador numero entero numero real
