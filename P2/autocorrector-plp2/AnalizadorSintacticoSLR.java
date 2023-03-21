@@ -186,7 +186,7 @@ public class AnalizadorSintacticoSLR {
             System.err.print("Error sintactico: encontrado " + Token.nombreToken.get(token.tipo));
 
         System.err.print(", esperaba");
-        System.out.println(estados.peek());
+
         String[] pitoDeLeche = actionTable[estados.peek()];
 
         for(int i=0; i < pitoDeLeche.length; i++)

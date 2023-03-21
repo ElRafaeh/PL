@@ -1,5 +1,10 @@
-algoritmo uno;
-var a:entero;
-blq
-a := 7+3
-fblq
+algoritmo colores;
+   var abc:entero;
+       cba:real;
+   var a:entero;
+       b:real;
+       c:real;
+  blq
+    a := 7;
+    b := a+ -3
+  fblq
