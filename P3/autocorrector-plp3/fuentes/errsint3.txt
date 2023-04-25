@@ -1,0 +1,7 @@
+(**--------------------- 
+ Este programa es una prueba
+----------------**)
+algoritmo prueba
+var a:integ;
+beg
+e

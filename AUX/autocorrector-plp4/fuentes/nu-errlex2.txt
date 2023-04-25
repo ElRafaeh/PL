@@ -1,0 +1,12 @@
+algoritmo p;
+var a:entero;
+blq
+ (* este es un programa con un
+  comentario 
+   de
+   varias lineas *)
+
+ (* y con otro comentario que
+   tiene el EOF despues del asterisco: *EOF
+
+  *

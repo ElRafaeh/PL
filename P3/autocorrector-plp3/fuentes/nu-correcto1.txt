@@ -1,0 +1,35 @@
+
+algoritmo programa;
+ var vara, varb:entero;
+    realc,integerio:real;
+    donde,ifa:entero;
+ funcion f:entero;
+  funcion f:real;
+    funcion f:real;
+      var elsea:real;
+    blq
+      elsea := 1+2+3+4+5+6/7
+    fblq;
+    funcion g:entero;
+      var endifa:entero;
+    blq
+     endifa := 1+2+3+4+5+6// 7
+    fblq;
+  blq
+    escribir(1.0*2+3+4+5)
+  fblq;
+  var i,j,k:entero;
+ blq
+  i:=k+j
+ fblq;
+blq
+ vara := 2*varb;
+ realc := 2.3;
+ si realc < vara entonces
+  mientras vara >= realc hacer
+   blq
+     escribir(vara);
+     vara := vara - 1
+   fblq
+ fsi
+fblq

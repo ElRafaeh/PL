@@ -1,0 +1,38 @@
+// algoritmo colores
+
+int rojo_a,rojo_b,rojo_c;
+int rojo() {
+rojo_a =i 7;
+rojo_b =i rojo_a +i 3;
+}
+double verde_fosfo_j;
+int verde_fosfo_rito_k;
+double verde_fosfo_rito() {
+verde_fosfo_rito_k =i 643;
+verde_fosfo_j =r itor(verde_fosfo_rito_k) /r itor(10);
+}
+int verde_fosfo() {
+verde_fosfo_j =r 34.5;
+}
+double verde_m,verde_n;
+int verde_o,verde_p;
+double verde() {
+verde_o =i (27 -i 20) *i 3;
+verde_m =r itor(verde_o);
+while ( verde_o >i 10)
+{
+if (2 *i verde_o ==i 22)
+verde_p =i 1;
+else
+verde_p =i 0;
+verde_o =i verde_o -i 1;
+}
+
+}
+
+int main_a,main_b,main_c;
+int main() {
+main_a =i 77;
+printf("%d\n",main_a +i 3);
+}
+

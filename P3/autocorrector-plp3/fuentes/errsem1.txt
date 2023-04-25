@@ -1,0 +1,44 @@
+algoritmo colores;
+  funcion rojo:entero;
+   var a,b,c:entero;
+  blq (* rojo *)
+    a := 7;
+    b := a+3
+  fblq;
+
+  funcion verde:real;
+    funcion fosfo:entero;
+      var j:real;
+      funcion rito:real;
+        var k:entero;
+      blq (* rito *)
+        k := 643;
+        j := k / 10;
+	j := k // 10
+      fblq;
+      var j: entero;
+    blq (* fosfo *)
+      j := 34.5
+    fblq;
+    var m,n:real;
+    o,p:entero;
+  blq (* verde *)
+    o := (27-20) * 3;
+    m := o;
+    mientras o>10 hacer
+    blq
+      si 2*o = 22 entonces
+        p := 1
+      sino
+        p := 0
+      fsi;
+      o := o - 1
+    fblq
+  fblq;
+  
+  VAR A,B,C:inTEGER;
+  blq (* colores *)
+    a := 77;
+    escribir(a+3)
+  fblq
+

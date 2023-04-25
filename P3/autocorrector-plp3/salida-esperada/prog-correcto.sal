@@ -1,0 +1,33 @@
+// algoritmo programa
+
+int f_a,f_b;
+double f_g_f,f_g_g,f_g_k,f_g_l;
+int f_g() {
+f_g_f =r itor(1 +i 2 +i 3 +i 4 +i 5 -i 6 +i 7 -i 8) +r 3.0;
+f_a =i 1 +i 2 +i 3 +i 4 +i 5 +i 6 +i 7 -i 8 +i 9;
+if (f_g_f <r itor(f_a))
+printf("%g\n",itor(f_a) -r f_g_f);
+else
+printf("%g\n",f_g_f -r itor(f_a));
+}
+int f_k,f_l;
+double f_m,f_n;
+double f() {
+f_b =i 7 *i 3 /i 2;
+f_m =r itor(f_a) /r itor(f_b);
+}
+
+int main_i,main_j;
+int main() {
+main_i =i 1;
+main_j =i 10;
+while ( itor(main_i) <r itor(main_j) *r 1.0)
+{
+printf("%d\n",main_i);
+printf("%d\n",main_j);
+main_i =i main_i +i 1;
+main_j =i main_j -i 1;
+}
+
+}
+

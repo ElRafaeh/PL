@@ -9,7 +9,7 @@ algoritmo colores;
     j := k - 10;
     blq
       j := 34.5;
-      o := (27-20) + 3
+      o := 27-20 + 3
     fblq;
     m := o;
     mientras o+10 hacer

@@ -1,0 +1,6 @@
+
+algoritmo pruebaCambioGramatica;
+var a: entero;
+blq
+  a := 2 * (3>4)  (* error sintactico en '>' *)
+fblq

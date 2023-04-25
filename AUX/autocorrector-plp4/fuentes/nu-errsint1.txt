@@ -1,0 +1,8 @@
+algoritmo pp;
+var a:entero;
+
+blq
+  a := 776
+fblq
+
+DespuesDelProgramaDebeIrEOF;

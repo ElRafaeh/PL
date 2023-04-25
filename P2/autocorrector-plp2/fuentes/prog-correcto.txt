@@ -16,7 +16,7 @@ blq
   fsi;
   i := 1;
   j := 10;
-  mientras (i+j)+1.0 hacer
+  mientras i+j+1.0 hacer
    blq
     escribir(i);
     escribir(j);

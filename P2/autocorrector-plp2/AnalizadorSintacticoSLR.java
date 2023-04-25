@@ -138,35 +138,29 @@ public class AnalizadorSintacticoSLR {
         while(!finAnalisis)
         {
             int s = estados.peek();
-            try
-            {
-                if ((actionTable[s][token.tipo]).charAt(0) == 'd')
-                {
-                    int j = Integer.parseInt(actionTable[s][token.tipo].substring(1, actionTable[s][token.tipo].length()));
-                    estados.push(j);
-                    token = al.siguienteToken();
-                }
-                else if ((actionTable[s][token.tipo]).charAt(0) == 'r')
-                {
-                    Integer k = Integer.parseInt(actionTable[s][token.tipo].substring(1, actionTable[s][token.tipo].length()));
-                    reglas.push(k);
-                    for (int i = 1; i <= logitudParteDerecha[k]; i++) estados.pop();
-                    int p = estados.peek();
-                    int A = parteIzquierda[k];
-                    estados.push(gotoTable[p][A]);
-                }
-                else if (actionTable[s][token.tipo] == "aceptar")
-                {
-                    finAnalisis = true;
-                }
-                else
-                {
-                    errorSintaxis();
-                }
-            }
-            catch(StringIndexOutOfBoundsException e)
+
+            if (actionTable[s][token.tipo] == "")
             {
                 errorSintaxis();
+            }
+            else if ((actionTable[s][token.tipo]).charAt(0) == 'd')
+            {
+                int j = Integer.parseInt(actionTable[s][token.tipo].substring(1, actionTable[s][token.tipo].length()));
+                estados.push(j);
+                token = al.siguienteToken();
+            }
+            else if ((actionTable[s][token.tipo]).charAt(0) == 'r')
+            {
+                Integer k = Integer.parseInt(actionTable[s][token.tipo].substring(1, actionTable[s][token.tipo].length()));
+                reglas.push(k);
+                for (int i = 1; i <= logitudParteDerecha[k]; i++) estados.pop();
+                int p = estados.peek();
+                int A = parteIzquierda[k];
+                estados.push(gotoTable[p][A]);
+            }
+            else if (actionTable[s][token.tipo] == "aceptar")
+            {
+                finAnalisis = true;
             }
         }
 
@@ -186,7 +180,6 @@ public class AnalizadorSintacticoSLR {
             System.err.print("Error sintactico: encontrado " + Token.nombreToken.get(token.tipo));
 
         System.err.print(", esperaba");
-  
         String[] pitoDeLeche = actionTable[estados.peek()];
 
         for(int i=0; i < pitoDeLeche.length; i++)
