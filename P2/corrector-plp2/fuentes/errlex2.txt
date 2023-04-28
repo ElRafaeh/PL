@@ -1,0 +1,8 @@
+algoritmo colores;
+   var a,b,c:entero;  (* caracter ',' incorrecto *)
+  blq (* rojo *)
+    a := 7;
+    b := a+3.
+  fblq;
+
+ 

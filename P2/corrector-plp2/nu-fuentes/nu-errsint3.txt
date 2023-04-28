@@ -1,0 +1,8 @@
+algoritmo colores;
+   var abc:entero;
+  blq
+   var dd:real; (* error sintactico en 'var' *)
+    a := 7;
+    b := a+3
+  fblq
+

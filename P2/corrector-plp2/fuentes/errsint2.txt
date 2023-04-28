@@ -1,0 +1,10 @@
+algoritmo colores;
+   var abc:entero;
+       cba:real;
+   var a:entero;
+       b:real;
+       c:real;
+  blq 
+    a := 7;
+    b := a+ -3
+  fblq

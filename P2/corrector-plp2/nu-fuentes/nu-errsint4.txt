@@ -1,0 +1,6 @@
+algoritmo colores;
+  blq (* error sintactico en 'blq' (falta 'var') *)
+    a := 7;
+    b := a+3
+  fblq
+

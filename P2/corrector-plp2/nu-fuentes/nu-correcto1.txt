@@ -1,0 +1,22 @@
+
+algoritmo programa;
+ var vara:entero;varb:entero;
+ var   realc:real;enterodo:real;
+ var   donde:entero;sia:entero;
+ var sinoa:real;
+ var fsia:entero;
+ blq
+      sinoa := 1+2+3+4+5+6-7;
+      fsia := 1+2+3+4+5+6- 7;
+      escribir(1.0+2+3+4+5);
+      i:=k+j;
+      vara := 2+varb;
+      realc := 2.3;
+      si realc + vara entonces
+        mientras vara - realc hacer
+          blq
+            escribir(vara);
+            vara := vara - 1
+          fblq
+      fsi
+ fblq

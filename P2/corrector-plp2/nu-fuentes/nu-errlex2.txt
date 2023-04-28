@@ -1,0 +1,10 @@
+algoritmo p;
+var a:entero;
+blq
+ (* este es un programa con un
+  comentario 
+   de
+   varias lineas *)
+
+ sino := 2,4
+fblq

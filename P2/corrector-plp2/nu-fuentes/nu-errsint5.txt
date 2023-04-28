@@ -1,0 +1,13 @@
+
+algoritmo pruErrRelop;
+var abc:entero;
+blq
+  a := 1+2+3;
+  b := a+4;
+  c := b+5;
+  si a+b+c entonces 
+    escribir(a+b+c)
+  sino  (* error sintactico en 'sino' *)
+    escribir(a)
+  fsi
+fblq

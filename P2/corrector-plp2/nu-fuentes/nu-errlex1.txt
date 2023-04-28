@@ -1,0 +1,6 @@
+
+algoritmo p;
+var ab : real;
+blq
+  a = 3.5
+fblq

@@ -14,13 +14,12 @@ algoritmo colores;
       blq (* rito *)
         k := 643;
         j := k / 10;
-        j := k // 10.1
+	j := k // 10
       fblq;
       funcion mala: entero;
-        var j: entero;
-	    k: real;
+        var j: real;
       blq
-        k := 8.3 + k *j
+        k := j + 7 - ( 2+ * 4
       fblq;
     blq (* fosfo *)
       j := 34.5
@@ -30,9 +29,9 @@ algoritmo colores;
   blq (* verde *)
     o := (27-20) * 3;
     m := o;
-    mientras o<>10 hacer
+    mientras o>10 hacer
     blq
-      si 2*o - 22 entonces
+      si 2*o = 22 entonces
         p := 1
       sino
         p := 0

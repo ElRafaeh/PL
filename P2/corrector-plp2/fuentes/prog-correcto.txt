@@ -1,0 +1,26 @@
+
+algoritmo programa;
+
+var a:entero;b:entero;
+var f:real;l:real;
+
+blq
+  f := 1+2+3+4+5-6+7-8+3.0;
+  a := 1+2+3+4+5+6+7-8+9;
+  b := 7+3 - 2;
+  m := a-b;
+  si f-a+2.3-4.5+6.7-8.9 entonces
+    blq
+      escribir(a-f)
+    fblq
+  fsi;
+  i := 1;
+  j := 10;
+  mientras i+j+1.0 hacer
+   blq
+    escribir(i);
+    escribir(j);
+    i := i+1;
+    j := j-1
+   fblq
+fblq

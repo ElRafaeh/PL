@@ -12,12 +12,12 @@ const int REAL=2;
 const int FUNCION=3;
 
 struct Simbolo {
-
   string nombre;
   int tipo;
   string nomtrad;
-};
 
+  Simbolo(string nom, int tip, string nomt) : nombre(nom), tipo(tip), nomtrad(nomt){}
+};
 
 class TablaSimbolos {
 

@@ -19,7 +19,7 @@ algoritmo colores;
       funcion mala: entero;
         var j: real;
       blq
-        k := j + 7 - ( 2+ * 4
+        k := j + 7 - ( 2+ * 4 
       fblq;
     blq (* fosfo *)
       j := 34.5

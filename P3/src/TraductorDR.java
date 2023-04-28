@@ -162,13 +162,16 @@ public class TraductorDR
                         tsActual.nuevoSimbolo(new Simbolo(id_lexema, th+"_"+id_lexema, ((tipo_trad.equals("int")) ? Simbolo.ENTERO : Simbolo.REAL)));
 
                         String ids_lid_trad[] = Lid_trad[1].split(" ");
-                        for (String id_lid : ids_lid_trad) {
-                                if (id_lid.isEmpty())
+                        String pos_lid_trad[] = Lid_trad[2].split(" ");
+                        for (int i = 0; i < ids_lid_trad.length; i++) {
+                                if (ids_lid_trad[i].isEmpty())
                                         break;
-                                if (tsActual.buscarAmbito(id_lid) != null)
-                                        errorSemantico(ERR_YA_EXISTE, token.fila, token.columna, id_lexema);
+                                if (tsActual.buscarAmbito(ids_lid_trad[i]) != null) {
+                                        String posiciones[] = pos_lid_trad[i].split(",");
+                                        errorSemantico(ERR_YA_EXISTE, Integer.parseInt(posiciones[0]), Integer.parseInt(posiciones[1]), id_lexema);
+                                }
                                 else
-                                        tsActual.nuevoSimbolo(new Simbolo(id_lid, th + "_" + id_lid, ((tipo_trad.equals("int")) ? Simbolo.ENTERO : Simbolo.REAL)));
+                                        tsActual.nuevoSimbolo(new Simbolo(ids_lid_trad[i], th + "_" + ids_lid_trad[i], ((tipo_trad.equals("int")) ? Simbolo.ENTERO : Simbolo.REAL)));
                         }
 
                         devolver += tipo_trad + " ";
@@ -182,17 +185,17 @@ public class TraductorDR
 
         public String[] Lid(String th)
         {
-                String devolver[] = {"",""};
+                String devolver[] = {"","",""};
                 if(token.tipo == Token.COMA)
                 {
                         añadirRegla(11);
                         emparejar(Token.COMA);
-                        String id_lexema = token.lexema;
-
+                        Token id_lexema = token;
                         emparejar(Token.ID);
                         String[] Lid1_trad = Lid(th);
-                        devolver[0] += "," + th + "_" + id_lexema + Lid1_trad[0];
-                        devolver[1] += id_lexema + " " + Lid1_trad[1];
+                        devolver[0] += "," + th + "_" + id_lexema.lexema + Lid1_trad[0];
+                        devolver[1] += id_lexema.lexema + " " + Lid1_trad[1];
+                        devolver[2] += id_lexema.fila + "," + id_lexema.columna + " " + Lid1_trad[2];
                 }
                 else if(token.tipo == Token.DOSP)
                 {
@@ -318,7 +321,7 @@ public class TraductorDR
                                 errorSemantico(ERR_SIMIENTRAS, err.fila, err.columna, si_lexema);
 
                         emparejar(Token.ENTONCES);
-                        devolver += "if (" + E_trad.trad + " )\n";
+                        devolver += "if ( " + E_trad.trad + " )\n";
                         devolver += Instr();
                         devolver += Instrp();
                 }

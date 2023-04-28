@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
-
+#include <TablaSimbolos.h>
 
 using namespace std;
 

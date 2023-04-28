@@ -1,0 +1,7 @@
+
+algoritmo pruebaCambioGramatica;
+var a: entero;
+blq
+  funcion := 77;
+  a := 2 + 3 entonces  
+fblq

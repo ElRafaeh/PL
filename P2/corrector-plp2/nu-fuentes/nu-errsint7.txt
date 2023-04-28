@@ -1,0 +1,8 @@
+
+algoritmo p;
+var a : real; sino:real; va:entero;
+blq
+  a := sino(* este comentario debe ignorarse, pero parte el token *)va
+
+    (* error sintactico en 'va' *)
+fblq
