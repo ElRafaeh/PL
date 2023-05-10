@@ -34,8 +34,8 @@
 /* Undocumented macros, especially those whose name start with YY_,
    are private implementation details.  Do not rely on them.  */
 
-#ifndef YY_YY_PLP4_TAB_H_INCLUDED
-# define YY_YY_PLP4_TAB_H_INCLUDED
+#ifndef YY_YY_PLP5_TAB_H_INCLUDED
+# define YY_YY_PLP5_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -49,33 +49,45 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    pari = 258,
-    pard = 259,
-    opmd = 260,
-    opas = 261,
-    oprel = 262,
-    pyc = 263,
-    dosp = 264,
-    coma = 265,
-    asig = 266,
-    var = 267,
-    real = 268,
-    entero = 269,
-    algoritmo = 270,
-    blq = 271,
-    fblq = 272,
-    funcion = 273,
-    si = 274,
-    entonces = 275,
-    sino = 276,
-    fsi = 277,
-    mientras = 278,
-    hacer = 279,
-    escribir = 280,
-    id = 281,
-    nentero = 282,
-    nreal = 283,
-    eof = 284
+    algoritmo = 258,
+    falgoritmo = 259,
+    var = 260,
+    fvar = 261,
+    entero = 262,
+    real = 263,
+    logico = 264,
+    tabla = 265,
+    de = 266,
+    escribe = 267,
+    lee = 268,
+    si = 269,
+    entonces = 270,
+    sino = 271,
+    mientras = 272,
+    hacer = 273,
+    repetir = 274,
+    hasta = 275,
+    blq = 276,
+    fblq = 277,
+    cierto = 278,
+    falso = 279,
+    id = 280,
+    nentero = 281,
+    nreal = 282,
+    coma = 283,
+    pyc = 284,
+    dospto = 285,
+    pari = 286,
+    pard = 287,
+    oprel = 288,
+    opas = 289,
+    opmd = 290,
+    opasig = 291,
+    cori = 292,
+    cord = 293,
+    ybool = 294,
+    obool = 295,
+    nobool = 296
   };
 #endif
 
@@ -91,4 +103,4 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_PLP4_TAB_H_INCLUDED  */
+#endif /* !YY_YY_PLP5_TAB_H_INCLUDED  */

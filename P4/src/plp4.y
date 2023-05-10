@@ -241,6 +241,8 @@ Pair opera(string op, Pair Izq, Pair Der);
     Factor  :   id                                          {
                                                         		if(tsActual->buscar($1.lexema) == NULL)
                                                                     errorSemantico(ERR_NO_DECL, $1.fila, $1.columna, $1.lexema);
+                                                                else if(tsActual->buscar($1.lexema)->tipo == FUNCION)
+                                                                    errorSemantico(ERR_NO_VARIABLE, $1.fila, $1.columna, $1.lexema);
                                                                 else
                                                                     $$.tipo = tsActual->buscar($1.lexema)->tipo;
                                                                     $$.trad = tsActual->buscar($1.lexema)->nomtrad;  

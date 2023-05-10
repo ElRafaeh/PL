@@ -1,0 +1,33 @@
+//algoritmo programa
+int main_vara,main_varb;
+double main_realc,main_integerio;
+int main_donde,main_ifa;
+double f_f_f_elsea;
+double f_f_f(){
+f_f_f_elsea =r itor(1 +i 2 +i 3 +i 4 +i 5) +r itor(6) /r itor(7) ;
+}
+
+int f_f_g_endifa;
+int f_f_g(){
+f_f_g_endifa =i 1 +i 2 +i 3 +i 4 +i 5 +i 6 /i 7 ;
+}
+
+double f_f(){
+printf("%g\n",1.0 *r itor(2) +r itor(3) +r itor(4) +r itor(5));
+}
+
+int f_i,f_j,f_k;
+int f(){
+f_i =i f_k +i f_j ;
+}
+
+int main() {
+main_vara =i 2 *i main_varb ;
+main_realc =r 2.3 ;
+if ( main_realc <r itor(main_vara) )
+while ( itor(main_vara) >=r main_realc )
+{
+printf("%d\n",main_vara);
+main_vara =i main_vara -i 1 ;
+}
+}

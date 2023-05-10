@@ -1,0 +1,32 @@
+//algoritmo primos
+int main_k,main_nprimos,main_n,main_divisor;
+int main_esprimo,main_seguirenbucle;
+int main() {
+main_k =i 100 ;
+main_nprimos =i 0 ;
+main_n =i 1 ;
+while ( main_nprimos <i main_k )
+{
+main_esprimo =i 1 ;
+main_seguirenbucle =i 1 ;
+main_divisor =i main_n /i 2 ;
+while ( main_seguirenbucle ==i 1 )
+if ( main_divisor <=i 1 )
+main_seguirenbucle =i 0 ;
+else
+{
+if ( main_divisor *i (main_n /i main_divisor) !=i main_n )
+main_divisor =i main_divisor -i 1 ;
+else
+main_esprimo =i 0 ;
+if ( main_esprimo ==i 0 )
+main_seguirenbucle =i 0 ;
+}
+if ( main_esprimo ==i 1 )
+{
+printf("%d\n",main_n);
+main_nprimos =i main_nprimos +i 1 ;
+}
+main_n =i main_n +i 1 ;
+}
+}

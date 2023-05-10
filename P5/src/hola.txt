@@ -1,0 +1,18 @@
+algoritmo : m01
+
+var
+    entero : a1b;
+fvar
+
+  blq
+   var entero : a1b; // no hay error, ámbito nuevo
+       real   : e,f,g;
+       logico : b;
+   fvar
+   
+   e := 7.5
+  fblq;
+
+  b := 7       //  Error semantico (16,3): variable 'b' no declarada
+
+falgoritmo
