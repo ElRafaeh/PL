@@ -1,0 +1,32 @@
+mov #0 16001
+mov 16001 0
+L5 
+mov #1 16004
+mov 0 A
+addi 16004
+mov A 16005
+mov 16005 0
+mov #5 16007
+mov 0 A
+gtri 16007
+mov A 16008
+mov 16008 A
+jnz L6
+jmp L5
+L6 
+mov #0 16002
+mov #1 16003
+mov 16002 A
+gtri 16003
+mov A 16004
+mov 16004 A
+jz L7
+mov #99 A
+wrc A
+jmp L8
+L7 
+mov #102 A
+wrc A
+L8 
+wrl
+halt

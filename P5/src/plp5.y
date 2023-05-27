@@ -121,25 +121,81 @@ int buscarT(int tipo);
    ;
    SInstr   : SInstr pyc                                 {  $$.guardaTemporal = C_TEMP; } 
               Instr                                      { 
-                                                            $$.cod = $1.cod + "\n" + $4.cod;
+                                                            $$.cod = $1.cod + $4.cod;
                                                             C_TEMP = $3.guardaTemporal;  
                                                          }
             | Instr                                      {  $$.cod = $1.cod; }
    ;
    Instr    : escribe Expr                               {	
-                                                            
+                                                            stringstream ss;
+
+                                                            if ($2.tipo == ENTERO)
+                                                               ss << "wri " << $2.dir << "\n";
+                                                            else if ($2.tipo == REAL)
+                                                               ss << "wrr " << $2.dir << "\n";
+                                                            else if ($2.tipo == LOGICO)
+                                                            {
+                                                               ss << $2.cod;
+                                                               ss << "mov " << $2.dir << " A\n";
+                                                               ss << "jz L7\n";
+                                                               ss << "mov #99 A\n";
+                                                               ss << "wrc A\n";
+                                                               ss << "jmp L8\n";
+                                                               ss << "L7 \n";
+                                                               ss << "mov #102 A\n";
+                                                               ss << "wrc A\n";
+                                                               ss << "L8 \n";
+                                                            }
+                                                            ss << "wrl\n";
+                                                            $$.cod = ss.str();
                                                          }
             | lee Ref                                    {	
                                                             
                                                          }
-            | si Expr entonces Instr ColaIf              {
-                                                            
+            | si Expr                                    {
+                                                            if ($2.tipo != LOGICO)
+                                                               errorSemantico(ERR_EXP_LOG, $1.fila, $1.columna, NULL);
                                                          }
-            | mientras Expr hacer Instr                  {
-                                                            
+              entonces Instr ColaIf                      {
+                                                            stringstream ss;
+                                                            ss << $2.cod;
+                                                            ss << "mov " << $2.dir << " A\n";
+                                                            ss << "jz L1\n";
+                                                            ss << $5.cod;
+                                                            ss << $6.cod;
+
+                                                            $$.cod = ss.str();
+                                                         }
+            | mientras Expr                              {
+                                                            if ($2.tipo != LOGICO)
+                                                               errorSemantico(ERR_EXP_LOG, $1.fila, $1.columna, NULL);
+                                                         }
+              hacer Instr                                {
+                                                            stringstream ss;
+                                                            ss << "L3 \n";
+                                                            ss << $2.cod;
+                                                            ss << "mov " << $2.dir << " A\n"; 
+                                                            ss << "jz L4\n";
+                                                            ss << $5.cod << "\n";
+                                                            ss << "jmp L3\n";
+                                                            ss << "L4 \n";
+
+                                                            $$.cod = ss.str();
                                                          }
             | repetir Instr hasta Expr                   {
+                                                            if ($4.tipo != LOGICO)
+                                                               errorSemantico(ERR_EXP_LOG, $1.fila, $1.columna, NULL);
 
+                                                            stringstream ss;
+                                                            ss << "L5 \n";
+                                                            ss << $2.cod;
+                                                            ss << $4.cod;
+                                                            ss << "mov " << $4.dir << " A\n"; 
+                                                            ss << "jnz L6\n";
+                                                            ss << "jmp L5\n";
+                                                            ss << "L6 \n";
+
+                                                            $$.cod = ss.str();
                                                          }
             | Ref opasig Expr                            {
                                                             if ($1.tipo == ENTERO && $3.tipo == REAL) 
@@ -173,9 +229,14 @@ int buscarT(int tipo);
                                                          }
    ;
    ColaIf   : sino Instr                                 {
-                                                            $$.cod = $2.cod;
+                                                            stringstream ss;
+                                                            ss << "jmp L2\n";
+                                                            ss << "L1 \n" << $2.cod;
+                                                            ss << "L2 \n";
+                                                            
+                                                            $$.cod = ss.str();
                                                          }
-            | 
+            |                                            {  $$.cod = "L1 \n"; }
    ;
    Expr     : Expr obool Econj 	                        { 
                                                             if ($1.tipo != LOGICO)
@@ -193,7 +254,11 @@ int buscarT(int tipo);
                                                             if ($1.tipo != LOGICO)
                                                                errorSemantico(ERR_EXIZQ_LOG, $2.fila, $2.columna, $2.lexema);
                                                             if ($3.tipo != LOGICO)
-                                                               errorSemantico(ERR_EXDER_LOG, $2.fila, $2.columna, $2.lexema);       
+                                                               errorSemantico(ERR_EXDER_LOG, $2.fila, $2.columna, $2.lexema);  
+
+                                                            stringstream ss;
+                                                            $$.tipo = LOGICO;
+
                                                          }
             | Ecomp                                      {
                                                             $$.tipo = $1.tipo;

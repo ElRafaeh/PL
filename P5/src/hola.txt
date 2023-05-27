@@ -1,9 +1,14 @@
 algoritmo : m01
 
 var
-    logico : a1b, b;
+    entero : a1b, b;
 fvar
+	a1b := 0;
 
-  b := 2 <> 2 && 2>1       //  Error semantico (16,3): variable 'b' no declarada
+	repetir
+  		a1b := a1b + 1 
+  	hasta a1b > 5;
+  	
+  	escribe (0>1)
 
 falgoritmo

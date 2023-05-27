@@ -520,16 +520,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   95
+#define YYLAST   93
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  42
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  23
+#define YYNNTS  25
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  50
+#define YYNRULES  52
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  96
+#define YYNSTATES  98
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   296
@@ -582,10 +582,10 @@ static const yytype_int16 yyrline[] =
 {
        0,    60,    60,    70,    71,    73,    75,    75,    86,    87,
       89,    89,   100,   102,   106,   110,   114,   122,   122,   127,
-     129,   132,   135,   138,   141,   144,   169,   169,   175,   178,
-     180,   183,   189,   195,   201,   222,   228,   243,   248,   254,
-     269,   275,   280,   288,   297,   302,   318,   327,   337,   353,
-     353
+     129,   152,   155,   155,   169,   169,   185,   200,   225,   225,
+     231,   239,   241,   247,   253,   263,   269,   290,   296,   311,
+     316,   322,   337,   343,   348,   356,   365,   370,   386,   395,
+     405,   421,   421
 };
 #endif
 
@@ -601,8 +601,8 @@ static const char *const yytname[] =
   "dospto", "pari", "pard", "oprel", "opas", "opmd", "opasig", "cori",
   "cord", "ybool", "obool", "nobool", "$accept", "S", "SDec", "Dec",
   "DVar", "@1", "MDVar", "LId", "@2", "Tipo", "SInstr", "@3", "Instr",
-  "$@4", "ColaIf", "Expr", "Econj", "Ecomp", "Esimple", "Term", "Factor",
-  "Ref", "$@5", YY_NULLPTR
+  "$@4", "$@5", "$@6", "ColaIf", "Expr", "Econj", "Ecomp", "Esimple",
+  "Term", "Factor", "Ref", "$@7", YY_NULLPTR
 };
 #endif
 
@@ -619,7 +619,7 @@ static const yytype_int16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF (-52)
+#define YYPACT_NINF (-51)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -633,16 +633,16 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-       5,    -5,    27,    24,   -52,    47,    74,    51,   -52,   -52,
-     -52,   -52,    28,    74,    23,   -10,    31,   -10,   -10,    51,
-     -52,   -52,     1,   -52,   -14,    48,    74,    56,    41,   -52,
-     -52,   -52,   -52,   -10,    14,    14,    33,    32,   -52,     9,
-      39,   -52,    30,    30,    -4,   -11,    55,    47,   -52,   -52,
-     -10,   -52,    74,   -52,   -52,   -52,   -12,    39,   -52,   -10,
-     -10,   -10,    14,    14,    51,    51,   -10,    51,    51,    33,
-     -10,   -52,    49,   -52,    32,   -52,    44,    39,   -52,    63,
-     -52,    33,     4,   -52,    10,    60,    57,    51,   -52,   -52,
-     -52,   -52,   -52,   -52,    49,   -52
+       7,    -4,    27,    10,   -51,    29,    39,    66,   -51,   -51,
+     -51,   -51,    18,    39,    20,    -9,    28,    -9,    -9,    66,
+     -51,   -51,     2,   -51,   -29,    43,    39,    50,    32,   -51,
+     -51,   -51,   -51,    -9,    14,    14,    19,    25,   -51,     9,
+      23,   -51,    30,    30,    19,    19,    45,    29,   -51,   -51,
+      -9,   -51,    39,   -51,   -51,   -51,   -19,    23,   -51,    -9,
+      -9,    -9,    14,    14,    51,    52,    -9,    66,    66,    19,
+      -9,   -51,    40,   -51,    25,   -51,    35,    23,   -51,    66,
+      66,    19,     1,   -51,   -10,    46,    48,    58,   -51,   -51,
+     -51,   -51,   -51,    66,   -51,    40,   -51,   -51
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -652,30 +652,30 @@ static const yytype_int8 yydefact[] =
 {
        0,     0,     0,     0,     1,     4,     0,     0,     3,    13,
       14,    15,     0,     9,     0,     0,     0,     0,     0,     0,
-      26,    48,     0,    19,     0,     0,     9,     0,     0,    46,
-      47,    42,    43,     0,     0,     0,    20,    31,    33,    35,
-      37,    40,    41,    21,     0,     0,     0,     4,     2,    17,
-       0,    49,     0,     8,     5,     6,     0,    38,    45,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,    25,
-       0,    16,    12,    44,    30,    32,    34,    36,    39,    29,
-      23,    24,     0,    18,     0,     0,     0,     0,    22,    27,
-      50,    10,     7,    28,    12,    11
+      28,    50,     0,    19,     0,     0,     9,     0,     0,    48,
+      49,    44,    45,     0,     0,     0,    20,    33,    35,    37,
+      39,    42,    43,    21,    22,    24,     0,     4,     2,    17,
+       0,    51,     0,     8,     5,     6,     0,    40,    47,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,    27,
+       0,    16,    12,    46,    32,    34,    36,    38,    41,     0,
+       0,    26,     0,    18,     0,     0,     0,    31,    25,    29,
+      52,    10,     7,     0,    23,    12,    30,    11
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -52,   -52,    40,   -52,    82,   -52,    64,    -3,   -52,    37,
-      25,   -52,   -18,   -52,   -52,   -15,    34,    35,   -51,   -30,
-     -29,    -7,   -52
+     -51,   -51,    34,   -51,    69,   -51,    56,   -11,   -51,    36,
+      22,   -51,   -17,   -51,   -51,   -51,   -51,   -14,    31,    33,
+     -50,   -33,   -30,    -7,   -51
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     7,     8,    26,    72,    27,    86,    94,    14,
-      22,    68,    23,    47,    88,    36,    37,    38,    39,    40,
-      41,    42,    70
+      -1,     2,     7,     8,    26,    72,    27,    86,    95,    14,
+      22,    68,    23,    64,    65,    47,    94,    36,    37,    38,
+      39,    40,    41,    42,    70
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -683,30 +683,30 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      24,    46,    44,    45,    57,    48,    58,    65,     1,    43,
-      76,    64,    24,    29,    30,    21,    31,    32,    56,    84,
-      73,    33,    50,    51,    34,     3,    89,     4,    59,    59,
-      49,    35,    77,    49,    78,    69,    59,    29,    30,    21,
-      31,    32,    61,    62,    62,    33,    79,    80,    90,     5,
-      83,    81,     6,    28,    25,    35,    21,    24,    24,    52,
-      24,    24,    54,    15,    16,    17,    55,    51,    18,    93,
-      19,    60,    20,    59,    63,    66,    21,    85,    62,    87,
-      24,     9,    10,    11,    12,    91,    92,    67,    13,    71,
-      53,    95,    82,    74,     0,    75
+      24,    57,    46,    44,    45,    58,    48,    50,    51,    43,
+       1,    76,    24,    73,    29,    30,    21,    31,    32,    56,
+      84,    59,    33,    89,    62,    34,     3,     4,    90,    77,
+      49,    49,    35,    78,     6,     5,    69,    29,    30,    21,
+      31,    32,    61,    62,    25,    33,     9,    10,    11,    12,
+      28,    83,    81,    21,    52,    35,    54,    55,    63,    59,
+      24,    24,    87,    88,    60,    66,    79,    51,    85,    62,
+      80,    91,    24,    24,    93,    13,    96,    92,    15,    16,
+      17,    67,    53,    18,    97,    19,    24,    20,    71,    82,
+      74,    21,     0,    75
 };
 
 static const yytype_int8 yycheck[] =
 {
-       7,    19,    17,    18,    34,     4,    35,    18,     3,    16,
-      61,    15,    19,    23,    24,    25,    26,    27,    33,    70,
-      32,    31,    36,    37,    34,    30,    22,     0,    40,    40,
-      29,    41,    62,    29,    63,    50,    40,    23,    24,    25,
-      26,    27,    33,    34,    34,    31,    64,    65,    38,    25,
-      68,    66,     5,    30,    26,    41,    25,    64,    65,    11,
-      67,    68,     6,    12,    13,    14,    25,    37,    17,    87,
-      19,    39,    21,    40,    35,    20,    25,    28,    34,    16,
-      87,     7,     8,     9,    10,    25,    29,    47,     6,    52,
-      26,    94,    67,    59,    -1,    60
+       7,    34,    19,    17,    18,    35,     4,    36,    37,    16,
+       3,    61,    19,    32,    23,    24,    25,    26,    27,    33,
+      70,    40,    31,    22,    34,    34,    30,     0,    38,    62,
+      29,    29,    41,    63,     5,    25,    50,    23,    24,    25,
+      26,    27,    33,    34,    26,    31,     7,     8,     9,    10,
+      30,    68,    66,    25,    11,    41,     6,    25,    35,    40,
+      67,    68,    79,    80,    39,    20,    15,    37,    28,    34,
+      18,    25,    79,    80,    16,     6,    93,    29,    12,    13,
+      14,    47,    26,    17,    95,    19,    93,    21,    52,    67,
+      59,    25,    -1,    60
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -715,14 +715,14 @@ static const yytype_int8 yystos[] =
 {
        0,     3,    43,    30,     0,    25,     5,    44,    45,     7,
        8,     9,    10,    46,    51,    12,    13,    14,    17,    19,
-      21,    25,    52,    54,    63,    26,    46,    48,    30,    23,
-      24,    26,    27,    31,    34,    41,    57,    58,    59,    60,
-      61,    62,    63,    63,    57,    57,    54,    55,     4,    29,
-      36,    37,    11,    48,     6,    25,    57,    61,    62,    40,
-      39,    33,    34,    35,    15,    18,    20,    44,    53,    57,
-      64,    51,    47,    32,    58,    59,    60,    61,    62,    54,
-      54,    57,    52,    54,    60,    28,    49,    16,    56,    22,
-      38,    25,    29,    54,    50,    49
+      21,    25,    52,    54,    65,    26,    46,    48,    30,    23,
+      24,    26,    27,    31,    34,    41,    59,    60,    61,    62,
+      63,    64,    65,    65,    59,    59,    54,    57,     4,    29,
+      36,    37,    11,    48,     6,    25,    59,    63,    64,    40,
+      39,    33,    34,    35,    55,    56,    20,    44,    53,    59,
+      66,    51,    47,    32,    60,    61,    62,    63,    64,    15,
+      18,    59,    52,    54,    62,    28,    49,    54,    54,    22,
+      38,    25,    29,    16,    58,    50,    54,    49
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -730,10 +730,10 @@ static const yytype_int8 yyr1[] =
 {
        0,    42,    43,    44,    44,    45,    47,    46,    48,    48,
       50,    49,    49,    51,    51,    51,    51,    53,    52,    52,
-      54,    54,    54,    54,    54,    54,    55,    54,    56,    56,
-      57,    57,    58,    58,    59,    59,    60,    60,    60,    61,
-      61,    62,    62,    62,    62,    62,    62,    62,    63,    64,
-      63
+      54,    54,    55,    54,    56,    54,    54,    54,    57,    54,
+      58,    58,    59,    59,    60,    60,    61,    61,    62,    62,
+      62,    63,    63,    64,    64,    64,    64,    64,    64,    64,
+      65,    66,    65
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -741,10 +741,10 @@ static const yytype_int8 yyr2[] =
 {
        0,     2,     6,     1,     0,     4,     0,     6,     2,     0,
        0,     4,     0,     1,     1,     1,     4,     0,     4,     1,
-       2,     2,     5,     4,     4,     3,     0,     5,     2,     0,
-       3,     1,     3,     1,     3,     1,     3,     1,     2,     3,
-       1,     1,     1,     1,     3,     2,     1,     1,     1,     0,
-       5
+       2,     2,     0,     6,     0,     5,     4,     3,     0,     5,
+       2,     0,     3,     1,     3,     1,     3,     1,     3,     1,
+       2,     3,     1,     1,     1,     1,     3,     2,     1,     1,
+       1,     0,     5
 };
 
 
@@ -1530,7 +1530,7 @@ yyreduce:
   case 18:
 #line 123 "plp5.y"
                                                          { 
-                                                            yyval.cod = yyvsp[-3].cod + "\n" + yyvsp[0].cod;
+                                                            yyval.cod = yyvsp[-3].cod + yyvsp[0].cod;
                                                             C_TEMP = yyvsp[-1].guardaTemporal;  
                                                          }
 #line 1537 "plp5.tab.c"
@@ -1545,45 +1545,111 @@ yyreduce:
   case 20:
 #line 129 "plp5.y"
                                                          {	
-                                                            
+                                                            stringstream ss;
+
+                                                            if (yyvsp[0].tipo == ENTERO)
+                                                               ss << "wri " << yyvsp[0].dir << "\n";
+                                                            else if (yyvsp[0].tipo == REAL)
+                                                               ss << "wrr " << yyvsp[0].dir << "\n";
+                                                            else if (yyvsp[0].tipo == LOGICO)
+                                                            {
+                                                               ss << yyvsp[0].cod;
+                                                               ss << "mov " << yyvsp[0].dir << " A\n";
+                                                               ss << "jz L7\n";
+                                                               ss << "mov #99 A\n";
+                                                               ss << "wrc A\n";
+                                                               ss << "jmp L8\n";
+                                                               ss << "L7 \n";
+                                                               ss << "mov #102 A\n";
+                                                               ss << "wrc A\n";
+                                                               ss << "L8 \n";
+                                                            }
+                                                            ss << "wrl\n";
+                                                            yyval.cod = ss.str();
                                                          }
-#line 1551 "plp5.tab.c"
+#line 1571 "plp5.tab.c"
     break;
 
   case 21:
-#line 132 "plp5.y"
+#line 152 "plp5.y"
                                                          {	
                                                             
                                                          }
-#line 1559 "plp5.tab.c"
+#line 1579 "plp5.tab.c"
     break;
 
   case 22:
-#line 135 "plp5.y"
+#line 155 "plp5.y"
                                                          {
-                                                            
+                                                            if (yyvsp[0].tipo != LOGICO)
+                                                               errorSemantico(ERR_EXP_LOG, yyvsp[-1].fila, yyvsp[-1].columna, NULL);
                                                          }
-#line 1567 "plp5.tab.c"
+#line 1588 "plp5.tab.c"
     break;
 
   case 23:
-#line 138 "plp5.y"
+#line 159 "plp5.y"
                                                          {
-                                                            
+                                                            stringstream ss;
+                                                            ss << yyvsp[-4].cod;
+                                                            ss << "mov " << yyvsp[-4].dir << " A\n";
+                                                            ss << "jz L1\n";
+                                                            ss << yyvsp[-1].cod;
+                                                            ss << yyvsp[0].cod;
+
+                                                            yyval.cod = ss.str();
                                                          }
-#line 1575 "plp5.tab.c"
+#line 1603 "plp5.tab.c"
     break;
 
   case 24:
-#line 141 "plp5.y"
+#line 169 "plp5.y"
                                                          {
-
+                                                            if (yyvsp[0].tipo != LOGICO)
+                                                               errorSemantico(ERR_EXP_LOG, yyvsp[-1].fila, yyvsp[-1].columna, NULL);
                                                          }
-#line 1583 "plp5.tab.c"
+#line 1612 "plp5.tab.c"
     break;
 
   case 25:
-#line 144 "plp5.y"
+#line 173 "plp5.y"
+                                                         {
+                                                            stringstream ss;
+                                                            ss << "L3 \n";
+                                                            ss << yyvsp[-3].cod;
+                                                            ss << "mov " << yyvsp[-3].dir << " A\n"; 
+                                                            ss << "jz L4\n";
+                                                            ss << yyvsp[0].cod << "\n";
+                                                            ss << "jmp L3\n";
+                                                            ss << "L4 \n";
+
+                                                            yyval.cod = ss.str();
+                                                         }
+#line 1629 "plp5.tab.c"
+    break;
+
+  case 26:
+#line 185 "plp5.y"
+                                                         {
+                                                            if (yyvsp[0].tipo != LOGICO)
+                                                               errorSemantico(ERR_EXP_LOG, yyvsp[-3].fila, yyvsp[-3].columna, NULL);
+
+                                                            stringstream ss;
+                                                            ss << "L5 \n";
+                                                            ss << yyvsp[-2].cod;
+                                                            ss << yyvsp[0].cod;
+                                                            ss << "mov " << yyvsp[0].dir << " A\n"; 
+                                                            ss << "jnz L6\n";
+                                                            ss << "jmp L5\n";
+                                                            ss << "L6 \n";
+
+                                                            yyval.cod = ss.str();
+                                                         }
+#line 1649 "plp5.tab.c"
+    break;
+
+  case 27:
+#line 200 "plp5.y"
                                                          {
                                                             if (yyvsp[-2].tipo == ENTERO && yyvsp[0].tipo == REAL) 
                                                                errorSemantico(ERR_EXDER_ENT, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
@@ -1609,73 +1675,91 @@ yyreduce:
                                                                yyval.cod = ss.str();
                                                             }
 							                                    }
-#line 1613 "plp5.tab.c"
+#line 1679 "plp5.tab.c"
     break;
 
-  case 26:
-#line 169 "plp5.y"
+  case 28:
+#line 225 "plp5.y"
                                                          {  tsActual = new TablaSimbolos(tsActual); }
-#line 1619 "plp5.tab.c"
+#line 1685 "plp5.tab.c"
     break;
 
-  case 27:
-#line 170 "plp5.y"
+  case 29:
+#line 226 "plp5.y"
                                                          {
                                                             tsActual = tsActual->getAmbitoAnterior();
                                                             yyval.cod = yyvsp[-1].cod;
                                                          }
-#line 1628 "plp5.tab.c"
-    break;
-
-  case 28:
-#line 175 "plp5.y"
-                                                         {
-                                                            yyval.cod = yyvsp[0].cod;
-                                                         }
-#line 1636 "plp5.tab.c"
+#line 1694 "plp5.tab.c"
     break;
 
   case 30:
-#line 180 "plp5.y"
-                                                        { 
+#line 231 "plp5.y"
+                                                         {
+                                                            stringstream ss;
+                                                            ss << "jmp L2\n";
+                                                            ss << "L1 \n" << yyvsp[0].cod;
+                                                            ss << "L2 \n";
                                                             
+                                                            yyval.cod = ss.str();
                                                          }
-#line 1644 "plp5.tab.c"
+#line 1707 "plp5.tab.c"
     break;
 
   case 31:
-#line 183 "plp5.y"
+#line 239 "plp5.y"
+                                                         {  yyval.cod = "L1 \n"; }
+#line 1713 "plp5.tab.c"
+    break;
+
+  case 32:
+#line 241 "plp5.y"
+                                                        { 
+                                                            if (yyvsp[-2].tipo != LOGICO)
+                                                               errorSemantico(ERR_EXIZQ_LOG, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
+                                                            if (yyvsp[0].tipo != LOGICO)
+                                                               errorSemantico(ERR_EXDER_LOG, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
+                                                         }
+#line 1724 "plp5.tab.c"
+    break;
+
+  case 33:
+#line 247 "plp5.y"
                                                          {
                                                             yyval.tipo = yyvsp[0].tipo;
                                                             yyval.cod = yyvsp[0].cod;
                                                             yyval.dir = yyvsp[0].dir;
                                                          }
-#line 1654 "plp5.tab.c"
+#line 1734 "plp5.tab.c"
     break;
 
-  case 32:
-#line 189 "plp5.y"
+  case 34:
+#line 253 "plp5.y"
                                                          {
                                                             if (yyvsp[-2].tipo != LOGICO)
                                                                errorSemantico(ERR_EXIZQ_LOG, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
                                                             if (yyvsp[0].tipo != LOGICO)
-                                                               errorSemantico(ERR_EXDER_LOG, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);       
+                                                               errorSemantico(ERR_EXDER_LOG, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);  
+
+                                                            stringstream ss;
+                                                            yyval.tipo = LOGICO;
+
                                                          }
-#line 1665 "plp5.tab.c"
+#line 1749 "plp5.tab.c"
     break;
 
-  case 33:
-#line 195 "plp5.y"
+  case 35:
+#line 263 "plp5.y"
                                                          {
                                                             yyval.tipo = yyvsp[0].tipo;
                                                             yyval.cod = yyvsp[0].cod;
                                                             yyval.dir = yyvsp[0].dir;
                                                          }
-#line 1675 "plp5.tab.c"
+#line 1759 "plp5.tab.c"
     break;
 
-  case 34:
-#line 201 "plp5.y"
+  case 36:
+#line 269 "plp5.y"
                                                          {
                                                             if (yyvsp[-2].tipo == LOGICO)
                                                                errorSemantico(ERR_EXIZQ_RE, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
@@ -1684,7 +1768,7 @@ yyreduce:
 
                                                             string op;
                                                             
-                                                            if       (strcmp(yyvsp[-1].lexema, "=") == 0)    op = "eql";
+                                                            if       (strcmp(yyvsp[-1].lexema, "=") == 0)     op = "eql";
                                                             else if  (strcmp(yyvsp[-1].lexema, "<>") == 0)    op = "neq";
                                                             else if  (strcmp(yyvsp[-1].lexema, ">") == 0)     op = "gtr";
                                                             else if  (strcmp(yyvsp[-1].lexema, ">=") == 0)    op = "geq";
@@ -1697,21 +1781,21 @@ yyreduce:
                                                             yyval.dir = operacion.dir;
                                                             yyval.tipo = LOGICO;
                                                          }
-#line 1701 "plp5.tab.c"
+#line 1785 "plp5.tab.c"
     break;
 
-  case 35:
-#line 222 "plp5.y"
+  case 37:
+#line 290 "plp5.y"
                                                          {
                                                             yyval.tipo = yyvsp[0].tipo;
                                                             yyval.cod = yyvsp[0].cod;
                                                             yyval.dir = yyvsp[0].dir;
                                                          }
-#line 1711 "plp5.tab.c"
+#line 1795 "plp5.tab.c"
     break;
 
-  case 36:
-#line 228 "plp5.y"
+  case 38:
+#line 296 "plp5.y"
                                                          {	
                                                             if (yyvsp[-2].tipo == LOGICO)
                                                                errorSemantico(ERR_EXIZQ_RE, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
@@ -1727,31 +1811,31 @@ yyreduce:
                                                             yyval.dir = operacion.dir;
                                                             yyval.tipo = operacion.tipo;
                                                          }
-#line 1731 "plp5.tab.c"
+#line 1815 "plp5.tab.c"
     break;
 
-  case 37:
-#line 243 "plp5.y"
+  case 39:
+#line 311 "plp5.y"
                                                          {
                                                             yyval.tipo = yyvsp[0].tipo;
                                                             yyval.cod = yyvsp[0].cod;
                                                             yyval.dir = yyvsp[0].dir; 
                                                          }
-#line 1741 "plp5.tab.c"
+#line 1825 "plp5.tab.c"
     break;
 
-  case 38:
-#line 248 "plp5.y"
+  case 40:
+#line 316 "plp5.y"
                                                          {
                                                             yyval.tipo = yyvsp[0].tipo;
                                                             yyval.cod = yyvsp[0].cod;
                                                             yyval.dir = yyvsp[0].dir;
                                                          }
-#line 1751 "plp5.tab.c"
+#line 1835 "plp5.tab.c"
     break;
 
-  case 39:
-#line 254 "plp5.y"
+  case 41:
+#line 322 "plp5.y"
                                                          {
                                                             if (yyvsp[-2].tipo == LOGICO)
                                                                errorSemantico(ERR_EXIZQ_RE, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
@@ -1767,31 +1851,31 @@ yyreduce:
                                                             yyval.dir = operacion.dir;
                                                             yyval.tipo = operacion.tipo;
                                                          }
-#line 1771 "plp5.tab.c"
+#line 1855 "plp5.tab.c"
     break;
 
-  case 40:
-#line 269 "plp5.y"
+  case 42:
+#line 337 "plp5.y"
                                                          {
                                                             yyval.tipo = yyvsp[0].tipo;
                                                             yyval.cod = yyvsp[0].cod;
                                                             yyval.dir = yyvsp[0].dir;
                                                          }
-#line 1781 "plp5.tab.c"
+#line 1865 "plp5.tab.c"
     break;
 
-  case 41:
-#line 275 "plp5.y"
+  case 43:
+#line 343 "plp5.y"
                                                          {	
                                                             yyval.tipo = yyvsp[0].tipo;
                                                             yyval.cod = yyvsp[0].cod;
                                                             yyval.dir = yyvsp[0].dir;
                                                          }
-#line 1791 "plp5.tab.c"
+#line 1875 "plp5.tab.c"
     break;
 
-  case 42:
-#line 280 "plp5.y"
+  case 44:
+#line 348 "plp5.y"
                                                          { 	
                                                             yyval.tipo = ENTERO;
                                                             int tmp = NuevaTemporal();
@@ -1800,11 +1884,11 @@ yyreduce:
                                                             yyval.cod = ss.str();
                                                             yyval.dir = tmp;
                                                          }
-#line 1804 "plp5.tab.c"
+#line 1888 "plp5.tab.c"
     break;
 
-  case 43:
-#line 288 "plp5.y"
+  case 45:
+#line 356 "plp5.y"
                                                          { 	
                                                             yyval.tipo = REAL;
                                                             int tmp = NuevaTemporal();
@@ -1814,21 +1898,21 @@ yyreduce:
                                                             yyval.cod = ss.str();
                                                             yyval.dir = tmp;
                                                          }
-#line 1818 "plp5.tab.c"
+#line 1902 "plp5.tab.c"
     break;
 
-  case 44:
-#line 297 "plp5.y"
+  case 46:
+#line 365 "plp5.y"
                                                          {
                                                             yyval.tipo = yyvsp[-1].tipo;
                                                             yyval.cod = yyvsp[-1].cod;
                                                             yyval.dir = yyvsp[-1].dir;
                                                          }
-#line 1828 "plp5.tab.c"
+#line 1912 "plp5.tab.c"
     break;
 
-  case 45:
-#line 302 "plp5.y"
+  case 47:
+#line 370 "plp5.y"
                                                          {
                                                             if(yyvsp[0].tipo != LOGICO)
                                                                errorSemantico(ERR_EXP_LOG, yyvsp[0].fila, yyvsp[0].columna, yyvsp[0].lexema);
@@ -1845,11 +1929,11 @@ yyreduce:
                                                                yyval.dir = tmp;
                                                             }
                                                          }
-#line 1849 "plp5.tab.c"
+#line 1933 "plp5.tab.c"
     break;
 
-  case 46:
-#line 318 "plp5.y"
+  case 48:
+#line 386 "plp5.y"
                                                          { 	
                                                             yyval.tipo = LOGICO;
                                                             int tmp = NuevaTemporal();
@@ -1859,11 +1943,11 @@ yyreduce:
                                                             yyval.cod = ss.str();
                                                             yyval.dir = tmp;
                                                          }
-#line 1863 "plp5.tab.c"
+#line 1947 "plp5.tab.c"
     break;
 
-  case 47:
-#line 327 "plp5.y"
+  case 49:
+#line 395 "plp5.y"
                                                          { 	
                                                             yyval.tipo = LOGICO;
                                                             int tmp = NuevaTemporal();
@@ -1873,11 +1957,11 @@ yyreduce:
                                                             yyval.cod = ss.str();
                                                             yyval.dir = tmp;
                                                          }
-#line 1877 "plp5.tab.c"
+#line 1961 "plp5.tab.c"
     break;
 
-  case 48:
-#line 337 "plp5.y"
+  case 50:
+#line 405 "plp5.y"
                                                          { 	
                                                             if (tsActual->searchSymb(yyvsp[0].lexema) == NULL)
                                                                errorSemantico(ERR_NODECL, yyvsp[0].fila, yyvsp[0].columna, yyvsp[0].lexema);
@@ -1894,19 +1978,19 @@ yyreduce:
                                                                yyval.tipo = simbolo.tipo;
                                                             }
                                                          }
-#line 1898 "plp5.tab.c"
+#line 1982 "plp5.tab.c"
     break;
 
-  case 49:
-#line 353 "plp5.y"
+  case 51:
+#line 421 "plp5.y"
                                                          {
                                                             if(!esArray(yyvsp[-1].tipo)) errorSemantico(0,0,0,yyvsp[-1].lexema);
                                                          }
-#line 1906 "plp5.tab.c"
+#line 1990 "plp5.tab.c"
     break;
 
-  case 50:
-#line 356 "plp5.y"
+  case 52:
+#line 424 "plp5.y"
                                                          {
                                                             if(yyvsp[-1].tipo != ENTERO)
                                                                errorSemantico(ERR_INDICE_ENTERO, 0, 0, NULL);
@@ -1915,11 +1999,11 @@ yyreduce:
                                                                yyval.dbase = yyvsp[-4].dbase;
                                                             }
                                                          }
-#line 1919 "plp5.tab.c"
+#line 2003 "plp5.tab.c"
     break;
 
 
-#line 1923 "plp5.tab.c"
+#line 2007 "plp5.tab.c"
 
       default: break;
     }
@@ -2151,7 +2235,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 365 "plp5.y"
+#line 433 "plp5.y"
 
 
 Token opera(string op, Token izq, Token der)
