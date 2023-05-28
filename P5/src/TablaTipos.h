@@ -31,6 +31,8 @@ class TablaTipos {
      
      TablaTipos();
      unsigned nuevoTipoArray(unsigned tam,unsigned tbase);
+     unsigned tipoBase(unsigned tipo) { return tipos[tipo].tipoBase; };
+     unsigned tamanyo(unsigned tipo) { return tipos[tipo].tamanyo; };
 
 };
 

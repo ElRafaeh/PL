@@ -37,22 +37,18 @@ int registros = 0;   // Contador de registros
 
 // Para el manejo de ambitos y tipos
 TablaSimbolos *tsActual = new TablaSimbolos(NULL);   
-TablaTipos *ttActual = new TablaTipos();  
+TablaTipos *ttTipos = new TablaTipos();  
 
 // Función para operaciones
 Token opera(string op, Token Izq, Token Der);  
-
 // Funcion para producir mensajes de errores semanticos
 void errorSemantico(int nerr,int fila,int columna,const char *lexema); 
-
 // Función que comprueba si hay memoria suficiente e incrementa el contador de memoria de variables
 void comprobarMemoriaVariables(Token token, int tam);
 // Función que comprueba si hay memoria suficiente e incrementa el contador de memoria de temporales
 int NuevaTemporal(); 
-
+// Mira si un tipo es ARRAY
 bool esArray(int tipo);
-int tamT(int tipo);
-int buscarT(int tipo);
 
 %}
 
@@ -77,7 +73,7 @@ int buscarT(int tipo);
                                                                errorSemantico(ERR_YADECL, $3.fila, $3.columna, $3.lexema);
                                                             }
                                                             comprobarMemoriaVariables($3, $1.tam);
-                                                            tsActual->newSymb(Simbolo($3.lexema,$1.tipo, C_VAR, $1.tam));
+                                                            tsActual->newSymb(Simbolo($3.lexema, $1.tipo, C_VAR, $1.tam));
                                                             $$.tipo = $1.tipo;
                                                             $$.tam = $1.tam;
                                                          } 
@@ -115,19 +111,20 @@ int buscarT(int tipo);
                                                             if(atoi($2.lexema) <= 0){
                                                                errorSemantico(ERR_DIM, $2.fila, $2.columna, $2.lexema);
                                                             }
-                                                            $$.tipo = ttActual->nuevoTipoArray(atoi($2.lexema), $4.tipo);
+                                                            $$.tipo = ttTipos->nuevoTipoArray(atoi($2.lexema), $4.tipo);
                                                             $$.tam = atoi($2.lexema)*$4.tam;
                                                          }
    ;
-   SInstr   : SInstr pyc                                 {  $$.guardaTemporal = C_TEMP; } 
-              Instr                                      { 
-                                                            $$.cod = $1.cod + $4.cod;
-                                                            C_TEMP = $3.guardaTemporal;  
-                                                         }
-            | Instr                                      {  $$.cod = $1.cod; }
+   SInstr   : SInstr                                     {  C_TEMP = $1.guardaTemporal; }
+              pyc Instr                                  {  $$.cod = $1.cod + $4.cod; }                                     
+            | { $$.guardaTemporal = C_TEMP; } Instr      {  $$.cod = $2.cod; }
    ;
    Instr    : escribe Expr                               {	
+                                                            if (esArray($2.tipo))
+                                                               errorSemantico(ERR_FALTAN, $1.fila, $1.columna+1, NULL);
+
                                                             stringstream ss;
+                                                            ss << $2.cod;
 
                                                             if ($2.tipo == ENTERO)
                                                                ss << "wri " << $2.dir << "\n";
@@ -135,7 +132,6 @@ int buscarT(int tipo);
                                                                ss << "wrr " << $2.dir << "\n";
                                                             else if ($2.tipo == LOGICO)
                                                             {
-                                                               ss << $2.cod;
                                                                ss << "mov " << $2.dir << " A\n";
                                                                ss << "jz L7\n";
                                                                ss << "mov #99 A\n";
@@ -150,7 +146,31 @@ int buscarT(int tipo);
                                                             $$.cod = ss.str();
                                                          }
             | lee Ref                                    {	
-                                                            
+                                                            if (esArray($2.tipo))
+                                                               errorSemantico(ERR_FALTAN, $1.fila, $1.columna+1, NULL);
+
+                                                            stringstream ss;
+                                                            ss << $2.cod;   
+
+                                                            if ($2.tipo == ENTERO)
+                                                               ss << "rdi " << $2.dbase << "\n";
+                                                            else if ($2.tipo == REAL)
+                                                               ss << "rdr " << $2.dbase << "\n";
+                                                            else if ($2.tipo == LOGICO)
+                                                            {
+                                                               int tmp = NuevaTemporal();
+                                                               ss << "rdc " << tmp << "\n";
+                                                               ss << "mov #99 A\n";
+                                                               ss << "eqli " << tmp << "\n";
+                                                               ss << "jz L9\n";
+                                                               ss << "mov #1 " << $2.dbase << "\n"; 
+                                                               ss << "jmp L10\n";
+                                                               ss << "L9 \n";
+                                                               ss << "mov #0 " << $2.dbase << "\n";
+                                                               ss << "L10 \n";
+                                                            }
+
+                                                            $$.cod = ss.str();
                                                          }
             | si Expr                                    {
                                                             if ($2.tipo != LOGICO)
@@ -188,8 +208,7 @@ int buscarT(int tipo);
 
                                                             stringstream ss;
                                                             ss << "L5 \n";
-                                                            ss << $2.cod;
-                                                            ss << $4.cod;
+                                                            ss << $2.cod << $4.cod;
                                                             ss << "mov " << $4.dir << " A\n"; 
                                                             ss << "jnz L6\n";
                                                             ss << "jmp L5\n";
@@ -198,6 +217,11 @@ int buscarT(int tipo);
                                                             $$.cod = ss.str();
                                                          }
             | Ref opasig Expr                            {
+                                                            //printTablaTipos(*ttTipos);
+
+                                                            if (esArray($1.tipo))
+                                                               errorSemantico(ERR_FALTAN, $2.fila, ($2.columna-strlen($1.lexema)-1), NULL);
+
                                                             if ($1.tipo == ENTERO && $3.tipo == REAL) 
                                                                errorSemantico(ERR_EXDER_ENT, $2.fila, $2.columna, $2.lexema);
                                                             if ($1.tipo == LOGICO && ($3.tipo == ENTERO || $3.tipo == REAL)) 
@@ -206,21 +230,21 @@ int buscarT(int tipo);
                                                                ($1.tipo == ENTERO)? errorSemantico(ERR_EXDER_ENT, $2.fila, $2.columna, $2.lexema) : errorSemantico(ERR_EXDER_RE, $2.fila, $2.columna, $2.lexema);
                            
                                                             stringstream ss;
+                                                            ss << $1.cod << $3.cod;
 
                                                             if ($1.tipo == REAL && $3.tipo == ENTERO)
                                                             {
-                                                               ss << $1.cod + $3.cod;
                                                                ss << "mov " << $3.dir << " A\n";
                                                                ss << "itor\n";
-                                                               ss << "mov " << "A " << $1.dir << "\n";
-                                                               $$.cod = ss.str();
+                                                               ss << "mov " << "A " << $3.dir << "\n";
                                                             }
-                                                            else 
-                                                            {
-                                                               ss << $1.cod + $3.cod;
-                                                               ss << "mov " << $3.dir << " " << $1.dir << "\n";
-                                                               $$.cod = ss.str();
-                                                            }
+
+                                                            ss << "mov " << $1.dir << " A\n";
+                                                            ss << "muli #" << ttTipos->tamanyo($1.tipo) << "\n";
+                                                            ss << "addi #" << $1.dbase << "\n";
+                                                            ss << "mov " << $3.dir << " @A\n";
+
+                                                            $$.cod = ss.str();
 							                                    }
             | blq                                        {  tsActual = new TablaSimbolos(tsActual); } 
               SDec SInstr fblq                           {
@@ -243,6 +267,19 @@ int buscarT(int tipo);
                                                                errorSemantico(ERR_EXIZQ_LOG, $2.fila, $2.columna, $2.lexema);
                                                             if ($3.tipo != LOGICO)
                                                                errorSemantico(ERR_EXDER_LOG, $2.fila, $2.columna, $2.lexema);
+
+                                                            int tmp = NuevaTemporal();
+                                                            stringstream ss;
+
+                                                            ss << $1.cod << $3.cod;
+
+                                                            ss << "mov " << $1.dir << " A\n";
+                                                            ss << "ori " << $3.dir << "\n";
+                                                            ss << "mov A " << tmp << "\n";
+
+                                                            $$.tipo = LOGICO;
+                                                            $$.dir = tmp;
+                                                            $$.cod = ss.str();
                                                          }
             | Econj                                      {
                                                             $$.tipo = $1.tipo;
@@ -256,9 +293,18 @@ int buscarT(int tipo);
                                                             if ($3.tipo != LOGICO)
                                                                errorSemantico(ERR_EXDER_LOG, $2.fila, $2.columna, $2.lexema);  
 
+                                                            int tmp = NuevaTemporal();
                                                             stringstream ss;
-                                                            $$.tipo = LOGICO;
 
+                                                            ss << $1.cod << $3.cod;
+
+                                                            ss << "mov " << $1.dir << " A\n";
+                                                            ss << "andi " << $3.dir << "\n";
+                                                            ss << "mov A " << tmp << "\n";
+
+                                                            $$.tipo = LOGICO;
+                                                            $$.dir = tmp;
+                                                            $$.cod = ss.str();
                                                          }
             | Ecomp                                      {
                                                             $$.tipo = $1.tipo;
@@ -341,9 +387,21 @@ int buscarT(int tipo);
                                                          }
    ;
    Factor   : Ref                                        {	
+                                                            if (esArray($1.tipo))
+                                                               errorSemantico(ERR_FALTAN, $1.fila, $1.columna, NULL);
+
+                                                            int tmp = NuevaTemporal();
+                                                            stringstream ss;
+
+                                                            ss << $1.cod;
+                                                            ss << "mov " << $1.dir << " A\n";   
+                                                            ss << "muli #" << ttTipos->tamanyo($1.tipo) << "\n";
+                                                            ss << "addi #" << $1.dbase << "\n";
+                                                            ss << "mov @A " << tmp << "\n";
+      
                                                             $$.tipo = $1.tipo;
-                                                            $$.cod = $1.cod;
-                                                            $$.dir = $1.dir;
+                                                            $$.cod = ss.str();
+                                                            $$.dir = tmp;
                                                          }
             | nentero                                    { 	
                                                             $$.tipo = ENTERO;
@@ -375,10 +433,12 @@ int buscarT(int tipo);
                                                                $$.tipo = LOGICO;
                                                                int tmp = NuevaTemporal();
                                                                stringstream ss;
-                                                               
+
+                                                               ss << $2.cod;
                                                                ss << "mov " << $2.dir << " A\n"; 
                                                                ss << "noti\n";
                                                                ss << "mov A " << tmp << "\n";
+
                                                                $$.cod = ss.str();
                                                                $$.dir = tmp;
                                                             }
@@ -410,23 +470,35 @@ int buscarT(int tipo);
                                                                Simbolo simbolo = *(tsActual->searchSymb($1.lexema));
                                                                int tmp = NuevaTemporal();
                                                                stringstream ss;
-                                                               ss << "mov " << simbolo.dir << " " << tmp << "\n";
+                                                               ss << "mov #0 " << tmp << "\n";
 
-                                                               //$$.cod = ss.str();
-                                                               //$$.dir = tmp;
-                                                               $$.dir = simbolo.dir;
+                                                               $$.cod = ss.str();
+                                                               $$.dir = tmp;
+                                                               $$.dbase = simbolo.dir;
                                                                $$.tipo = simbolo.tipo;
                                                             }
                                                          }
             | Ref cori                                   {
-                                                            if(!esArray($1.tipo)) errorSemantico(0,0,0,$1.lexema);
+                                                            if(!esArray($1.tipo)) errorSemantico(ERR_SOBRAN, $2.fila, $2.columna, NULL);
                                                          }
               Esimple cord                               {
                                                             if($4.tipo != ENTERO)
-                                                               errorSemantico(ERR_INDICE_ENTERO, 0, 0, NULL);
+                                                               errorSemantico(ERR_INDICE_ENTERO, $4.fila, $4.columna, NULL);
                                                             else
                                                             {
+                                                               $$.tipo = ttTipos->tipoBase($1.tipo);
                                                                $$.dbase = $1.dbase;
+                                                               int tmp = NuevaTemporal();
+                                                               stringstream ss;
+
+                                                               ss << $1.cod << $4.cod;
+                                                               ss << "mov " << $1.dir << " A\n";
+                                                               ss << "muli #" << ttTipos->tamanyo($1.tipo) << "\n";
+                                                               ss << "addi " << $4.dir << "\n";
+                                                               ss << "mov A " << tmp << "\n"; 
+
+                                                               $$.cod = ss.str();
+                                                               $$.dir = tmp;
                                                             }
                                                          }
    ;
