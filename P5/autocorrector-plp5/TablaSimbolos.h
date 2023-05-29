@@ -18,17 +18,14 @@ struct Simbolo {
   unsigned tipo;
   unsigned dir;
   unsigned tam;
+
+  Simbolo(string nombre, unsigned tipo, unsigned dir, unsigned tam) : nombre(nombre), tipo(tipo), dir(dir), tam(tam) {}
 };
 
 
 class TablaSimbolos {
 
-   private:
-   
-      bool buscarAmbito(Simbolo s); // ver si está en el ámbito actual
-
    public:
-   
       TablaSimbolos *padre;
       vector<Simbolo> simbolos;
    
@@ -37,6 +34,7 @@ class TablaSimbolos {
 
       bool newSymb(Simbolo s);
       Simbolo* searchSymb(string nombre);
+      Simbolo* buscarAmbito(string nombre);
 };
    
 #endif

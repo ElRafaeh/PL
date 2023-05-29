@@ -17,8 +17,6 @@ const unsigned TIPOBASICO=0,ARRAY=1;
   ver si es menor o igual que el último de ellos (en este caso, REAL)
 */
 
-
-
 struct unTipo {
   unsigned clase;             // TIPOBASICO o ARRAY
   unsigned tamanyo;
@@ -33,6 +31,8 @@ class TablaTipos {
      
      TablaTipos();
      unsigned nuevoTipoArray(unsigned tam,unsigned tbase);
+     unsigned tipoBase(unsigned tipo) { return tipos[tipo].tipoBase; };
+     unsigned tamanyo(unsigned tipo) { return tipos[tipo].tamanyo; };
 
 };
 

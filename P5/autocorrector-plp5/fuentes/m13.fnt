@@ -4,5 +4,5 @@ var
    entero : i,j;
 fvar
    i := j[104][34]  
-// Error semantico (6,10): sobran indices
+// Error semantico (6,9): sobran indices
 falgoritmo

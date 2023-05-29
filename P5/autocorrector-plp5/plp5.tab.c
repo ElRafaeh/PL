@@ -75,25 +75,71 @@ using namespace std;
 #include "TablaSimbolos.h"
 #include "TablaTipos.h"
 
-// variables y funciones del A. Léxico
-extern int columna,fila,findefichero;
-
 extern int yylex();
 extern char *yytext;
 extern FILE *yyin;
-
 int yyerror(char *s);
 
-string operador, s1, s2;  // string auxiliares
+// variables y funciones del A. Léxico
+extern int columna,fila,findefichero;
 
-void errorSemantico(int nerr,int fila,int columna,char *lexema); // funcion para producir mensajes de errores semanticos
+// Cosntantes de valores maximos de memoria
+constexpr int MAX_VAR_SPACE = 15999;
+constexpr int MAX_TEMP_SPACE = 16383;
 
-TablaSimbolos *tsActual = new TablaSimbolos(NULL);  // Para el manejo de ambitos
+// Para llevar el contador de las direcciones de memoria
+int C_VAR = 0;       // Contador de variable
+int C_TEMP = 15999;  // Contador de temporales
 
-Pair opera(string op, Pair Izq, Pair Der);
+// Para el manejo de ambitos y tipos
+TablaSimbolos *tsActual = new TablaSimbolos(NULL);   
+TablaTipos *ttTipos = new TablaTipos();  
+
+// Contador de etiquetas utilizadas
+unsigned etiquetas = 1;
+// Devuelve una más al numero de etiquetas usadas
+unsigned getEtiqueta() {return etiquetas++;}
+
+// Función para operaciones
+Token opera(string op, Token Izq, Token Der);  
+// Funcion para producir mensajes de errores semanticos
+void errorSemantico(int nerr,int fila,int columna,const char *lexema); 
+// Función que comprueba si hay memoria suficiente e incrementa el contador de memoria de variables
+void comprobarMemoriaVariables(Token token, int tam);
+// Función que comprueba si hay memoria suficiente e incrementa el contador de memoria de temporales
+int NuevaTemporal(); 
+// Mira si un tipo es ARRAY
+bool esArray(int tipo);
+
+void printTablaTipos(TablaTipos tt)
+{
+	cout << ";\tTipo\t\tTamaño\t\tTipo Base" << endl;
+	cout << ";\t----------------------------------------------------" << endl;
+
+	for(int i=0;i<tt.tipos.size();i++){
+		cout << ";\t" << tt.tipos[i].clase << "\t\t" << tt.tipos[i].tamanyo << "\t\t" << tt.tipos[i].tipoBase << endl;
+	}
+
+	cout << endl;
+}
+
+void printTablaSimbolos(TablaSimbolos *tt)
+{
+   if (tt != NULL) {
+      cout << ";\tNombre\t\tTipo\t\tDir\t\tTamanyo" << endl;
+	   cout << ";\t----------------------------------------------------" << endl;
+      for(int i=0;i<tt->simbolos.size();i++){
+         cout << ";\t" << tt->simbolos[i].nombre << "\t\t" << tt->simbolos[i].tipo << "\t\t" << tt->simbolos[i].dir << "\t\t" << tt->simbolos[i].tam << endl;
+      }
+      printTablaSimbolos(tt->padre);
+   }
+
+	cout << endl;
+}
 
 
-#line 97 "plp5.tab.c"
+
+#line 143 "plp5.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -506,11 +552,11 @@ union yyalloc
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  42
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  17
+#define YYNNTS  27
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  44
+#define YYNRULES  54
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  90
+#define YYNSTATES  100
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   296
@@ -559,13 +605,14 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,    41,    41,    51,    52,    54,    56,    58,    59,    61,
-      62,    64,    65,    66,    67,    69,    70,    72,    73,    74,
-      75,    76,    77,    78,    79,    81,    82,    84,    85,    87,
-      88,    90,    91,    92,    94,    95,    97,    98,    99,   100,
-     101,   102,   103,   105,   106
+       0,    87,    87,    99,   100,   102,   104,   104,   115,   116,
+     118,   118,   129,   131,   135,   139,   143,   151,   151,   153,
+     153,   155,   184,   225,   229,   225,   243,   243,   262,   278,
+     312,   312,   318,   329,   337,   356,   362,   381,   387,   408,
+     414,   429,   434,   440,   455,   461,   478,   486,   495,   500,
+     518,   527,   537,   555,   555
 };
 #endif
 
@@ -580,8 +627,9 @@ static const char *const yytname[] =
   "fblq", "cierto", "falso", "id", "nentero", "nreal", "coma", "pyc",
   "dospto", "pari", "pard", "oprel", "opas", "opmd", "opasig", "cori",
   "cord", "ybool", "obool", "nobool", "$accept", "S", "SDec", "Dec",
-  "DVar", "MDVar", "LId", "Tipo", "SInstr", "Instr", "Expr", "Econj",
-  "Ecomp", "Esimple", "Term", "Factor", "Ref", YY_NULLPTR
+  "DVar", "@1", "MDVar", "LId", "@2", "Tipo", "SInstr", "$@3", "@4",
+  "Instr", "$@5", "@6", "$@7", "$@8", "ColaIf", "Expr", "Econj", "Ecomp",
+  "Esimple", "Term", "Factor", "Ref", "$@9", YY_NULLPTR
 };
 #endif
 
@@ -598,7 +646,7 @@ static const yytype_int16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF (-37)
+#define YYPACT_NINF (-60)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -612,15 +660,16 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      16,     9,    26,     2,   -37,    36,    74,    54,   -37,   -37,
-     -37,   -37,    19,    74,    18,    29,    24,    29,    29,    54,
-      36,   -37,     1,   -37,   -23,    39,    74,    53,    37,   -37,
-     -37,   -37,   -37,    29,    -3,    -3,    21,    25,   -37,    10,
-      30,   -37,    35,    35,    -4,   -11,    56,    54,   -37,    54,
-      29,    29,    74,   -37,   -37,    46,   -24,    30,   -37,    29,
-      29,    29,    -3,    -3,    54,    54,    29,   -12,   -37,    21,
-      -1,   -37,    52,    49,   -37,    25,   -37,    51,    30,   -37,
-      70,   -37,    21,   -37,   -37,    46,   -37,    54,   -37,   -37
+       6,   -13,    14,    -6,   -60,    18,    42,   -60,   -60,   -60,
+     -60,   -60,     4,    42,    11,    30,    61,    32,    42,    41,
+      28,   -60,    26,     1,    31,     1,     1,    61,   -60,   -60,
+     -60,   -15,    42,   -60,   -60,   -60,    61,   -60,   -60,   -60,
+     -60,     1,    13,    13,    19,    21,   -60,    12,    27,   -60,
+      24,    24,    19,    19,    43,    18,     1,   -60,   -60,    36,
+     -60,   -27,    27,   -60,     1,     1,     1,    13,    13,    50,
+      48,     1,   -60,    19,     1,    44,    47,   -60,    21,   -60,
+      38,    27,   -60,    61,    61,    19,    55,   -22,   -60,   -60,
+     -60,   -60,   -60,   -60,    36,    54,   -60,    61,   -60,   -60
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -628,29 +677,32 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     0,     1,     4,     0,     0,     3,    11,
-      12,    13,     0,     8,     0,     0,     0,     0,     0,     0,
-       4,    43,     0,    16,     0,     0,     8,     0,     0,    41,
-      42,    37,    38,     0,     0,     0,    17,    26,    28,    30,
-      32,    35,    36,    18,     0,     0,     0,     0,     2,     0,
-       0,     0,     0,     7,     5,    10,     0,    33,    40,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    15,    23,
-       0,    14,     0,     0,    39,    25,    27,    29,    31,    34,
-      19,    21,    22,    24,    44,    10,     6,     0,     9,    20
+       0,     0,     0,     0,     1,     4,     0,    19,     3,    13,
+      14,    15,     0,     9,     0,    17,     0,     0,     9,     0,
+       0,     2,     0,     0,     0,     0,     0,     0,    30,    52,
+      20,     0,     0,     8,     5,     6,     0,    50,    51,    46,
+      47,     0,     0,     0,    21,    35,    37,    39,    41,    44,
+      45,    22,    23,    26,     0,     4,     0,    53,    16,    12,
+      18,     0,    42,    49,     0,     0,     0,     0,     0,     0,
+       0,     0,    19,    29,     0,     0,     0,    48,    34,    36,
+      38,    40,    43,     0,     0,    28,    17,     0,    10,     7,
+      24,    27,    31,    54,    12,    33,    11,     0,    25,    32
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -37,   -37,    67,   -37,    82,    63,     5,    40,    44,   -18,
-     -15,    34,    38,   -36,   -30,   -29,    -7
+     -60,   -60,    29,   -60,    73,   -60,    65,    -9,   -60,    56,
+      15,   -60,   -60,   -26,   -60,   -60,   -60,   -60,   -60,   -23,
+      25,    33,   -59,   -38,   -37,   -16,   -60
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     7,     8,    26,    27,    73,    14,    22,    23,
-      36,    37,    38,    39,    40,    41,    42
+      -1,     2,     7,     8,    18,    59,    19,    76,    94,    14,
+      15,    22,    16,    30,    69,    95,    70,    55,    98,    44,
+      45,    46,    47,    48,    49,    50,    74
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -658,30 +710,30 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      24,    46,    44,    45,    57,    48,    58,    65,    74,    43,
-      83,    64,    24,    50,    51,    70,    59,    49,    56,     1,
-      29,    30,    21,    31,    32,    77,     4,     5,    33,    59,
-      49,    68,    78,    62,    79,    69,    59,    84,    35,     3,
-      24,     6,    24,    61,    62,    25,    80,    81,    28,    21,
-      52,    82,    29,    30,    21,    31,    32,    24,    24,    54,
-      33,    59,    55,    34,    60,    63,    15,    16,    17,    89,
-      35,    18,    51,    19,    72,    20,    66,    85,    86,    21,
-      24,     9,    10,    11,    12,    62,    87,    47,    13,    53,
-      88,    67,    71,    75,     0,     0,     0,     0,    76
+      31,    54,    52,    53,    62,    77,    63,    80,    51,     1,
+      60,    31,    67,    64,     4,    87,    93,     3,    61,     5,
+      31,    56,    57,     6,    37,    38,    29,    39,    40,    81,
+      17,    82,    41,    73,    21,    42,    37,    38,    29,    39,
+      40,    20,    43,    32,    41,    66,    67,    34,    85,     9,
+      10,    11,    12,    35,    43,    36,    29,    90,    91,    64,
+      65,    57,    68,    71,    75,    83,    84,    31,    31,    88,
+      97,    99,    67,    23,    24,    25,    89,    92,    26,    13,
+      27,    31,    28,    33,    72,    96,    29,    86,    58,    78,
+       0,     0,     0,     0,     0,     0,     0,     0,    79
 };
 
 static const yytype_int8 yycheck[] =
 {
-       7,    19,    17,    18,    34,     4,    35,    18,    32,    16,
-      22,    15,    19,    36,    37,    51,    40,    29,    33,     3,
-      23,    24,    25,    26,    27,    61,     0,    25,    31,    40,
-      29,    49,    62,    34,    63,    50,    40,    38,    41,    30,
-      47,     5,    49,    33,    34,    26,    64,    65,    30,    25,
-      11,    66,    23,    24,    25,    26,    27,    64,    65,     6,
-      31,    40,    25,    34,    39,    35,    12,    13,    14,    87,
-      41,    17,    37,    19,    28,    21,    20,    25,    29,    25,
-      87,     7,     8,     9,    10,    34,    16,    20,     6,    26,
-      85,    47,    52,    59,    -1,    -1,    -1,    -1,    60
+      16,    27,    25,    26,    42,    32,    43,    66,    24,     3,
+      36,    27,    34,    40,     0,    74,    38,    30,    41,    25,
+      36,    36,    37,     5,    23,    24,    25,    26,    27,    67,
+      26,    68,    31,    56,     4,    34,    23,    24,    25,    26,
+      27,    30,    41,    11,    31,    33,    34,     6,    71,     7,
+       8,     9,    10,    25,    41,    29,    25,    83,    84,    40,
+      39,    37,    35,    20,    28,    15,    18,    83,    84,    25,
+      16,    97,    34,    12,    13,    14,    29,    22,    17,     6,
+      19,    97,    21,    18,    55,    94,    25,    72,    32,    64,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    65
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -689,34 +741,37 @@ static const yytype_int8 yycheck[] =
 static const yytype_int8 yystos[] =
 {
        0,     3,    43,    30,     0,    25,     5,    44,    45,     7,
-       8,     9,    10,    46,    49,    12,    13,    14,    17,    19,
-      21,    25,    50,    51,    58,    26,    46,    47,    30,    23,
-      24,    26,    27,    31,    34,    41,    52,    53,    54,    55,
-      56,    57,    58,    58,    52,    52,    51,    44,     4,    29,
-      36,    37,    11,    47,     6,    25,    52,    56,    57,    40,
-      39,    33,    34,    35,    15,    18,    20,    50,    51,    52,
-      55,    49,    28,    48,    32,    53,    54,    55,    56,    57,
-      51,    51,    52,    22,    38,    25,    29,    16,    48,    51
+       8,     9,    10,    46,    51,    52,    54,    26,    46,    48,
+      30,     4,    53,    12,    13,    14,    17,    19,    21,    25,
+      55,    67,    11,    48,     6,    25,    29,    23,    24,    26,
+      27,    31,    34,    41,    61,    62,    63,    64,    65,    66,
+      67,    67,    61,    61,    55,    59,    36,    37,    51,    47,
+      55,    61,    65,    66,    40,    39,    33,    34,    35,    56,
+      58,    20,    44,    61,    68,    28,    49,    32,    62,    63,
+      64,    65,    66,    15,    18,    61,    52,    64,    25,    29,
+      55,    55,    22,    38,    50,    57,    49,    16,    60,    55
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    42,    43,    44,    44,    45,    46,    47,    47,    48,
-      48,    49,    49,    49,    49,    50,    50,    51,    51,    51,
-      51,    51,    51,    51,    51,    52,    52,    53,    53,    54,
-      54,    55,    55,    55,    56,    56,    57,    57,    57,    57,
-      57,    57,    57,    58,    58
+       0,    42,    43,    44,    44,    45,    47,    46,    48,    48,
+      50,    49,    49,    51,    51,    51,    51,    53,    52,    54,
+      52,    55,    55,    56,    57,    55,    58,    55,    55,    55,
+      59,    55,    60,    60,    61,    61,    62,    62,    63,    63,
+      64,    64,    64,    65,    65,    66,    66,    66,    66,    66,
+      66,    66,    67,    68,    67
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     6,     1,     0,     4,     5,     2,     0,     3,
-       0,     1,     1,     1,     4,     3,     1,     2,     2,     4,
-       6,     4,     4,     3,     4,     3,     1,     3,     1,     3,
-       1,     3,     1,     2,     3,     1,     1,     1,     1,     3,
-       2,     1,     1,     1,     4
+       0,     2,     6,     1,     0,     4,     0,     6,     2,     0,
+       0,     4,     0,     1,     1,     1,     4,     0,     4,     0,
+       2,     2,     2,     0,     0,     7,     0,     5,     4,     3,
+       0,     5,     2,     0,     3,     1,     3,     1,     3,     1,
+       3,     1,     2,     3,     1,     1,     1,     1,     3,     2,
+       1,     1,     1,     0,     5
 };
 
 
@@ -1412,21 +1467,700 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 41 "plp5.y"
+#line 87 "plp5.y"
                                                           { 
                                                             int token = yylex();
                                                             if (token == 0) // si es fin de fichero, yylex() devuelve 0
                                                             {
-                                                               cout << "//algoritmo " << yyvsp[-4].lexema << endl << yyvsp[-1].trad << "int main() " << yyvsp[0].trad; 
+                                                               printTablaTipos(*ttTipos);
+                                                               printTablaSimbolos(tsActual);
+                                                               cout << yyvsp[-1].cod << "halt\n";
                                                             }
                                                             else
                                                                yyerror("");
                                                          }
-#line 1426 "plp5.tab.c"
+#line 1483 "plp5.tab.c"
+    break;
+
+  case 6:
+#line 104 "plp5.y"
+                                                         { 
+                                                            if(tsActual->buscarAmbito(yyvsp[0].lexema) != NULL){
+                                                               errorSemantico(ERR_YADECL, yyvsp[0].fila, yyvsp[0].columna, yyvsp[0].lexema);
+                                                            }
+                                                            tsActual->newSymb(Simbolo(yyvsp[0].lexema, yyvsp[-2].tipo, C_VAR, yyvsp[-2].tam));
+                                                            comprobarMemoriaVariables(yyvsp[0], yyvsp[-2].tam);
+                                                            yyval.tipo = yyvsp[-2].tipo;
+                                                            yyval.tam = yyvsp[-2].tam;
+                                                         }
+#line 1497 "plp5.tab.c"
+    break;
+
+  case 10:
+#line 118 "plp5.y"
+                                                         {
+                                                            if(tsActual->buscarAmbito(yyvsp[0].lexema) != NULL){
+                                                               errorSemantico(ERR_YADECL, yyvsp[0].fila, yyvsp[0].columna, yyvsp[0].lexema);
+                                                               
+                                                            }
+                                                            tsActual->newSymb(Simbolo(yyvsp[0].lexema,yyvsp[-2].tipo, C_VAR, yyvsp[-2].tam));
+                                                            comprobarMemoriaVariables(yyvsp[0], yyvsp[-2].tam);
+                                                            yyval.tipo = yyvsp[-2].tipo;
+                                                            yyval.tam = yyvsp[-2].tam;
+                                                         }
+#line 1512 "plp5.tab.c"
+    break;
+
+  case 13:
+#line 131 "plp5.y"
+                                                         {  
+                                                            yyval.tipo = ENTERO; 
+                                                            yyval.tam = 1;
+                                                         }
+#line 1521 "plp5.tab.c"
+    break;
+
+  case 14:
+#line 135 "plp5.y"
+                                                         {  
+                                                            yyval.tipo = REAL; 
+                                                            yyval.tam = 1;
+                                                         }
+#line 1530 "plp5.tab.c"
+    break;
+
+  case 15:
+#line 139 "plp5.y"
+                                                         {  
+                                                            yyval.tipo = LOGICO; 
+                                                            yyval.tam = 1;
+                                                         }
+#line 1539 "plp5.tab.c"
+    break;
+
+  case 16:
+#line 143 "plp5.y"
+                                                         {  
+                                                            if(atoi(yyvsp[-2].lexema) <= 0){
+                                                               errorSemantico(ERR_DIM, yyvsp[-2].fila, yyvsp[-2].columna, yyvsp[-2].lexema);
+                                                            }
+                                                            yyval.tipo = ttTipos->nuevoTipoArray(atoi(yyvsp[-2].lexema), yyvsp[0].tipo);
+                                                            yyval.tam = atoi(yyvsp[-2].lexema)*yyvsp[0].tam;
+                                                         }
+#line 1551 "plp5.tab.c"
+    break;
+
+  case 17:
+#line 151 "plp5.y"
+                                                         {  C_TEMP = yyvsp[0].guardaTemporal; }
+#line 1557 "plp5.tab.c"
+    break;
+
+  case 18:
+#line 152 "plp5.y"
+                                                         {  yyval.cod = yyvsp[-3].cod + yyvsp[0].cod; }
+#line 1563 "plp5.tab.c"
+    break;
+
+  case 19:
+#line 153 "plp5.y"
+              { yyval.guardaTemporal = C_TEMP; }
+#line 1569 "plp5.tab.c"
+    break;
+
+  case 20:
+#line 153 "plp5.y"
+                                                         {  yyval.cod = yyvsp[0].cod; }
+#line 1575 "plp5.tab.c"
+    break;
+
+  case 21:
+#line 155 "plp5.y"
+                                                         {	
+                                                            if (esArray(yyvsp[0].tipo))
+                                                               errorSemantico(ERR_FALTAN, yyvsp[-1].fila, yyvsp[-1].columna+1, NULL);
+
+                                                            stringstream ss;
+                                                            ss << yyvsp[0].cod;
+
+                                                            if (yyvsp[0].tipo == ENTERO)
+                                                               ss << "wri " << yyvsp[0].dir << "\n";
+                                                            else if (yyvsp[0].tipo == REAL)
+                                                               ss << "wrr " << yyvsp[0].dir << "\n";
+                                                            else if (yyvsp[0].tipo == LOGICO)
+                                                            {
+                                                               unsigned e1 = getEtiqueta();
+                                                               unsigned e2 = getEtiqueta();
+
+                                                               ss << "mov " << yyvsp[0].dir << " A\n";
+                                                               ss << "jz L" << e1 << "\n";
+                                                               ss << "mov #99 A\n";
+                                                               ss << "wrc A\n";
+                                                               ss << "jmp L" << e2 << "\n";
+                                                               ss << "L" << e1 << "\n";
+                                                               ss << "mov #102 A\n";
+                                                               ss << "wrc A\n";
+                                                               ss << "L" << e2 << "\n";
+                                                            }
+                                                            ss << "wrl\n";
+                                                            yyval.cod = ss.str();
+                                                         }
+#line 1609 "plp5.tab.c"
+    break;
+
+  case 22:
+#line 184 "plp5.y"
+                                                         {	
+                                                            if (esArray(yyvsp[0].tipo))
+                                                               errorSemantico(ERR_FALTAN, yyvsp[-1].fila, yyvsp[-1].columna+1, NULL);
+
+                                                            stringstream ss;
+                                                            int tmp = NuevaTemporal();
+
+                                                            ss << "mov #" << yyvsp[0].dbase << " " << yyvsp[0].dir << "\n";                                                            
+
+                                                            if (yyvsp[0].tipo == ENTERO)
+                                                            {
+                                                               ss << "rdi " << tmp << "\n";
+                                                               ss << "mov " << yyvsp[0].dir << " A\n";
+								                                       ss << "mov " << tmp << " @A\n";
+                                                            }
+                                                            else if (yyvsp[0].tipo == REAL)
+                                                            {
+                                                               ss << "rdr " << tmp << "\n";
+                                                               ss << "mov " << yyvsp[0].dir << " A\n";
+								                                       ss << "mov " << tmp << " @A\n";
+                                                            }
+                                                            else if (yyvsp[0].tipo == LOGICO)
+                                                            {
+                                                               unsigned e1 = getEtiqueta();
+                                                               unsigned e2 = getEtiqueta();
+
+                                                               ss << "rdc " << tmp << "\n";
+                                                               ss << "mov #99 A\n";
+                                                               ss << "eqli " << tmp << "\n";
+                                                               ss << "jz L" << e1 << "\n";
+                                                               ss << "mov " << yyvsp[0].dir << " A\n";
+                                                               ss << "mov #1 @A\n"; 
+                                                               ss << "jmp L" << e2 << "\n";
+                                                               ss << "L" << e1 << "\n";
+                                                               ss << "mov " << yyvsp[0].dir << " A\n";
+                                                               ss << "mov #0 @A\n";
+                                                               ss << "L" << e2 << "\n";
+                                                            }
+
+                                                            yyval.cod = ss.str();
+                                                         }
+#line 1655 "plp5.tab.c"
+    break;
+
+  case 23:
+#line 225 "plp5.y"
+                                                         {
+                                                            if (yyvsp[0].tipo != LOGICO)
+                                                               errorSemantico(ERR_EXP_LOG, yyvsp[-1].fila, yyvsp[-1].columna, NULL);
+                                                         }
+#line 1664 "plp5.tab.c"
+    break;
+
+  case 24:
+#line 229 "plp5.y"
+                                                         {
+                                                            yyval.e1_for_else = getEtiqueta();
+                                                            yyval.e2_for_else = getEtiqueta();
+                                                         }
+#line 1673 "plp5.tab.c"
+    break;
+
+  case 25:
+#line 233 "plp5.y"
+                                                         {
+                                                            stringstream ss;
+                                                            ss << yyvsp[-5].cod;
+                                                            ss << "mov " << yyvsp[-5].dir << " A\n";
+                                                            ss << "jz L" << yyvsp[-1].e1_for_else << "\n";
+                                                            ss << yyvsp[-2].cod;
+                                                            ss << yyvsp[0].cod;
+                                                            
+                                                            yyval.cod = ss.str();
+                                                         }
+#line 1688 "plp5.tab.c"
+    break;
+
+  case 26:
+#line 243 "plp5.y"
+                                                         {
+                                                            if (yyvsp[0].tipo != LOGICO)
+                                                               errorSemantico(ERR_EXP_LOG, yyvsp[-1].fila, yyvsp[-1].columna, NULL);
+                                                         }
+#line 1697 "plp5.tab.c"
+    break;
+
+  case 27:
+#line 247 "plp5.y"
+                                                         {
+                                                            unsigned e1 = getEtiqueta();
+                                                            unsigned e2 = getEtiqueta();
+
+                                                            stringstream ss;
+                                                            ss << "L" << e1 << "\n";
+                                                            ss << yyvsp[-3].cod;
+                                                            ss << "mov " << yyvsp[-3].dir << " A\n"; 
+                                                            ss << "jz L" << e2 << "\n";
+                                                            ss << yyvsp[0].cod;
+                                                            ss << "jmp L" << e1 << "\n";
+                                                            ss << "L" << e2 << "\n";
+
+                                                            yyval.cod = ss.str();
+                                                         }
+#line 1717 "plp5.tab.c"
+    break;
+
+  case 28:
+#line 262 "plp5.y"
+                                                         {
+                                                            if (yyvsp[0].tipo != LOGICO)
+                                                               errorSemantico(ERR_EXP_LOG, yyvsp[-3].fila, yyvsp[-3].columna, NULL);
+
+                                                            stringstream ss;
+                                                            unsigned e1 = getEtiqueta();
+                                                            unsigned e2 = getEtiqueta();
+
+                                                            ss << "L" << e1 << "\n";
+                                                            ss << yyvsp[-2].cod << yyvsp[0].cod;
+                                                            ss << "mov " << yyvsp[0].dir << " A\n"; 
+                                                            ss << "jz L" << e1 << "\n";
+                                                            ss << "L" << e2 << "\n";
+                                                            
+                                                            yyval.cod = ss.str();
+                                                         }
+#line 1738 "plp5.tab.c"
+    break;
+
+  case 29:
+#line 278 "plp5.y"
+                                                         {
+                                                            if (esArray(yyvsp[-2].tipo))
+                                                               errorSemantico(ERR_FALTAN, yyvsp[-1].fila, (yyvsp[-1].columna-strlen(yyvsp[-2].lexema)-1), NULL);
+
+                                                            if (yyvsp[-2].tipo == ENTERO && yyvsp[0].tipo == REAL) 
+                                                               errorSemantico(ERR_EXDER_ENT, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
+                                                            if (yyvsp[-2].tipo == LOGICO && (yyvsp[0].tipo == ENTERO || yyvsp[0].tipo == REAL)) 
+                                                               errorSemantico(ERR_EXDER_LOG, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
+                                                            if ((yyvsp[-2].tipo == ENTERO || yyvsp[-2].tipo == REAL) && yyvsp[0].tipo == LOGICO) 
+                                                               (yyvsp[-2].tipo == ENTERO)? errorSemantico(ERR_EXDER_ENT, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema) : errorSemantico(ERR_EXDER_RE, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
+                           
+                                                            stringstream ss;
+                                                            ss << yyvsp[-2].cod << yyvsp[0].cod;
+
+                                                            if(yyvsp[-2].tipo == REAL && yyvsp[0].tipo == ENTERO){
+                                                               int tmp = NuevaTemporal();
+                                                               
+                                                               ss << "mov " << yyvsp[0].dir << " A\n";
+                                                               ss << "itor\n";
+                                                               ss << "mov " << "A " << tmp << "\n";
+                                                               ss << "mov " << yyvsp[-2].dir << " A\n";
+                                                               ss << "muli #" << ttTipos->tamanyo(yyvsp[-2].tipo) << "\n";
+                                                               ss << "addi #" << yyvsp[-2].dbase << "\n";
+                                                               ss << "mov " << tmp << " @A\n";
+                                                            }
+                                                            else {                                                            
+                                                               ss << "mov " << yyvsp[-2].dir << " A\n";
+                                                               ss << "muli #" << ttTipos->tamanyo(yyvsp[-2].tipo) << "\n";
+                                                               ss << "addi #" << yyvsp[-2].dbase << "\n";
+                                                               ss << "mov " << yyvsp[0].dir << " @A\n";
+                                                            }
+
+                                                            yyval.cod = ss.str();
+							                                    }
+#line 1777 "plp5.tab.c"
+    break;
+
+  case 30:
+#line 312 "plp5.y"
+                                                         {  tsActual = new TablaSimbolos(tsActual); }
+#line 1783 "plp5.tab.c"
+    break;
+
+  case 31:
+#line 313 "plp5.y"
+                                                         {
+                                                            tsActual = tsActual->getAmbitoAnterior();
+                                                            yyval.cod = yyvsp[-1].cod;
+                                                         }
+#line 1792 "plp5.tab.c"
+    break;
+
+  case 32:
+#line 318 "plp5.y"
+                                                         {
+                                                            unsigned e1 = yyvsp[-2].e1_for_else;
+                                                            unsigned e2 = yyvsp[-2].e2_for_else;
+
+                                                            stringstream ss;
+                                                            ss << "jmp L" << e2 << "\n";
+                                                            ss << "L" << e1 << "\n" << yyvsp[0].cod;
+                                                            ss << "L" << e2 << "\n";
+                                                            
+                                                            yyval.cod = ss.str();
+                                                         }
+#line 1808 "plp5.tab.c"
+    break;
+
+  case 33:
+#line 329 "plp5.y"
+                                                         {
+                                                            unsigned e1 = yyvsp[0].e1_for_else;
+                                                            stringstream ss;
+                                                            ss << "L" << e1 << "\n";
+                                                            
+                                                            yyval.cod = ss.str(); 
+                                                         }
+#line 1820 "plp5.tab.c"
+    break;
+
+  case 34:
+#line 337 "plp5.y"
+                                                        { 
+                                                            if (yyvsp[-2].tipo != LOGICO)
+                                                               errorSemantico(ERR_EXIZQ_LOG, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
+                                                            if (yyvsp[0].tipo != LOGICO)
+                                                               errorSemantico(ERR_EXDER_LOG, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
+
+                                                            int tmp = NuevaTemporal();
+                                                            stringstream ss;
+
+                                                            ss << yyvsp[-2].cod << yyvsp[0].cod;
+
+                                                            ss << "mov " << yyvsp[-2].dir << " A\n";
+                                                            ss << "ori " << yyvsp[0].dir << "\n";
+                                                            ss << "mov A " << tmp << "\n";
+
+                                                            yyval.tipo = LOGICO;
+                                                            yyval.dir = tmp;
+                                                            yyval.cod = ss.str();
+                                                         }
+#line 1844 "plp5.tab.c"
+    break;
+
+  case 35:
+#line 356 "plp5.y"
+                                                         {
+                                                            yyval.tipo = yyvsp[0].tipo;
+                                                            yyval.cod = yyvsp[0].cod;
+                                                            yyval.dir = yyvsp[0].dir;
+                                                         }
+#line 1854 "plp5.tab.c"
+    break;
+
+  case 36:
+#line 362 "plp5.y"
+                                                         {
+                                                            if (yyvsp[-2].tipo != LOGICO)
+                                                               errorSemantico(ERR_EXIZQ_LOG, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
+                                                            if (yyvsp[0].tipo != LOGICO)
+                                                               errorSemantico(ERR_EXDER_LOG, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);  
+
+                                                            int tmp = NuevaTemporal();
+                                                            stringstream ss;
+
+                                                            ss << yyvsp[-2].cod << yyvsp[0].cod;
+
+                                                            ss << "mov " << yyvsp[-2].dir << " A\n";
+                                                            ss << "andi " << yyvsp[0].dir << "\n";
+                                                            ss << "mov A " << tmp << "\n";
+
+                                                            yyval.tipo = LOGICO;
+                                                            yyval.dir = tmp;
+                                                            yyval.cod = ss.str();
+                                                         }
+#line 1878 "plp5.tab.c"
+    break;
+
+  case 37:
+#line 381 "plp5.y"
+                                                         {
+                                                            yyval.tipo = yyvsp[0].tipo;
+                                                            yyval.cod = yyvsp[0].cod;
+                                                            yyval.dir = yyvsp[0].dir;
+                                                         }
+#line 1888 "plp5.tab.c"
+    break;
+
+  case 38:
+#line 387 "plp5.y"
+                                                         {
+                                                            if (yyvsp[-2].tipo == LOGICO)
+                                                               errorSemantico(ERR_EXIZQ_RE, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
+                                                            if (yyvsp[0].tipo == LOGICO)
+                                                               errorSemantico(ERR_EXDER_RE, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
+
+                                                            string op;
+                                                            
+                                                            if       (strcmp(yyvsp[-1].lexema, "=") == 0)     op = "eql";
+                                                            else if  (strcmp(yyvsp[-1].lexema, "<>") == 0)    op = "neq";
+                                                            else if  (strcmp(yyvsp[-1].lexema, ">") == 0)     op = "gtr";
+                                                            else if  (strcmp(yyvsp[-1].lexema, ">=") == 0)    op = "geq";
+                                                            else if  (strcmp(yyvsp[-1].lexema, "<") == 0)     op = "lss";
+                                                            else if  (strcmp(yyvsp[-1].lexema, "<=") == 0)    op = "leq"; 
+                                                            
+                                                            Token operacion = opera(op, yyvsp[-2], yyvsp[0]);
+
+                                                            yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + operacion.cod;
+                                                            yyval.dir = operacion.dir;
+                                                            yyval.tipo = LOGICO;
+                                                         }
+#line 1914 "plp5.tab.c"
+    break;
+
+  case 39:
+#line 408 "plp5.y"
+                                                         {
+                                                            yyval.tipo = yyvsp[0].tipo;
+                                                            yyval.cod = yyvsp[0].cod;
+                                                            yyval.dir = yyvsp[0].dir;
+                                                         }
+#line 1924 "plp5.tab.c"
+    break;
+
+  case 40:
+#line 414 "plp5.y"
+                                                         {	
+                                                            if (yyvsp[-2].tipo == LOGICO)
+                                                               errorSemantico(ERR_EXIZQ_RE, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
+                                                            if (yyvsp[0].tipo == LOGICO)
+                                                               errorSemantico(ERR_EXDER_RE, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
+
+                                                            string op;
+                                                            (strcmp(yyvsp[-1].lexema, "+"))? op = "sub" : op = "add";
+
+                                                            Token operacion = opera(op, yyvsp[-2], yyvsp[0]);
+
+                                                            yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + operacion.cod;
+                                                            yyval.dir = operacion.dir;
+                                                            yyval.tipo = operacion.tipo;
+                                                         }
+#line 1944 "plp5.tab.c"
+    break;
+
+  case 41:
+#line 429 "plp5.y"
+                                                         {
+                                                            yyval.tipo = yyvsp[0].tipo;
+                                                            yyval.cod = yyvsp[0].cod;
+                                                            yyval.dir = yyvsp[0].dir; 
+                                                         }
+#line 1954 "plp5.tab.c"
+    break;
+
+  case 42:
+#line 434 "plp5.y"
+                                                         {
+                                                            yyval.tipo = yyvsp[0].tipo;
+                                                            yyval.cod = yyvsp[0].cod;
+                                                            yyval.dir = yyvsp[0].dir;
+                                                         }
+#line 1964 "plp5.tab.c"
+    break;
+
+  case 43:
+#line 440 "plp5.y"
+                                                         {
+                                                            if (yyvsp[-2].tipo == LOGICO)
+                                                               errorSemantico(ERR_EXIZQ_RE, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
+                                                            if (yyvsp[0].tipo == LOGICO)
+                                                               errorSemantico(ERR_EXDER_RE, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
+
+                                                            string op;
+                                                            (strcmp(yyvsp[-1].lexema, "/"))? op = "mul" : op = "div";
+
+                                                            Token operacion = opera(op, yyvsp[-2], yyvsp[0]);
+
+                                                            yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + operacion.cod;
+                                                            yyval.dir = operacion.dir;
+                                                            yyval.tipo = operacion.tipo;
+                                                         }
+#line 1984 "plp5.tab.c"
+    break;
+
+  case 44:
+#line 455 "plp5.y"
+                                                         {
+                                                            yyval.tipo = yyvsp[0].tipo;
+                                                            yyval.cod = yyvsp[0].cod;
+                                                            yyval.dir = yyvsp[0].dir;
+                                                         }
+#line 1994 "plp5.tab.c"
+    break;
+
+  case 45:
+#line 461 "plp5.y"
+                                                         {	
+                                                            if (esArray(yyvsp[0].tipo))
+                                                               errorSemantico(ERR_FALTAN, yyvsp[0].fila, yyvsp[0].columna, NULL);
+
+                                                            int tmp = NuevaTemporal();
+                                                            stringstream ss;
+
+                                                            ss << yyvsp[0].cod;
+                                                            ss << "mov " << yyvsp[0].dir << " A\n";   
+                                                            ss << "muli #" << ttTipos->tamanyo(yyvsp[0].tipo) << "\n";
+                                                            ss << "addi #" << yyvsp[0].dbase << "\n";
+                                                            ss << "mov @A " << tmp << "\n";
+      
+                                                            yyval.tipo = yyvsp[0].tipo;
+                                                            yyval.cod = ss.str();
+                                                            yyval.dir = tmp;
+                                                         }
+#line 2016 "plp5.tab.c"
+    break;
+
+  case 46:
+#line 478 "plp5.y"
+                                                         { 	
+                                                            yyval.tipo = ENTERO;
+                                                            int tmp = NuevaTemporal();
+                                                            stringstream ss;
+                                                            ss << "mov #" << yyvsp[0].lexema << " " << tmp << "\n"; 
+                                                            yyval.cod = ss.str();
+                                                            yyval.dir = tmp;
+                                                         }
+#line 2029 "plp5.tab.c"
+    break;
+
+  case 47:
+#line 486 "plp5.y"
+                                                         { 	
+                                                            yyval.tipo = REAL;
+                                                            int tmp = NuevaTemporal();
+                                                            stringstream ss;
+                                                            
+                                                            ss << "mov $" << yyvsp[0].lexema << " " << tmp << "\n"; 
+                                                            yyval.cod = ss.str();
+                                                            yyval.dir = tmp;
+                                                         }
+#line 2043 "plp5.tab.c"
+    break;
+
+  case 48:
+#line 495 "plp5.y"
+                                                         {
+                                                            yyval.tipo = yyvsp[-1].tipo;
+                                                            yyval.cod = yyvsp[-1].cod;
+                                                            yyval.dir = yyvsp[-1].dir;
+                                                         }
+#line 2053 "plp5.tab.c"
+    break;
+
+  case 49:
+#line 500 "plp5.y"
+                                                         {
+                                                            if(yyvsp[0].tipo != LOGICO)
+                                                               errorSemantico(ERR_EXP_LOG, yyvsp[0].fila, yyvsp[0].columna, yyvsp[0].lexema);
+                                                            else
+                                                            {
+                                                               yyval.tipo = LOGICO;
+                                                               int tmp = NuevaTemporal();
+                                                               stringstream ss;
+
+                                                               ss << yyvsp[0].cod;
+                                                               ss << "mov " << yyvsp[0].dir << " A\n"; 
+                                                               ss << "noti\n";
+                                                               ss << "mov A " << tmp << "\n";
+
+                                                               yyval.cod = ss.str();
+                                                               yyval.dir = tmp;
+                                                            }
+                                                         }
+#line 2076 "plp5.tab.c"
+    break;
+
+  case 50:
+#line 518 "plp5.y"
+                                                         { 	
+                                                            yyval.tipo = LOGICO;
+                                                            int tmp = NuevaTemporal();
+                                                            stringstream ss;
+                                                            
+                                                            ss << "mov #1 " << tmp << "\n"; 
+                                                            yyval.cod = ss.str();
+                                                            yyval.dir = tmp;
+                                                         }
+#line 2090 "plp5.tab.c"
+    break;
+
+  case 51:
+#line 527 "plp5.y"
+                                                         { 	
+                                                            yyval.tipo = LOGICO;
+                                                            int tmp = NuevaTemporal();
+                                                            stringstream ss;
+                                                            
+                                                            ss << "mov #0 " << tmp << "\n"; 
+                                                            yyval.cod = ss.str();
+                                                            yyval.dir = tmp;
+                                                         }
+#line 2104 "plp5.tab.c"
+    break;
+
+  case 52:
+#line 537 "plp5.y"
+                                                         { 	
+                                                            if (tsActual->searchSymb(yyvsp[0].lexema) == NULL)
+                                                               errorSemantico(ERR_NODECL, yyvsp[0].fila, yyvsp[0].columna, yyvsp[0].lexema);
+                                                            else
+                                                            {
+                                                               Simbolo simbolo = *(tsActual->searchSymb(yyvsp[0].lexema));
+                                                               int tmp = NuevaTemporal();
+                                                               stringstream ss;
+                                                               ss << "mov #0 " << tmp << "\n";
+                                                               ss << "; " << yyvsp[0].fila << "\t" << yyvsp[0].columna <<  "\n";
+
+                                                               yyval.cod = ss.str();
+                                                               yyval.dir = tmp;
+                                                               yyval.dbase = simbolo.dir;
+                                                               yyval.tipo = simbolo.tipo;
+                                                               
+                                                            }
+                                                         }
+#line 2127 "plp5.tab.c"
+    break;
+
+  case 53:
+#line 555 "plp5.y"
+                                                         {
+                                                            if(!esArray(yyvsp[-1].tipo)) errorSemantico(ERR_SOBRAN, yyvsp[0].fila, yyvsp[0].columna, NULL);
+                                                         }
+#line 2135 "plp5.tab.c"
+    break;
+
+  case 54:
+#line 558 "plp5.y"
+                                                         {
+                                                            if(yyvsp[-1].tipo != ENTERO)
+                                                               errorSemantico(ERR_INDICE_ENTERO, yyvsp[-1].fila, yyvsp[-1].columna, NULL);
+                                                            else
+                                                            {
+                                                               yyval.tipo = ttTipos->tipoBase(yyvsp[-4].tipo);
+                                                               yyval.dbase = yyvsp[-4].dbase;
+                                                               int tmp = NuevaTemporal();
+                                                               stringstream ss;
+
+                                                               ss << yyvsp[-4].cod << yyvsp[-1].cod;
+                                                               ss << "mov " << yyvsp[-4].dir << " A\n";
+                                                               ss << "muli #" << ttTipos->tamanyo(yyvsp[-4].tipo) << "\n";
+                                                               ss << "addi " << yyvsp[-1].dir << "\n";
+                                                               ss << "mov A " << tmp << "\n"; 
+
+                                                               yyval.cod = ss.str();
+                                                               yyval.dir = tmp;
+                                                            }
+                                                         }
+#line 2160 "plp5.tab.c"
     break;
 
 
-#line 1430 "plp5.tab.c"
+#line 2164 "plp5.tab.c"
 
       default: break;
     }
@@ -1658,65 +2392,84 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 108 "plp5.y"
+#line 579 "plp5.y"
 
 
-Pair opera(string op, Pair Izq, Pair Der)
+Token opera(string op, Token izq, Token der)
 {
-	Pair devolver("",-1);
-	if (!(op == "/") && !(op == "//")) {
-      if (Izq.tipo == ENTERO && Der.tipo == ENTERO)
-      {
-                     devolver.tipo = ENTERO;
-                     devolver.trad = Izq.trad + " " + op + "i " + Der.trad;
-      }
-      else if (Izq.tipo == REAL && Der.tipo == ENTERO)
-      {
-                     devolver.tipo = REAL;
-                     devolver.trad = Izq.trad + " " + op + "r " + "itor(" + Der.trad + ")";
-      }
-      else if (Izq.tipo == ENTERO && Der.tipo == REAL)
-      {
-                     devolver.tipo = REAL;
-                     devolver.trad = "itor(" + Izq.trad + ") " + op + "r " + Der.trad;
-      }
-      else
-      { // REAL && REAL
-                     devolver.tipo = REAL;
-                     devolver.trad = Izq.trad + " " + op + "r " + Der.trad;
-      }
-	}
-	else if(op == "/")
-	{
-      if (Izq.tipo == ENTERO && Der.tipo == ENTERO)
-      {
-                     devolver.tipo = REAL;
-                     devolver.trad = "itor(" + Izq.trad + ") " + op + "r " + "itor(" + Der.trad + ")";
-      }
-      else if (Izq.tipo == REAL && Der.tipo == ENTERO)
-      {
-                     devolver.tipo = REAL;
-                     devolver.trad = Izq.trad + " " + op + "r " + "itor(" + Der.trad + ")";
-      }
-      else if (Izq.tipo == ENTERO && Der.tipo == REAL)
-      {
-                     devolver.tipo = REAL;
-                     devolver.trad = "itor(" + Izq.trad + ") " + op + "r " + Der.trad;
-      }
-      else
-      { // REAL && REAL
-                     devolver.tipo = REAL;
-                     devolver.trad = Izq.trad + " " + op + "r " + Der.trad;
-      }
-	}
-	else if(op =="//")
-	{
-		devolver.tipo = ENTERO;
-		devolver.trad = Izq.trad + " /i " + Der.trad;
+	Token devolver;
+   int tmp = NuevaTemporal();
+   devolver.dir = tmp;
+   stringstream ss;
+
+   if (izq.tipo == ENTERO && der.tipo == ENTERO)
+   {
+      devolver.tipo = ENTERO;
+
+      ss << "mov " << izq.dir << " A\n";
+      ss << op << "i " << der.dir << "\n";
+      ss << "mov A " << tmp << "\n";
+   }
+   else if (izq.tipo == REAL && der.tipo == ENTERO)
+   {
+      int tmpcnv = NuevaTemporal();
+      devolver.tipo = REAL;
+      
+      ss << "mov " << der.dir << " A\n";
+      ss << "itor\n";
+      ss << "mov A " << tmpcnv << "\n";
+      ss << "mov " << izq.dir << " A\n";
+      ss << op << "r " << tmpcnv << "\n";
+      ss << "mov A " << tmp << "\n";
+   }
+   else if (izq.tipo == ENTERO && der.tipo == REAL)
+   {
+      devolver.tipo = REAL;
+      
+      ss << "mov " << izq.dir << " A\n";
+      ss << "itor\n";
+      ss << op << "r " << der.dir << "\n";
+      ss << "mov A " << tmp << "\n";
+   }
+   else
+   { // REAL && REAL
+      devolver.tipo = REAL;
+
+      ss << "mov " << izq.dir << " A\n";
+      ss << op << "r " << der.dir << "\n";
+      ss << "mov A " << tmp << "\n";
+   }
+
+   devolver.cod = ss.str();
+	
+   return devolver;
+}
+
+void comprobarMemoriaVariables(Token token, int tam)
+{
+   if(C_VAR+tam > MAX_VAR_SPACE){
+		errorSemantico(ERR_NOCABE, token.fila, token.columna, token.lexema);
 	}
 
-	return devolver;
+   C_VAR += tam;
 }
+
+bool esArray(int tipo)
+{
+   return tipo > LOGICO;
+}
+
+int NuevaTemporal()
+{
+   C_TEMP += 1;
+
+   if(C_TEMP > MAX_TEMP_SPACE){
+		char* e = 0;
+		errorSemantico(ERR_MAXTMP, 0, 0, e);
+	}
+	return C_TEMP;
+}
+
 
 void errorSemantico(int nerror,int nlin,int ncol,const char *s)
 {

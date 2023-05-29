@@ -11,18 +11,21 @@ typedef struct {
    char *lexema;
    int fila,columna;
    int tipo;
-   std::string trad;
-   std::string lid_trad;
-   std::string pos_lid_trad;
-   std::string prefijo;
+   unsigned tam;
+   unsigned dir;
+   int guardaTemporal;
+   unsigned dbase;
+   string cod;
+   unsigned e1_for_else;
+   unsigned e2_for_else;
 } Token;
 
 // Para la funcion opera
 struct Pair {
-  std::string trad;
+  string trad;
   int tipo;
 
-  Pair(std::string nom, int tip) : trad(nom), tipo(tip){}
+  Pair(string nom, int tip) : trad(nom), tipo(tip){}
 };
 
 #define YYSTYPE Token

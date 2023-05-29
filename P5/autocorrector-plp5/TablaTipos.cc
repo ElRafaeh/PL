@@ -9,6 +9,7 @@ TablaTipos::TablaTipos()
   
   b.clase = TIPOBASICO;
   b.tipoBase = ENTERO;  
+  b.tamanyo = 1;
   tipos.push_back(b);
   
   b.tipoBase = REAL;    
