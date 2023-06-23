@@ -31,13 +31,17 @@ constexpr int MAX_VAR_SPACE = 15999;
 constexpr int MAX_TEMP_SPACE = 16383;
 
 // Para llevar el contador de las direcciones de memoria
-int C_VAR = -1;       // Contador de variable
+int C_VAR = 0;       // Contador de variable
 int C_TEMP = 15999;  // Contador de temporales
-int registros = 0;   // Contador de registros
 
 // Para el manejo de ambitos y tipos
 TablaSimbolos *tsActual = new TablaSimbolos(NULL);   
 TablaTipos *ttTipos = new TablaTipos();  
+
+// Contador de etiquetas utilizadas
+unsigned etiquetas = 1;
+// Devuelve una más al numero de etiquetas usadas
+unsigned getEtiqueta() {return etiquetas++;}
 
 // Función para operaciones
 Token opera(string op, Token Izq, Token Der);  
@@ -72,10 +76,11 @@ bool esArray(int tipo);
                                                             if(tsActual->buscarAmbito($3.lexema) != NULL){
                                                                errorSemantico(ERR_YADECL, $3.fila, $3.columna, $3.lexema);
                                                             }
+                                                            tsActual->newSymb(Simbolo($3.lexema, $1.tipo, C_VAR, $1.tam, $1.array));
                                                             comprobarMemoriaVariables($3, $1.tam);
-                                                            tsActual->newSymb(Simbolo($3.lexema, $1.tipo, C_VAR, $1.tam));
                                                             $$.tipo = $1.tipo;
                                                             $$.tam = $1.tam;
+                                                            $$.array = $1.array;
                                                          } 
             LId pyc
    ;
@@ -87,10 +92,11 @@ bool esArray(int tipo);
                                                                errorSemantico(ERR_YADECL, $2.fila, $2.columna, $2.lexema);
                                                                
                                                             }
+                                                            tsActual->newSymb(Simbolo($2.lexema, $0.tipo, C_VAR, $0.tam, $0.array));
                                                             comprobarMemoriaVariables($2, $0.tam);
-                                                            tsActual->newSymb(Simbolo($2.lexema,$0.tipo, C_VAR, $0.tam));
                                                             $$.tipo = $0.tipo;
                                                             $$.tam = $0.tam;
+                                                            $$.array = $0.array;
                                                          } 
             LId                                
             |                                           
@@ -113,6 +119,7 @@ bool esArray(int tipo);
                                                             }
                                                             $$.tipo = ttTipos->nuevoTipoArray(atoi($2.lexema), $4.tipo);
                                                             $$.tam = atoi($2.lexema)*$4.tam;
+                                                            $$.array = true;
                                                          }
    ;
    SInstr   : SInstr                                     {  C_TEMP = $1.guardaTemporal; }
@@ -132,15 +139,18 @@ bool esArray(int tipo);
                                                                ss << "wrr " << $2.dir << "\n";
                                                             else if ($2.tipo == LOGICO)
                                                             {
+                                                               unsigned e1 = getEtiqueta();
+                                                               unsigned e2 = getEtiqueta();
+
                                                                ss << "mov " << $2.dir << " A\n";
-                                                               ss << "jz L7\n";
+                                                               ss << "jz L" << e1 << "\n";
                                                                ss << "mov #99 A\n";
                                                                ss << "wrc A\n";
-                                                               ss << "jmp L8\n";
-                                                               ss << "L7 \n";
+                                                               ss << "jmp L" << e2 << "\n";
+                                                               ss << "L" << e1 << "\n";
                                                                ss << "mov #102 A\n";
                                                                ss << "wrc A\n";
-                                                               ss << "L8 \n";
+                                                               ss << "L" << e2 << "\n";
                                                             }
                                                             ss << "wrl\n";
                                                             $$.cod = ss.str();
@@ -150,24 +160,38 @@ bool esArray(int tipo);
                                                                errorSemantico(ERR_FALTAN, $1.fila, $1.columna+1, NULL);
 
                                                             stringstream ss;
-                                                            ss << $2.cod;   
+                                                            int tmp = NuevaTemporal();
+
+                                                            ss << "mov #" << $2.dbase << " " << $2.dir << "\n";                                                            
 
                                                             if ($2.tipo == ENTERO)
-                                                               ss << "rdi " << $2.dbase << "\n";
+                                                            {
+                                                               ss << "rdi " << tmp << "\n";
+                                                               ss << "mov " << $2.dir << " A\n";
+								                                       ss << "mov " << tmp << " @A\n";
+                                                            }
                                                             else if ($2.tipo == REAL)
-                                                               ss << "rdr " << $2.dbase << "\n";
+                                                            {
+                                                               ss << "rdr " << tmp << "\n";
+                                                               ss << "mov " << $2.dir << " A\n";
+								                                       ss << "mov " << tmp << " @A\n";
+                                                            }
                                                             else if ($2.tipo == LOGICO)
                                                             {
-                                                               int tmp = NuevaTemporal();
+                                                               unsigned e1 = getEtiqueta();
+                                                               unsigned e2 = getEtiqueta();
+
                                                                ss << "rdc " << tmp << "\n";
                                                                ss << "mov #99 A\n";
                                                                ss << "eqli " << tmp << "\n";
-                                                               ss << "jz L9\n";
-                                                               ss << "mov #1 " << $2.dbase << "\n"; 
-                                                               ss << "jmp L10\n";
-                                                               ss << "L9 \n";
-                                                               ss << "mov #0 " << $2.dbase << "\n";
-                                                               ss << "L10 \n";
+                                                               ss << "jz L" << e1 << "\n";
+                                                               ss << "mov " << $2.dir << " A\n";
+                                                               ss << "mov #1 @A\n"; 
+                                                               ss << "jmp L" << e2 << "\n";
+                                                               ss << "L" << e1 << "\n";
+                                                               ss << "mov " << $2.dir << " A\n";
+                                                               ss << "mov #0 @A\n";
+                                                               ss << "L" << e2 << "\n";
                                                             }
 
                                                             $$.cod = ss.str();
@@ -176,14 +200,18 @@ bool esArray(int tipo);
                                                             if ($2.tipo != LOGICO)
                                                                errorSemantico(ERR_EXP_LOG, $1.fila, $1.columna, NULL);
                                                          }
-              entonces Instr ColaIf                      {
+              entonces Instr                             {
+                                                            $$.e1_for_else = getEtiqueta();
+                                                            $$.e2_for_else = getEtiqueta();
+                                                         }
+              ColaIf                                     {
                                                             stringstream ss;
                                                             ss << $2.cod;
                                                             ss << "mov " << $2.dir << " A\n";
-                                                            ss << "jz L1\n";
+                                                            ss << "jz L" << $6.e1_for_else << "\n";
                                                             ss << $5.cod;
-                                                            ss << $6.cod;
-
+                                                            ss << $7.cod;
+                                                            
                                                             $$.cod = ss.str();
                                                          }
             | mientras Expr                              {
@@ -191,14 +219,17 @@ bool esArray(int tipo);
                                                                errorSemantico(ERR_EXP_LOG, $1.fila, $1.columna, NULL);
                                                          }
               hacer Instr                                {
+                                                            unsigned e1 = getEtiqueta();
+                                                            unsigned e2 = getEtiqueta();
+
                                                             stringstream ss;
-                                                            ss << "L3 \n";
+                                                            ss << "L" << e1 << "\n";
                                                             ss << $2.cod;
                                                             ss << "mov " << $2.dir << " A\n"; 
-                                                            ss << "jz L4\n";
-                                                            ss << $5.cod << "\n";
-                                                            ss << "jmp L3\n";
-                                                            ss << "L4 \n";
+                                                            ss << "jz L" << e2 << "\n";
+                                                            ss << $5.cod;
+                                                            ss << "jmp L" << e1 << "\n";
+                                                            ss << "L" << e2 << "\n";
 
                                                             $$.cod = ss.str();
                                                          }
@@ -207,18 +238,18 @@ bool esArray(int tipo);
                                                                errorSemantico(ERR_EXP_LOG, $1.fila, $1.columna, NULL);
 
                                                             stringstream ss;
-                                                            ss << "L5 \n";
+                                                            unsigned e1 = getEtiqueta();
+                                                            unsigned e2 = getEtiqueta();
+
+                                                            ss << "L" << e1 << "\n";
                                                             ss << $2.cod << $4.cod;
                                                             ss << "mov " << $4.dir << " A\n"; 
-                                                            ss << "jnz L6\n";
-                                                            ss << "jmp L5\n";
-                                                            ss << "L6 \n";
-
+                                                            ss << "jz L" << e1 << "\n";
+                                                            ss << "L" << e2 << "\n";
+                                                            
                                                             $$.cod = ss.str();
                                                          }
             | Ref opasig Expr                            {
-                                                            //printTablaTipos(*ttTipos);
-
                                                             if (esArray($1.tipo))
                                                                errorSemantico(ERR_FALTAN, $2.fila, ($2.columna-strlen($1.lexema)-1), NULL);
 
@@ -232,17 +263,23 @@ bool esArray(int tipo);
                                                             stringstream ss;
                                                             ss << $1.cod << $3.cod;
 
-                                                            if ($1.tipo == REAL && $3.tipo == ENTERO)
-                                                            {
+                                                            if($1.tipo == REAL && $3.tipo == ENTERO){
+                                                               int tmp = NuevaTemporal();
+                                                               
                                                                ss << "mov " << $3.dir << " A\n";
                                                                ss << "itor\n";
-                                                               ss << "mov " << "A " << $3.dir << "\n";
+                                                               ss << "mov " << "A " << tmp << "\n";
+                                                               ss << "mov " << $1.dir << " A\n";
+                                                               ss << "muli #" << ttTipos->tamanyo($1.tipo) << "\n";
+                                                               ss << "addi #" << $1.dbase << "\n";
+                                                               ss << "mov " << tmp << " @A\n";
                                                             }
-
-                                                            ss << "mov " << $1.dir << " A\n";
-                                                            ss << "muli #" << ttTipos->tamanyo($1.tipo) << "\n";
-                                                            ss << "addi #" << $1.dbase << "\n";
-                                                            ss << "mov " << $3.dir << " @A\n";
+                                                            else {                                                            
+                                                               ss << "mov " << $1.dir << " A\n";
+                                                               ss << "muli #" << ttTipos->tamanyo($1.tipo) << "\n";
+                                                               ss << "addi #" << $1.dbase << "\n";
+                                                               ss << "mov " << $3.dir << " @A\n";
+                                                            }
 
                                                             $$.cod = ss.str();
 							                                    }
@@ -253,14 +290,23 @@ bool esArray(int tipo);
                                                          }
    ;
    ColaIf   : sino Instr                                 {
+                                                            unsigned e1 = $0.e1_for_else;
+                                                            unsigned e2 = $0.e2_for_else;
+
                                                             stringstream ss;
-                                                            ss << "jmp L2\n";
-                                                            ss << "L1 \n" << $2.cod;
-                                                            ss << "L2 \n";
+                                                            ss << "jmp L" << e2 << "\n";
+                                                            ss << "L" << e1 << "\n" << $2.cod;
+                                                            ss << "L" << e2 << "\n";
                                                             
                                                             $$.cod = ss.str();
                                                          }
-            |                                            {  $$.cod = "L1 \n"; }
+            |                                            {
+                                                            unsigned e1 = $0.e1_for_else;
+                                                            stringstream ss;
+                                                            ss << "L" << e1 << "\n";
+                                                            
+                                                            $$.cod = ss.str(); 
+                                                         }
    ;
    Expr     : Expr obool Econj 	                        { 
                                                             if ($1.tipo != LOGICO)
@@ -476,9 +522,11 @@ bool esArray(int tipo);
                                                                $$.dir = tmp;
                                                                $$.dbase = simbolo.dir;
                                                                $$.tipo = simbolo.tipo;
+                                                               $$.array = simbolo.array;
                                                             }
                                                          }
             | Ref cori                                   {
+                                                            if (!$1.array) errorSemantico(ERR_SOBRAN, $2.fila, $2.columna-1, NULL);
                                                             if(!esArray($1.tipo)) errorSemantico(ERR_SOBRAN, $2.fila, $2.columna, NULL);
                                                          }
               Esimple cord                               {
@@ -572,9 +620,8 @@ int NuevaTemporal()
 {
    C_TEMP += 1;
 
-   if(C_TEMP > MAX_TEMP_SPACE){
-		char* e = 0;
-		errorSemantico(ERR_MAXTMP, 0, 0, e);
+   if(C_TEMP >= MAX_TEMP_SPACE){
+		errorSemantico(ERR_MAXTMP, 0, 0, NULL);
 	}
 	return C_TEMP;
 }

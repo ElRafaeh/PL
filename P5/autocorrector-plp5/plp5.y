@@ -54,33 +54,6 @@ int NuevaTemporal();
 // Mira si un tipo es ARRAY
 bool esArray(int tipo);
 
-void printTablaTipos(TablaTipos tt)
-{
-	cout << ";\tTipo\t\tTamaño\t\tTipo Base" << endl;
-	cout << ";\t----------------------------------------------------" << endl;
-
-	for(int i=0;i<tt.tipos.size();i++){
-		cout << ";\t" << tt.tipos[i].clase << "\t\t" << tt.tipos[i].tamanyo << "\t\t" << tt.tipos[i].tipoBase << endl;
-	}
-
-	cout << endl;
-}
-
-void printTablaSimbolos(TablaSimbolos *tt)
-{
-   if (tt != NULL) {
-      cout << ";\tNombre\t\tTipo\t\tDir\t\tTamanyo" << endl;
-	   cout << ";\t----------------------------------------------------" << endl;
-      for(int i=0;i<tt->simbolos.size();i++){
-         cout << ";\t" << tt->simbolos[i].nombre << "\t\t" << tt->simbolos[i].tipo << "\t\t" << tt->simbolos[i].dir << "\t\t" << tt->simbolos[i].tam << endl;
-      }
-      printTablaSimbolos(tt->padre);
-   }
-
-	cout << endl;
-}
-
-
 %}
 
 %%
@@ -88,8 +61,6 @@ void printTablaSimbolos(TablaSimbolos *tt)
                                                             int token = yylex();
                                                             if (token == 0) // si es fin de fichero, yylex() devuelve 0
                                                             {
-                                                               printTablaTipos(*ttTipos);
-                                                               printTablaSimbolos(tsActual);
                                                                cout << $5.cod << "halt\n";
                                                             }
                                                             else
@@ -105,10 +76,11 @@ void printTablaSimbolos(TablaSimbolos *tt)
                                                             if(tsActual->buscarAmbito($3.lexema) != NULL){
                                                                errorSemantico(ERR_YADECL, $3.fila, $3.columna, $3.lexema);
                                                             }
-                                                            tsActual->newSymb(Simbolo($3.lexema, $1.tipo, C_VAR, $1.tam));
+                                                            tsActual->newSymb(Simbolo($3.lexema, $1.tipo, C_VAR, $1.tam, $1.array));
                                                             comprobarMemoriaVariables($3, $1.tam);
                                                             $$.tipo = $1.tipo;
                                                             $$.tam = $1.tam;
+                                                            $$.array = $1.array;
                                                          } 
             LId pyc
    ;
@@ -120,10 +92,11 @@ void printTablaSimbolos(TablaSimbolos *tt)
                                                                errorSemantico(ERR_YADECL, $2.fila, $2.columna, $2.lexema);
                                                                
                                                             }
-                                                            tsActual->newSymb(Simbolo($2.lexema,$0.tipo, C_VAR, $0.tam));
+                                                            tsActual->newSymb(Simbolo($2.lexema, $0.tipo, C_VAR, $0.tam, $0.array));
                                                             comprobarMemoriaVariables($2, $0.tam);
                                                             $$.tipo = $0.tipo;
                                                             $$.tam = $0.tam;
+                                                            $$.array = $0.array;
                                                          } 
             LId                                
             |                                           
@@ -146,6 +119,7 @@ void printTablaSimbolos(TablaSimbolos *tt)
                                                             }
                                                             $$.tipo = ttTipos->nuevoTipoArray(atoi($2.lexema), $4.tipo);
                                                             $$.tam = atoi($2.lexema)*$4.tam;
+                                                            $$.array = true;
                                                          }
    ;
    SInstr   : SInstr                                     {  C_TEMP = $1.guardaTemporal; }
@@ -543,16 +517,16 @@ void printTablaSimbolos(TablaSimbolos *tt)
                                                                int tmp = NuevaTemporal();
                                                                stringstream ss;
                                                                ss << "mov #0 " << tmp << "\n";
-                                                               ss << "; " << $1.fila << "\t" << $1.columna <<  "\n";
 
                                                                $$.cod = ss.str();
                                                                $$.dir = tmp;
                                                                $$.dbase = simbolo.dir;
                                                                $$.tipo = simbolo.tipo;
-                                                               
+                                                               $$.array = simbolo.array;
                                                             }
                                                          }
             | Ref cori                                   {
+                                                            if (!$1.array) errorSemantico(ERR_SOBRAN, $2.fila, $2.columna-1, NULL);
                                                             if(!esArray($1.tipo)) errorSemantico(ERR_SOBRAN, $2.fila, $2.columna, NULL);
                                                          }
               Esimple cord                               {
@@ -646,9 +620,8 @@ int NuevaTemporal()
 {
    C_TEMP += 1;
 
-   if(C_TEMP > MAX_TEMP_SPACE){
-		char* e = 0;
-		errorSemantico(ERR_MAXTMP, 0, 0, e);
+   if(C_TEMP >= MAX_TEMP_SPACE){
+		errorSemantico(ERR_MAXTMP, 0, 0, NULL);
 	}
 	return C_TEMP;
 }

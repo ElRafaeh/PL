@@ -16,6 +16,9 @@ typedef struct {
    int guardaTemporal;
    unsigned dbase;
    string cod;
+   unsigned e1_for_else;
+   unsigned e2_for_else;
+   bool array = false;
 } Token;
 
 // Para la funcion opera

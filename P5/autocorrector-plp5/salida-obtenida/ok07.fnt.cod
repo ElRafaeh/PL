@@ -1,23 +1,4 @@
-;	Tipo		Tamaño		Tipo Base
-;	----------------------------------------------------
-;	0		1		0
-;	0		1		1
-;	0		1		2
-;	1		4		1
-;	1		3		3
-;	1		2		4
-
-;	Nombre		Tipo		Dir		Tamanyo
-;	----------------------------------------------------
-;	i		0		0		1
-;	j		0		1		1
-;	k		0		2		1
-;	r		1		3		1
-;	a		5		4		24
-
-
 mov #0 16000
-; 7	4
 mov #0 16001
 mov 16000 A
 muli #1
@@ -25,7 +6,6 @@ addi #0
 mov 16001 @A
 L5
 mov #0 16000
-; 8	13
 mov 16000 A
 muli #1
 addi #0
@@ -37,7 +17,6 @@ mov A 16003
 mov 16003 A
 jz L6
 mov #0 16004
-; 10	7
 mov #0 16005
 mov 16004 A
 muli #1
@@ -45,7 +24,6 @@ addi #1
 mov 16005 @A
 L3
 mov #0 16004
-; 11	16
 mov 16004 A
 muli #1
 addi #1
@@ -57,7 +35,6 @@ mov A 16007
 mov 16007 A
 jz L4
 mov #0 16008
-; 13	9
 mov #0 16009
 mov 16008 A
 muli #1
@@ -65,7 +42,6 @@ addi #2
 mov 16009 @A
 L1
 mov #0 16008
-; 14	18
 mov 16008 A
 muli #1
 addi #2
@@ -77,9 +53,7 @@ mov A 16011
 mov 16011 A
 jz L2
 mov #0 16012
-; 16	12
 mov #0 16013
-; 16	14
 mov 16013 A
 muli #1
 addi #0
@@ -89,7 +63,6 @@ muli #2
 addi 16014
 mov A 16015
 mov #0 16016
-; 16	17
 mov 16016 A
 muli #1
 addi #1
@@ -99,7 +72,6 @@ muli #3
 addi 16017
 mov A 16018
 mov #0 16019
-; 16	20
 mov 16019 A
 muli #1
 addi #2
@@ -109,7 +81,6 @@ muli #4
 addi 16020
 mov A 16021
 mov #0 16022
-; 16	26
 mov 16022 A
 muli #1
 addi #0
@@ -119,7 +90,6 @@ mov 16023 A
 muli 16024
 mov A 16025
 mov #0 16026
-; 16	32
 mov 16026 A
 muli #1
 addi #1
@@ -132,7 +102,6 @@ mov 16025 A
 addi 16029
 mov A 16030
 mov #0 16031
-; 16	37
 mov 16031 A
 muli #1
 addi #2
@@ -148,9 +117,7 @@ muli #1
 addi #4
 mov 16034 @A
 mov #0 16012
-; 17	12
 mov #0 16013
-; 17	15
 mov 16013 A
 muli #1
 addi #2
@@ -166,9 +133,7 @@ mov 16016 @A
 jmp L1
 L2
 mov #0 16008
-; 19	9
 mov #0 16009
-; 19	12
 mov 16009 A
 muli #1
 addi #1
@@ -184,9 +149,7 @@ mov 16012 @A
 jmp L3
 L4
 mov #0 16004
-; 21	7
 mov #0 16005
-; 21	12
 mov 16005 A
 muli #1
 addi #0
@@ -202,14 +165,12 @@ mov 16008 @A
 jmp L5
 L6
 mov #0 16000
-; 24	4
 mov $0.0 16001
 mov 16000 A
 muli #1
 addi #3
 mov 16001 @A
 mov #0 16000
-; 25	4
 mov #1 16001
 mov 16000 A
 muli #1
@@ -217,7 +178,6 @@ addi #2
 mov 16001 @A
 L11
 mov #0 16000
-; 26	13
 mov 16000 A
 muli #1
 addi #2
@@ -229,7 +189,6 @@ mov A 16003
 mov 16003 A
 jz L12
 mov #0 16004
-; 28	6
 mov #1 16005
 mov 16004 A
 muli #1
@@ -237,7 +196,6 @@ addi #1
 mov 16005 @A
 L9
 mov #0 16004
-; 29	15
 mov 16004 A
 muli #1
 addi #1
@@ -249,7 +207,6 @@ mov A 16007
 mov 16007 A
 jz L10
 mov #0 16008
-; 31	8
 mov #2 16009
 mov 16008 A
 muli #1
@@ -257,7 +214,6 @@ addi #0
 mov 16009 @A
 L7
 mov #0 16008
-; 32	17
 mov 16008 A
 muli #1
 addi #0
@@ -269,17 +225,13 @@ mov A 16011
 mov 16011 A
 jz L8
 mov #0 16012
-; 34	10
 mov #0 16013
-; 34	15
 mov 16013 A
 muli #1
 addi #3
 mov @A 16014
 mov #0 16015
-; 34	17
 mov #0 16016
-; 34	19
 mov 16016 A
 muli #1
 addi #0
@@ -293,7 +245,6 @@ muli #2
 addi 16019
 mov A 16020
 mov #0 16021
-; 34	24
 mov 16021 A
 muli #1
 addi #1
@@ -307,7 +258,6 @@ muli #3
 addi 16024
 mov A 16025
 mov #0 16026
-; 34	29
 mov 16026 A
 muli #1
 addi #2
@@ -332,9 +282,7 @@ muli #1
 addi #3
 mov 16032 @A
 mov #0 16012
-; 35	10
 mov #0 16013
-; 35	13
 mov 16013 A
 muli #1
 addi #0
@@ -350,9 +298,7 @@ mov 16016 @A
 jmp L7
 L8
 mov #0 16008
-; 37	8
 mov #0 16009
-; 37	11
 mov 16009 A
 muli #1
 addi #1
@@ -368,9 +314,7 @@ mov 16012 @A
 jmp L9
 L10
 mov #0 16004
-; 39	6
 mov #0 16005
-; 39	9
 mov 16005 A
 muli #1
 addi #2
@@ -386,7 +330,6 @@ mov 16008 @A
 jmp L11
 L12
 mov #0 16000
-; 41	12
 mov 16000 A
 muli #1
 addi #3

@@ -18,8 +18,9 @@ struct Simbolo {
   unsigned tipo;
   unsigned dir;
   unsigned tam;
+  bool array;
 
-  Simbolo(string nombre, unsigned tipo, unsigned dir, unsigned tam) : nombre(nombre), tipo(tipo), dir(dir), tam(tam) {}
+  Simbolo(string nombre, unsigned tipo, unsigned dir, unsigned tam, bool arr) : nombre(nombre), tipo(tipo), dir(dir), tam(tam), array(arr) {}
 };
 
 

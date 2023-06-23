@@ -1,25 +1,8 @@
-;	Tipo		Tamaño		Tipo Base
-;	----------------------------------------------------
-;	0		1		0
-;	0		1		1
-;	0		1		2
-
-;	Nombre		Tipo		Dir		Tamanyo
-;	----------------------------------------------------
-;	a		0		0		1
-;	b		0		1		1
-;	c		0		2		1
-;	d		1		3		1
-;	aEsCero		2		4		1
-;	f		2		5		1
-
-
 mov #0 16000
 rdi 16001
 mov 16000 A
 mov 16001 @A
 mov #0 16000
-; 9	3
 mov #3 16001
 mov #4 16002
 mov 16001 A
@@ -30,7 +13,6 @@ mov 16003 A
 divi 16004
 mov A 16005
 mov #0 16006
-; 9	14
 mov 16006 A
 muli #1
 addi #0
@@ -43,7 +25,6 @@ muli #1
 addi #1
 mov 16008 @A
 mov #0 16000
-; 10	6
 mov 16000 A
 muli #1
 addi #1
@@ -63,7 +44,6 @@ mov A 16007
 mov 16007 A
 jz L3
 mov #0 16008
-; 12	8
 mov 16008 A
 muli #1
 addi #1
@@ -75,15 +55,12 @@ mov A 16011
 mov 16011 A
 jz L1
 mov #0 16012
-; 15	7
 mov #0 16013
-; 15	18
 mov 16013 A
 muli #1
 addi #0
 mov @A 16014
 mov #0 16015
-; 15	20
 mov 16015 A
 muli #1
 addi #1
@@ -96,9 +73,7 @@ muli #1
 addi #6
 mov 16017 @A
 mov #0 16012
-; 16	7
 mov #0 16013
-; 16	12
 mov 16013 A
 muli #1
 addi #0
@@ -112,7 +87,6 @@ muli #1
 addi #2
 mov 16016 @A
 mov #0 16012
-; 17	7
 mov #6 16013
 mov #2 16014
 mov 16013 A
@@ -136,7 +110,6 @@ addi #1
 mov 16021 @A
 L1
 mov #0 16008
-; 19	5
 mov #1 16009
 mov #0 16010
 mov 16009 A
@@ -149,7 +122,6 @@ mov 16011 @A
 jmp L4
 L3
 mov #0 16012
-; 22	5
 mov #1 16013
 mov 16012 A
 muli #1
@@ -157,7 +129,6 @@ addi #4
 mov 16013 @A
 L4
 mov #0 16000
-; 24	7
 mov 16000 A
 muli #1
 addi #4
@@ -166,7 +137,6 @@ mov 16001 A
 noti
 mov A 16002
 mov #0 16003
-; 24	18
 mov 16003 A
 muli #1
 addi #1
@@ -181,7 +151,6 @@ mov A 16007
 mov 16007 A
 jz L5
 mov #0 16008
-; 25	6
 mov #5 16009
 mov #4 16010
 mov 16009 A
@@ -193,7 +162,6 @@ addi #4
 mov 16011 @A
 L5
 mov #0 16000
-; 27	11
 mov 16000 A
 muli #1
 addi #4

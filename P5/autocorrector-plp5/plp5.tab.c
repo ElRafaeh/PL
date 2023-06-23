@@ -111,35 +111,8 @@ int NuevaTemporal();
 // Mira si un tipo es ARRAY
 bool esArray(int tipo);
 
-void printTablaTipos(TablaTipos tt)
-{
-	cout << ";\tTipo\t\tTamaño\t\tTipo Base" << endl;
-	cout << ";\t----------------------------------------------------" << endl;
 
-	for(int i=0;i<tt.tipos.size();i++){
-		cout << ";\t" << tt.tipos[i].clase << "\t\t" << tt.tipos[i].tamanyo << "\t\t" << tt.tipos[i].tipoBase << endl;
-	}
-
-	cout << endl;
-}
-
-void printTablaSimbolos(TablaSimbolos *tt)
-{
-   if (tt != NULL) {
-      cout << ";\tNombre\t\tTipo\t\tDir\t\tTamanyo" << endl;
-	   cout << ";\t----------------------------------------------------" << endl;
-      for(int i=0;i<tt->simbolos.size();i++){
-         cout << ";\t" << tt->simbolos[i].nombre << "\t\t" << tt->simbolos[i].tipo << "\t\t" << tt->simbolos[i].dir << "\t\t" << tt->simbolos[i].tam << endl;
-      }
-      printTablaSimbolos(tt->padre);
-   }
-
-	cout << endl;
-}
-
-
-
-#line 143 "plp5.tab.c"
+#line 116 "plp5.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -607,12 +580,12 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    87,    87,    99,   100,   102,   104,   104,   115,   116,
-     118,   118,   129,   131,   135,   139,   143,   151,   151,   153,
-     153,   155,   184,   225,   229,   225,   243,   243,   262,   278,
-     312,   312,   318,   329,   337,   356,   362,   381,   387,   408,
-     414,   429,   434,   440,   455,   461,   478,   486,   495,   500,
-     518,   527,   537,   555,   555
+       0,    60,    60,    70,    71,    73,    75,    75,    87,    88,
+      90,    90,   102,   104,   108,   112,   116,   125,   125,   127,
+     127,   129,   158,   199,   203,   199,   217,   217,   236,   252,
+     286,   286,   292,   303,   311,   330,   336,   355,   361,   382,
+     388,   403,   408,   414,   429,   435,   452,   460,   469,   474,
+     492,   501,   511,   528,   528
 };
 #endif
 
@@ -1467,115 +1440,116 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 87 "plp5.y"
+#line 60 "plp5.y"
                                                           { 
                                                             int token = yylex();
                                                             if (token == 0) // si es fin de fichero, yylex() devuelve 0
                                                             {
-                                                               printTablaTipos(*ttTipos);
-                                                               printTablaSimbolos(tsActual);
                                                                cout << yyvsp[-1].cod << "halt\n";
                                                             }
                                                             else
                                                                yyerror("");
                                                          }
-#line 1483 "plp5.tab.c"
+#line 1454 "plp5.tab.c"
     break;
 
   case 6:
-#line 104 "plp5.y"
+#line 75 "plp5.y"
                                                          { 
                                                             if(tsActual->buscarAmbito(yyvsp[0].lexema) != NULL){
                                                                errorSemantico(ERR_YADECL, yyvsp[0].fila, yyvsp[0].columna, yyvsp[0].lexema);
                                                             }
-                                                            tsActual->newSymb(Simbolo(yyvsp[0].lexema, yyvsp[-2].tipo, C_VAR, yyvsp[-2].tam));
+                                                            tsActual->newSymb(Simbolo(yyvsp[0].lexema, yyvsp[-2].tipo, C_VAR, yyvsp[-2].tam, yyvsp[-2].array));
                                                             comprobarMemoriaVariables(yyvsp[0], yyvsp[-2].tam);
                                                             yyval.tipo = yyvsp[-2].tipo;
                                                             yyval.tam = yyvsp[-2].tam;
+                                                            yyval.array = yyvsp[-2].array;
                                                          }
-#line 1497 "plp5.tab.c"
+#line 1469 "plp5.tab.c"
     break;
 
   case 10:
-#line 118 "plp5.y"
+#line 90 "plp5.y"
                                                          {
                                                             if(tsActual->buscarAmbito(yyvsp[0].lexema) != NULL){
                                                                errorSemantico(ERR_YADECL, yyvsp[0].fila, yyvsp[0].columna, yyvsp[0].lexema);
                                                                
                                                             }
-                                                            tsActual->newSymb(Simbolo(yyvsp[0].lexema,yyvsp[-2].tipo, C_VAR, yyvsp[-2].tam));
+                                                            tsActual->newSymb(Simbolo(yyvsp[0].lexema, yyvsp[-2].tipo, C_VAR, yyvsp[-2].tam, yyvsp[-2].array));
                                                             comprobarMemoriaVariables(yyvsp[0], yyvsp[-2].tam);
                                                             yyval.tipo = yyvsp[-2].tipo;
                                                             yyval.tam = yyvsp[-2].tam;
+                                                            yyval.array = yyvsp[-2].array;
                                                          }
-#line 1512 "plp5.tab.c"
+#line 1485 "plp5.tab.c"
     break;
 
   case 13:
-#line 131 "plp5.y"
+#line 104 "plp5.y"
                                                          {  
                                                             yyval.tipo = ENTERO; 
                                                             yyval.tam = 1;
                                                          }
-#line 1521 "plp5.tab.c"
+#line 1494 "plp5.tab.c"
     break;
 
   case 14:
-#line 135 "plp5.y"
+#line 108 "plp5.y"
                                                          {  
                                                             yyval.tipo = REAL; 
                                                             yyval.tam = 1;
                                                          }
-#line 1530 "plp5.tab.c"
+#line 1503 "plp5.tab.c"
     break;
 
   case 15:
-#line 139 "plp5.y"
+#line 112 "plp5.y"
                                                          {  
                                                             yyval.tipo = LOGICO; 
                                                             yyval.tam = 1;
                                                          }
-#line 1539 "plp5.tab.c"
+#line 1512 "plp5.tab.c"
     break;
 
   case 16:
-#line 143 "plp5.y"
+#line 116 "plp5.y"
                                                          {  
                                                             if(atoi(yyvsp[-2].lexema) <= 0){
                                                                errorSemantico(ERR_DIM, yyvsp[-2].fila, yyvsp[-2].columna, yyvsp[-2].lexema);
                                                             }
                                                             yyval.tipo = ttTipos->nuevoTipoArray(atoi(yyvsp[-2].lexema), yyvsp[0].tipo);
                                                             yyval.tam = atoi(yyvsp[-2].lexema)*yyvsp[0].tam;
+                                                            yyval.array = true;
                                                          }
-#line 1551 "plp5.tab.c"
+#line 1525 "plp5.tab.c"
     break;
 
   case 17:
-#line 151 "plp5.y"
+#line 125 "plp5.y"
                                                          {  C_TEMP = yyvsp[0].guardaTemporal; }
-#line 1557 "plp5.tab.c"
+#line 1531 "plp5.tab.c"
     break;
 
   case 18:
-#line 152 "plp5.y"
+#line 126 "plp5.y"
                                                          {  yyval.cod = yyvsp[-3].cod + yyvsp[0].cod; }
-#line 1563 "plp5.tab.c"
+#line 1537 "plp5.tab.c"
     break;
 
   case 19:
-#line 153 "plp5.y"
+#line 127 "plp5.y"
               { yyval.guardaTemporal = C_TEMP; }
-#line 1569 "plp5.tab.c"
+#line 1543 "plp5.tab.c"
     break;
 
   case 20:
-#line 153 "plp5.y"
+#line 127 "plp5.y"
                                                          {  yyval.cod = yyvsp[0].cod; }
-#line 1575 "plp5.tab.c"
+#line 1549 "plp5.tab.c"
     break;
 
   case 21:
-#line 155 "plp5.y"
+#line 129 "plp5.y"
                                                          {	
                                                             if (esArray(yyvsp[0].tipo))
                                                                errorSemantico(ERR_FALTAN, yyvsp[-1].fila, yyvsp[-1].columna+1, NULL);
@@ -1605,11 +1579,11 @@ yyreduce:
                                                             ss << "wrl\n";
                                                             yyval.cod = ss.str();
                                                          }
-#line 1609 "plp5.tab.c"
+#line 1583 "plp5.tab.c"
     break;
 
   case 22:
-#line 184 "plp5.y"
+#line 158 "plp5.y"
                                                          {	
                                                             if (esArray(yyvsp[0].tipo))
                                                                errorSemantico(ERR_FALTAN, yyvsp[-1].fila, yyvsp[-1].columna+1, NULL);
@@ -1651,29 +1625,29 @@ yyreduce:
 
                                                             yyval.cod = ss.str();
                                                          }
-#line 1655 "plp5.tab.c"
+#line 1629 "plp5.tab.c"
     break;
 
   case 23:
-#line 225 "plp5.y"
+#line 199 "plp5.y"
                                                          {
                                                             if (yyvsp[0].tipo != LOGICO)
                                                                errorSemantico(ERR_EXP_LOG, yyvsp[-1].fila, yyvsp[-1].columna, NULL);
                                                          }
-#line 1664 "plp5.tab.c"
+#line 1638 "plp5.tab.c"
     break;
 
   case 24:
-#line 229 "plp5.y"
+#line 203 "plp5.y"
                                                          {
                                                             yyval.e1_for_else = getEtiqueta();
                                                             yyval.e2_for_else = getEtiqueta();
                                                          }
-#line 1673 "plp5.tab.c"
+#line 1647 "plp5.tab.c"
     break;
 
   case 25:
-#line 233 "plp5.y"
+#line 207 "plp5.y"
                                                          {
                                                             stringstream ss;
                                                             ss << yyvsp[-5].cod;
@@ -1684,20 +1658,20 @@ yyreduce:
                                                             
                                                             yyval.cod = ss.str();
                                                          }
-#line 1688 "plp5.tab.c"
+#line 1662 "plp5.tab.c"
     break;
 
   case 26:
-#line 243 "plp5.y"
+#line 217 "plp5.y"
                                                          {
                                                             if (yyvsp[0].tipo != LOGICO)
                                                                errorSemantico(ERR_EXP_LOG, yyvsp[-1].fila, yyvsp[-1].columna, NULL);
                                                          }
-#line 1697 "plp5.tab.c"
+#line 1671 "plp5.tab.c"
     break;
 
   case 27:
-#line 247 "plp5.y"
+#line 221 "plp5.y"
                                                          {
                                                             unsigned e1 = getEtiqueta();
                                                             unsigned e2 = getEtiqueta();
@@ -1713,11 +1687,11 @@ yyreduce:
 
                                                             yyval.cod = ss.str();
                                                          }
-#line 1717 "plp5.tab.c"
+#line 1691 "plp5.tab.c"
     break;
 
   case 28:
-#line 262 "plp5.y"
+#line 236 "plp5.y"
                                                          {
                                                             if (yyvsp[0].tipo != LOGICO)
                                                                errorSemantico(ERR_EXP_LOG, yyvsp[-3].fila, yyvsp[-3].columna, NULL);
@@ -1734,11 +1708,11 @@ yyreduce:
                                                             
                                                             yyval.cod = ss.str();
                                                          }
-#line 1738 "plp5.tab.c"
+#line 1712 "plp5.tab.c"
     break;
 
   case 29:
-#line 278 "plp5.y"
+#line 252 "plp5.y"
                                                          {
                                                             if (esArray(yyvsp[-2].tipo))
                                                                errorSemantico(ERR_FALTAN, yyvsp[-1].fila, (yyvsp[-1].columna-strlen(yyvsp[-2].lexema)-1), NULL);
@@ -1773,26 +1747,26 @@ yyreduce:
 
                                                             yyval.cod = ss.str();
 							                                    }
-#line 1777 "plp5.tab.c"
+#line 1751 "plp5.tab.c"
     break;
 
   case 30:
-#line 312 "plp5.y"
+#line 286 "plp5.y"
                                                          {  tsActual = new TablaSimbolos(tsActual); }
-#line 1783 "plp5.tab.c"
+#line 1757 "plp5.tab.c"
     break;
 
   case 31:
-#line 313 "plp5.y"
+#line 287 "plp5.y"
                                                          {
                                                             tsActual = tsActual->getAmbitoAnterior();
                                                             yyval.cod = yyvsp[-1].cod;
                                                          }
-#line 1792 "plp5.tab.c"
+#line 1766 "plp5.tab.c"
     break;
 
   case 32:
-#line 318 "plp5.y"
+#line 292 "plp5.y"
                                                          {
                                                             unsigned e1 = yyvsp[-2].e1_for_else;
                                                             unsigned e2 = yyvsp[-2].e2_for_else;
@@ -1804,11 +1778,11 @@ yyreduce:
                                                             
                                                             yyval.cod = ss.str();
                                                          }
-#line 1808 "plp5.tab.c"
+#line 1782 "plp5.tab.c"
     break;
 
   case 33:
-#line 329 "plp5.y"
+#line 303 "plp5.y"
                                                          {
                                                             unsigned e1 = yyvsp[0].e1_for_else;
                                                             stringstream ss;
@@ -1816,11 +1790,11 @@ yyreduce:
                                                             
                                                             yyval.cod = ss.str(); 
                                                          }
-#line 1820 "plp5.tab.c"
+#line 1794 "plp5.tab.c"
     break;
 
   case 34:
-#line 337 "plp5.y"
+#line 311 "plp5.y"
                                                         { 
                                                             if (yyvsp[-2].tipo != LOGICO)
                                                                errorSemantico(ERR_EXIZQ_LOG, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
@@ -1840,21 +1814,21 @@ yyreduce:
                                                             yyval.dir = tmp;
                                                             yyval.cod = ss.str();
                                                          }
-#line 1844 "plp5.tab.c"
+#line 1818 "plp5.tab.c"
     break;
 
   case 35:
-#line 356 "plp5.y"
+#line 330 "plp5.y"
                                                          {
                                                             yyval.tipo = yyvsp[0].tipo;
                                                             yyval.cod = yyvsp[0].cod;
                                                             yyval.dir = yyvsp[0].dir;
                                                          }
-#line 1854 "plp5.tab.c"
+#line 1828 "plp5.tab.c"
     break;
 
   case 36:
-#line 362 "plp5.y"
+#line 336 "plp5.y"
                                                          {
                                                             if (yyvsp[-2].tipo != LOGICO)
                                                                errorSemantico(ERR_EXIZQ_LOG, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
@@ -1874,21 +1848,21 @@ yyreduce:
                                                             yyval.dir = tmp;
                                                             yyval.cod = ss.str();
                                                          }
-#line 1878 "plp5.tab.c"
+#line 1852 "plp5.tab.c"
     break;
 
   case 37:
-#line 381 "plp5.y"
+#line 355 "plp5.y"
                                                          {
                                                             yyval.tipo = yyvsp[0].tipo;
                                                             yyval.cod = yyvsp[0].cod;
                                                             yyval.dir = yyvsp[0].dir;
                                                          }
-#line 1888 "plp5.tab.c"
+#line 1862 "plp5.tab.c"
     break;
 
   case 38:
-#line 387 "plp5.y"
+#line 361 "plp5.y"
                                                          {
                                                             if (yyvsp[-2].tipo == LOGICO)
                                                                errorSemantico(ERR_EXIZQ_RE, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
@@ -1910,21 +1884,21 @@ yyreduce:
                                                             yyval.dir = operacion.dir;
                                                             yyval.tipo = LOGICO;
                                                          }
-#line 1914 "plp5.tab.c"
+#line 1888 "plp5.tab.c"
     break;
 
   case 39:
-#line 408 "plp5.y"
+#line 382 "plp5.y"
                                                          {
                                                             yyval.tipo = yyvsp[0].tipo;
                                                             yyval.cod = yyvsp[0].cod;
                                                             yyval.dir = yyvsp[0].dir;
                                                          }
-#line 1924 "plp5.tab.c"
+#line 1898 "plp5.tab.c"
     break;
 
   case 40:
-#line 414 "plp5.y"
+#line 388 "plp5.y"
                                                          {	
                                                             if (yyvsp[-2].tipo == LOGICO)
                                                                errorSemantico(ERR_EXIZQ_RE, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
@@ -1940,31 +1914,31 @@ yyreduce:
                                                             yyval.dir = operacion.dir;
                                                             yyval.tipo = operacion.tipo;
                                                          }
-#line 1944 "plp5.tab.c"
+#line 1918 "plp5.tab.c"
     break;
 
   case 41:
-#line 429 "plp5.y"
+#line 403 "plp5.y"
                                                          {
                                                             yyval.tipo = yyvsp[0].tipo;
                                                             yyval.cod = yyvsp[0].cod;
                                                             yyval.dir = yyvsp[0].dir; 
                                                          }
-#line 1954 "plp5.tab.c"
+#line 1928 "plp5.tab.c"
     break;
 
   case 42:
-#line 434 "plp5.y"
+#line 408 "plp5.y"
                                                          {
                                                             yyval.tipo = yyvsp[0].tipo;
                                                             yyval.cod = yyvsp[0].cod;
                                                             yyval.dir = yyvsp[0].dir;
                                                          }
-#line 1964 "plp5.tab.c"
+#line 1938 "plp5.tab.c"
     break;
 
   case 43:
-#line 440 "plp5.y"
+#line 414 "plp5.y"
                                                          {
                                                             if (yyvsp[-2].tipo == LOGICO)
                                                                errorSemantico(ERR_EXIZQ_RE, yyvsp[-1].fila, yyvsp[-1].columna, yyvsp[-1].lexema);
@@ -1980,21 +1954,21 @@ yyreduce:
                                                             yyval.dir = operacion.dir;
                                                             yyval.tipo = operacion.tipo;
                                                          }
-#line 1984 "plp5.tab.c"
+#line 1958 "plp5.tab.c"
     break;
 
   case 44:
-#line 455 "plp5.y"
+#line 429 "plp5.y"
                                                          {
                                                             yyval.tipo = yyvsp[0].tipo;
                                                             yyval.cod = yyvsp[0].cod;
                                                             yyval.dir = yyvsp[0].dir;
                                                          }
-#line 1994 "plp5.tab.c"
+#line 1968 "plp5.tab.c"
     break;
 
   case 45:
-#line 461 "plp5.y"
+#line 435 "plp5.y"
                                                          {	
                                                             if (esArray(yyvsp[0].tipo))
                                                                errorSemantico(ERR_FALTAN, yyvsp[0].fila, yyvsp[0].columna, NULL);
@@ -2012,11 +1986,11 @@ yyreduce:
                                                             yyval.cod = ss.str();
                                                             yyval.dir = tmp;
                                                          }
-#line 2016 "plp5.tab.c"
+#line 1990 "plp5.tab.c"
     break;
 
   case 46:
-#line 478 "plp5.y"
+#line 452 "plp5.y"
                                                          { 	
                                                             yyval.tipo = ENTERO;
                                                             int tmp = NuevaTemporal();
@@ -2025,11 +1999,11 @@ yyreduce:
                                                             yyval.cod = ss.str();
                                                             yyval.dir = tmp;
                                                          }
-#line 2029 "plp5.tab.c"
+#line 2003 "plp5.tab.c"
     break;
 
   case 47:
-#line 486 "plp5.y"
+#line 460 "plp5.y"
                                                          { 	
                                                             yyval.tipo = REAL;
                                                             int tmp = NuevaTemporal();
@@ -2039,21 +2013,21 @@ yyreduce:
                                                             yyval.cod = ss.str();
                                                             yyval.dir = tmp;
                                                          }
-#line 2043 "plp5.tab.c"
+#line 2017 "plp5.tab.c"
     break;
 
   case 48:
-#line 495 "plp5.y"
+#line 469 "plp5.y"
                                                          {
                                                             yyval.tipo = yyvsp[-1].tipo;
                                                             yyval.cod = yyvsp[-1].cod;
                                                             yyval.dir = yyvsp[-1].dir;
                                                          }
-#line 2053 "plp5.tab.c"
+#line 2027 "plp5.tab.c"
     break;
 
   case 49:
-#line 500 "plp5.y"
+#line 474 "plp5.y"
                                                          {
                                                             if(yyvsp[0].tipo != LOGICO)
                                                                errorSemantico(ERR_EXP_LOG, yyvsp[0].fila, yyvsp[0].columna, yyvsp[0].lexema);
@@ -2072,11 +2046,11 @@ yyreduce:
                                                                yyval.dir = tmp;
                                                             }
                                                          }
-#line 2076 "plp5.tab.c"
+#line 2050 "plp5.tab.c"
     break;
 
   case 50:
-#line 518 "plp5.y"
+#line 492 "plp5.y"
                                                          { 	
                                                             yyval.tipo = LOGICO;
                                                             int tmp = NuevaTemporal();
@@ -2086,11 +2060,11 @@ yyreduce:
                                                             yyval.cod = ss.str();
                                                             yyval.dir = tmp;
                                                          }
-#line 2090 "plp5.tab.c"
+#line 2064 "plp5.tab.c"
     break;
 
   case 51:
-#line 527 "plp5.y"
+#line 501 "plp5.y"
                                                          { 	
                                                             yyval.tipo = LOGICO;
                                                             int tmp = NuevaTemporal();
@@ -2100,11 +2074,11 @@ yyreduce:
                                                             yyval.cod = ss.str();
                                                             yyval.dir = tmp;
                                                          }
-#line 2104 "plp5.tab.c"
+#line 2078 "plp5.tab.c"
     break;
 
   case 52:
-#line 537 "plp5.y"
+#line 511 "plp5.y"
                                                          { 	
                                                             if (tsActual->searchSymb(yyvsp[0].lexema) == NULL)
                                                                errorSemantico(ERR_NODECL, yyvsp[0].fila, yyvsp[0].columna, yyvsp[0].lexema);
@@ -2114,28 +2088,28 @@ yyreduce:
                                                                int tmp = NuevaTemporal();
                                                                stringstream ss;
                                                                ss << "mov #0 " << tmp << "\n";
-                                                               ss << "; " << yyvsp[0].fila << "\t" << yyvsp[0].columna <<  "\n";
 
                                                                yyval.cod = ss.str();
                                                                yyval.dir = tmp;
                                                                yyval.dbase = simbolo.dir;
                                                                yyval.tipo = simbolo.tipo;
-                                                               
+                                                               yyval.array = simbolo.array;
                                                             }
                                                          }
-#line 2127 "plp5.tab.c"
+#line 2100 "plp5.tab.c"
     break;
 
   case 53:
-#line 555 "plp5.y"
+#line 528 "plp5.y"
                                                          {
+                                                            if (!yyvsp[-1].array) errorSemantico(ERR_SOBRAN, yyvsp[0].fila, yyvsp[0].columna-1, NULL);
                                                             if(!esArray(yyvsp[-1].tipo)) errorSemantico(ERR_SOBRAN, yyvsp[0].fila, yyvsp[0].columna, NULL);
                                                          }
-#line 2135 "plp5.tab.c"
+#line 2109 "plp5.tab.c"
     break;
 
   case 54:
-#line 558 "plp5.y"
+#line 532 "plp5.y"
                                                          {
                                                             if(yyvsp[-1].tipo != ENTERO)
                                                                errorSemantico(ERR_INDICE_ENTERO, yyvsp[-1].fila, yyvsp[-1].columna, NULL);
@@ -2156,11 +2130,11 @@ yyreduce:
                                                                yyval.dir = tmp;
                                                             }
                                                          }
-#line 2160 "plp5.tab.c"
+#line 2134 "plp5.tab.c"
     break;
 
 
-#line 2164 "plp5.tab.c"
+#line 2138 "plp5.tab.c"
 
       default: break;
     }
@@ -2392,7 +2366,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 579 "plp5.y"
+#line 553 "plp5.y"
 
 
 Token opera(string op, Token izq, Token der)
@@ -2463,9 +2437,8 @@ int NuevaTemporal()
 {
    C_TEMP += 1;
 
-   if(C_TEMP > MAX_TEMP_SPACE){
-		char* e = 0;
-		errorSemantico(ERR_MAXTMP, 0, 0, e);
+   if(C_TEMP >= MAX_TEMP_SPACE){
+		errorSemantico(ERR_MAXTMP, 0, 0, NULL);
 	}
 	return C_TEMP;
 }
